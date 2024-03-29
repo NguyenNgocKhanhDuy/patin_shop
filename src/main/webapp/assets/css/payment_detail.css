@@ -1,0 +1,204 @@
+#content {
+    margin: 80px 0;
+}
+
+#content .container {
+    display: flex;
+}
+
+#content .pay {
+    width: 60%;
+    text-align: center;
+}
+
+#content .pay h3 {
+    font-size: 20px;
+    color: #1c1c1c;
+}
+
+#content .pay img {
+    width: 100px;
+    margin: 30px 0;
+    filter: drop-shadow(0 0 10px #ccc);
+}
+
+.large {
+    width: 200px;
+}
+
+#content .pay .payment-info {
+    background-color: #feefb2;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+#content .pay .payment-info p {
+    color: #9b8342;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+#content .pay .payment-info .info,
+#content .pay .payment-info .price,
+#content .pay .payment-info .orderId{
+    font-weight: 600;
+}
+
+#content .pay .payment-info .price {
+    color: #1c1c1c;
+}
+
+#content .pay .payment-info .orderId {
+    color: #ff253a;
+}
+
+#content .pay img.qrcode {
+    width: 300px;
+}
+
+#content .pay .sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#content .pay .sub img {
+    width: 30px;
+    margin-right: 8px;
+}
+
+#content .pay .sub p {
+    font-size: 16px;
+}
+
+#content .pay .sub p .appName {
+    font-weight: 600;
+}
+
+#content .pay .sub-note {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+#content .pay h3.title {
+    text-align: left;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 30px 0;
+}
+
+#content .pay .seperate {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    align-items: center;
+}
+
+#content .pay .seperate .right {
+    text-align: right;
+    font-weight: 700;
+}
+
+#content .pay .order-product .title {
+    border-bottom: 1px solid #ccc;
+}
+
+#content .pay .order-product .title h4 {
+    font-size: 18px;
+    color: #1c1c1c;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#content .pay .order-product .product ul li.item {
+    font-size: 16px;
+    color: #6f6f6f;
+    line-height: 60px;
+    list-style: none;
+    margin: 20px 0 30px 20px;
+}
+
+#content .pay .order-product .product ul li .infoItem {
+    line-height: 2;
+    text-align: left;
+}
+
+#content .pay .order-product .product ul li .infoItem .color,
+#content .pay .order-product .product ul li .infoItem .size {
+    font-weight: 600;
+}
+
+#content .pay .order-product .sub-total {
+    font-size: 18px;
+    color: #1c1c1c;
+    font-weight: 700;
+    border-top: 1px solid #ccc;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+#content .pay .order-product .ship {
+    font-size: 18px;
+    color: #1c1c1c;
+    font-weight: 700;
+    border-top: 1px solid #ccc;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+#content .pay .order-product .total {
+    font-size: 18px;
+    color: #1c1c1c;
+    font-weight: 700;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+}
+
+#content .pay .order-product .total .total-price {
+    color: #ff253a;
+}
+
+#content .pay .address {
+    font-size: 16px;
+    text-align: left;
+    margin-left: 30px;
+}
+
+
+
+#content .bill {
+    width: 40% ;
+    margin-left: 30px;
+}
+
+#content .bill .bill-detail {
+    width: fit-content;
+    background-color: #fafafa;
+    padding: 24px;
+    box-shadow: 0 0 4px 3px #ccc;
+}
+
+#content .bill .bill-detail p {
+    font-size: 16px;
+    color: #1c1c1c;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+#content .bill .bill-detail ul {
+    margin-left: 20px;
+}
+
+#content .bill .bill-detail ul li {
+    font-size: 16px;
+    line-height: 30px;
+    margin-bottom: 6px;
+}
+
+#content .bill .bill-detail ul li span {
+    font-weight: 600;
+}

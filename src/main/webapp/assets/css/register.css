@@ -1,0 +1,174 @@
+#content {
+    margin: 80px 0;
+    position: relative;
+}
+
+#content .login {
+    background-color: #fff;
+    width: 700px;
+    height: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 0 0 4px 3px #ccc;
+}
+
+#content .login h3 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#content .login .top {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#content .login .top .left {
+    width: 50%;
+}
+#content .login .top .right {
+    width: 50%;
+}
+
+#content .login .holder {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+#content .login .holder label {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+#content .login .holder input {
+    height: 40px;
+    padding: 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+#content .login button {
+    background-color: #7fad39;
+    font-size: 18px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 16px;
+    border-radius: 4px;
+    display: block;
+    margin: 20px auto;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    width: 200px;
+    border: 1px solid #ccc;
+}
+
+#content .login button:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 4px 3px #ccc ;
+}
+
+.red {
+    color: red;
+}
+
+/*.popup {*/
+/*    position: absolute;*/
+/*    top: -80px;*/
+/*    right: 80px;*/
+/*    width: 400px;*/
+/*    height: 60px;*/
+/*    padding: 10px;*/
+/*    border: 2px solid #c0a7a5;*/
+/*    border-radius: 4px;*/
+/*}*/
+
+/*.success {*/
+/*    background: #d5e9ce;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+/*.error {*/
+/*    background: #e2c0bc;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.alert {*/
+/*    background: #eee9ce;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.popup .icon {*/
+/*    font-size: 20px;*/
+/*    margin-right: 20px;*/
+/*}*/
+
+/*.success .icon {*/
+/*    color: #52664a;*/
+/*}*/
+/*.error .icon {*/
+/*    color: #ab2f30;*/
+/*}*/
+
+/*.alert .icon {*/
+/*    color: #87722e;*/
+/*}*/
+
+/*.popup p {*/
+/*    font-size: 16px;*/
+/*    white-space: nowrap;*/
+/*}*/
+
+/*.success p {*/
+/*    color: #607458;*/
+/*}*/
+/*.error p {*/
+/*    color: #9b3a3d;*/
+/*}*/
+/*.alert p {*/
+/*    color: #7f7454;*/
+/*}*/
+
+/*.none {*/
+/*    display: none;*/
+/*}*/
+
+/*.popup .del {*/
+/*    font-size: 20px;*/
+/*    margin-left: 50px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.success .del {*/
+/*    color: #a6b99e;*/
+/*}*/
+/*.error .del {*/
+/*    color: #be9390;*/
+/*}*/
+/*.alert .del {*/
+/*    color: #d0cb9e;*/
+/*}*/
+
+
+/*.fadeOut {*/
+/*    animation: fade-out 0.25s ease-in forwards;*/
+/*}*/
+
+
+/*@keyframes fade-out {*/
+/*    0% {*/
+/*        opacity: 1;*/
+/*    }*/
+/*    100%{*/
+/*        opacity: 0;*/
+/*    }*/
+/*}*/

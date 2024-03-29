@@ -1,0 +1,529 @@
+#content {
+    padding: 40px 0;
+    position: relative;
+}
+
+#content .left {
+    width: 20%;
+}
+
+#content .container {
+    display: flex;
+}
+
+#content .left ul li {
+    list-style: none;
+    margin: 12px 0;
+    padding: 12px 0;
+
+    font-size: 16px;
+    font-weight: 600;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+}
+
+#content .left ul li a {
+    color: #1c1c1c;
+    text-decoration: none;
+}
+
+#content .left ul li:hover > a {
+    color: #7fad39;
+}
+#content .left ul li:hover > i{
+    color: #7fad39;
+}
+
+.activeAccountNav {
+    color: #7fad39 !important;
+}
+
+#content .left ul li i {
+    margin-right: 4px;
+}
+
+#content .left ul.sub_menu {
+    padding-left: 24px;
+    height: 0;
+    overflow: hidden;
+}
+
+.showSubMenu {
+    animation: show 0.25s linear forwards;
+}
+
+.hideSubMenu {
+    animation: hide 0.25s linear forwards;
+}
+
+@keyframes show {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 100px;
+    }
+}
+@keyframes hide {
+    0% {
+        height: 100px;
+    }
+    100% {
+        height: 0;
+    }
+}
+
+
+
+
+#content .right {
+    width: 80%;
+    padding-left: 30px;
+    border-left: 1px solid #ccc;
+}
+
+
+#content .right .infomation h3 {
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+#content .right .infomation .wrapper{
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+
+}
+
+#content .right .infomation .wrapper .info {
+    padding-right: 30px;
+}
+
+#content .right .infomation .wrapper .part {
+    width: 100%;
+    height: 40px;
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+}
+
+#content .right .infomation .wrapper label {
+    color: #1c1c1c;
+    display: inline-block;
+    width: 30%;
+    line-height: 40px;
+}
+
+#content .right .infomation .wrapper .part input {
+    width: 50%;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding-left: 20px;
+    font-size: 16px;
+    outline: none;
+}
+
+#content .right .infomation .wrapper .selectGender {
+    width: 70%;
+    display: flex;
+    align-items: center;
+}
+
+#content .right .infomation .wrapper .selectGender input {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+#content .right .infomation .wrapper .dob-input {
+    width: 50%;
+    height: 100%;
+    display: flex;
+}
+
+#content .right .infomation .wrapper .dob select {
+    height: 100%;
+    margin-right:20px;
+    width: 40px;
+    padding: 0 10px;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+}
+
+#content .right .infomation .wrapper .dob select:last-child {
+    width: 70px;
+}
+
+#content .right .infomation .wrapper .save {
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    background-color: #7fad39;
+    border: 1px solid #000;
+    outline: none;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 2px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+#content .right .infomation .wrapper .save:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 4px 3px #ccc;
+}
+
+#content .right .infomation .wrapper .avatar {
+    text-align: center;
+}
+
+#content .right .infomation .wrapper .avatar img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #cccc;
+    border-radius: 50%;
+}
+
+#content .right .infomation .wrapper .avatar .selectImg {
+    position: relative;
+    width: 200px;
+    height: 40px;
+    margin: 30px auto;
+}
+
+#content .right .infomation .wrapper .avatar input[type="submit"] {
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    color: #fff;
+    background-color: #7fad39;
+    border: 1px solid #000;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#content .right .infomation .wrapper .avatar input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#content .right .order {
+    min-height: 400px;
+    /*display: none;*/
+}
+
+#content .right .order .nav {
+    height: 60px;
+}
+
+#content .right .order .nav ul li {
+    list-style: none;
+    font-size: 18px;
+    display: inline-block;
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+    line-height: 40px;
+}
+
+#content .right .order .nav ul li a {
+    color: #1c1c1c;
+    text-decoration: none;
+}
+
+
+.activeOrderNav {
+    border-bottom: 2px solid #7fad39;
+}
+
+#content .right .order .search {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+#content .right .order .search input {
+    width: 50%;
+    height: 100%;
+    padding-left: 16px;
+    outline: none;
+    font-size: 16px;
+}
+
+#content .right .order button {
+    width: 150px;
+    height: 100%;
+    background-color: #7fad39;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#content .right .order .orderShow {
+    padding-top: 30px;
+    font-size: 16px;
+}
+
+
+/* BILL */
+#content .right .bill-list {
+    margin-top: 40px;
+    background-color: #283e57;
+    color: #fff;
+    display: grid;
+    grid-template-rows: 70px repeat(5, 1fr);
+    grid-row-gap: 20px;
+}
+
+#content .right .bill-list .title {
+    display: grid;
+    grid-template-columns: 5% repeat(4, 1fr) 5% ;
+    grid-column-gap: 20px;
+    text-align: center;
+    align-items: center;
+    border-bottom: 1px solid #b2b2b2;
+}
+
+#content .right .bill-list .title h4 {
+    font-size: 18px;
+    line-height: 40px;
+    padding: 12px 0;
+}
+
+#content .right .bill-list .bill-item {
+    display: grid;
+    grid-template-columns: 5% repeat(4, 1fr) 5% ;
+    grid-column-gap: 20px;
+    text-align: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+
+#content .right .bill-list .bill-item p {
+    font-size: 16px;
+}
+
+#content .right .bill-list .bill-item .detail {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#content .right .bill-list .bill-item .del {
+    font-size: 24px;
+    color: #b2b2b2;
+    cursor: pointer;
+}
+
+
+/* BILL DETAIL */
+#content .right .bill_detail .general{
+    background: #283e57;
+    padding: 16px;
+}
+
+#content .right .bill_detail .general p {
+    color: #fff;
+    font-size: 18px;
+    margin: 20px 0;
+    width: 90%;
+}
+
+#content .right .bill_detail .general p.bill_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+#content .right .bill_detail .general p:last-child {
+    text-align: justify;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#content .right .bill_detail .general p:last-child span:first-child {
+    width: 90%;
+}
+
+
+#content .right .bill_detail .bill-list {
+    margin-top: 40px;
+    background-color: #283e57;
+    color: #fff;
+    display: grid;
+    grid-template-rows: 70px repeat(5, 1fr);
+    grid-row-gap: 20px;
+}
+
+#content .right .bill_detail .bill-list .title {
+    display: grid;
+    grid-template-columns: 5% 2fr repeat(4, 1fr);
+    grid-column-gap: 20px;
+    text-align: center;
+    align-items: center;
+    border-bottom: 1px solid #b2b2b2;
+}
+
+#content .right .bill_detail .bill-list .title h4 {
+    font-size: 18px;
+    line-height: 40px;
+    padding: 12px 0;
+}
+
+#content .right .bill_detail .bill-list .bill-item {
+    display: grid;
+    grid-template-columns: 5% 2fr repeat(4, 1fr);
+    grid-column-gap: 20px;
+    text-align: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+#content .right .bill_detail .bill-list .bill-item p {
+    font-size: 16px;
+}
+
+#content .right .bill_detail .bill-list .bill-item .detail {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#content .right .bill_detail .bill-list .bill-item .del {
+    font-size: 24px;
+    color: #b2b2b2;
+    cursor: pointer;
+}
+
+
+
+
+
+#content .right .notice {
+    padding-top: 30px;
+    font-size: 18px;
+    min-height: 400px;
+    /*display: none;*/
+}
+
+#content .right .notice h3 {
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+#content .right .notice .holder {
+    width: 100%;
+    height: 40px;
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#content .right .notice .holder label {
+    color: #1c1c1c;
+    display: inline-block;
+    width: 30%;
+    line-height: 40px;
+}
+
+#content .right .notice .holder input[type="password"] {
+    width: 30%;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding-left: 20px;
+    font-size: 16px;
+    outline: none;
+}
+
+#content .right .notice input[type="submit"] {
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    background-color: #7fad39;
+    border: 1px solid #000;
+    outline: none;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 2px;
+    display: block;
+    margin: 50px auto 0;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+#content .right .notice input[type="submit"]:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 4px 3px #ccc;
+}
+
+
+#content .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #1c1c1c85;
+    z-index: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.showModal {
+    display: flex !important;
+}
+
+#content .modal .modal-container {
+    width: 600px;
+    height: 300px;
+    text-align: center;
+    padding: 40px;
+    font-size: 16px;
+    background-color: #fff;
+    position: relative;
+    border-radius: 2px;
+}
+
+#content .modal .modal-container i {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+#content .modal .modal-container input {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    width: 80%;
+    height: 40px;
+    outline: none;
+    padding: 16px;
+}
+
+#content .modal .modal-container .modal-save {
+    display: block;
+    width: 100px;
+    height: 40px;
+    margin: 0 auto;
+    cursor: pointer;
+}

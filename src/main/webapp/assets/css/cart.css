@@ -1,0 +1,206 @@
+
+
+/* Content */
+#content {
+    margin: 80px 0;
+}
+
+#content .title {
+    padding-bottom: 20px;
+    display: grid;
+    grid-template-columns: 35% repeat(5, 1fr) 5%;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+#content .title h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1c1c;
+}
+
+#content .title h3:first-child {
+    text-align: left;
+}
+
+#content .product-item {
+    padding: 30px 20px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 35% repeat(5, 1fr) 5%;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s linear;
+}
+
+#content .product-list .product-item:hover {
+    box-shadow: 0px 0px 4px 3px #ccc;
+    border-radius: 4px;
+    transform: scale(1.01);
+}
+
+#content .product-item .img-name {
+    display: flex;
+    align-items: center;
+}
+
+#content .product-item .img-name img {
+    width: 100px;
+    height: 100px;
+    margin-right: 25px;
+}
+
+#content .product-item .img-name .name {
+    font-size: 18px;
+    color: #1c1c1c;
+}
+
+#content .product-item .price,
+#content .product-item .quantity,
+#content .product-item .total,
+#content .product-item .size,
+#content .product-item .color{
+    font-size: 18px;
+    color: #1c1c1c;
+    font-weight: 700;
+    text-align: center;
+}
+
+#content .product-item .boxQuantity {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#content .product-item .quantity{
+    width: 120px;
+    height: 50px;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    background: #f5f5f5;
+    margin: 0 auto;
+    user-select: none;
+}
+
+#content .product-item .quantity i {
+    color: #6f6f6f;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#content .product-item .quantity input {
+    height: 100%;
+    font-size: 16px;
+    color: #6f6f6f;
+    width: 40px;
+    border: none;
+    background: #f5f5f5;
+    text-align: center;
+    outline: none;
+    pointer-events: none;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+}
+.disabledBg {
+    background: #ccc !important;
+    pointer-events: none;
+}
+.disabledNoBg {
+    pointer-events: none;
+}
+
+#content .product-item .quantity input::-webkit-inner-spin-button,
+#content .product-item .quantity input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+#content .product-item .detail {
+    padding: 10px;
+    font-size: 20px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+#content .product-item .detail:hover {
+    color: #7fad39;
+    filter: drop-shadow(0 0 8px #7fad39);
+}
+
+#content .product-item .del {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    padding: 10px;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #b2b2b2;
+    cursor: pointer;
+}
+
+#content .pay_total {
+    background: #f5f5f5;
+    padding: 30px;
+    padding-top: 20px;
+    margin-top: 50px;
+    width: 50%;
+    margin-left: auto;
+    box-shadow: 0 0 4px #ccc;
+}
+
+#content .pay_total h3 {
+    color: #1c1c1c;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 28px;
+}
+
+#content .pay_total .price-total {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 13px;
+    margin-bottom: 18px;
+}
+
+#content .pay_total .price-total p{
+    font-size: 16px;
+    color: #1c1c1c;
+    font-weight: 700;
+}
+
+#content .pay_total .price-total .totalValue {
+    font-size: 18px;
+    color: #dd2222;
+}
+
+#content .pay_total .checkout {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 28px 10px;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: #7fad39;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+    transition:  all 0.25s ease-in-out;
+}
+
+#content .pay_total .checkout:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 4px 3px #ccc;
+}
+
+
+
