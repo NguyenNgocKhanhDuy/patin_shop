@@ -23,13 +23,13 @@ public class UserDao2 extends AbsDao<User2> {
     }
 
     @Override
-    public void select(AbsModel model, String level) {
-        super.select(model, level);
+    public void select(AbsModel model,String ip, String level) {
+        super.select(model, ip, level);
     }
 
     @Override
-    public void insert(AbsModel model, String level) {
-        super.insert(model, level);
+    public void insert(AbsModel model, String ip, String level) {
+        super.insert(model, ip, level);
         User2 user = (User2) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role) " +
@@ -51,7 +51,7 @@ public class UserDao2 extends AbsDao<User2> {
 
     }
 
-    public User checkLogin(AbsModel model) {
+    public User checkLogin(AbsModel model, String ip) {
         User2 user2 = (User2) model;
         String email =user2.getEmail();
         String password = user2.getPassword();
@@ -66,19 +66,19 @@ public class UserDao2 extends AbsDao<User2> {
         if (users.size() != 1) return null;
         User user = users.get(0);
         if (!user.getEmail().equals(email) || !user.getPassword().equals(hashPassword(password))){
-            super.select(model, "danger");
+            super.select(model, ip,"alert");
             return null;
         }
-        super.select(model, "info");
+        super.select(model, ip,"info");
         return user;
     }
 
-    public static void main(String[] args) {
-        User2 u = new User2();
-        u.setEmail("21130035@st.hcmuaf.edu.vn");
-        u.setPassword("000");
-        System.out.println(UserDao2.getInstance().checkLogin(u));
-    }
+//    public static void main(String[] args) {
+//        User2 u = new User2();
+//        u.setEmail("21130035@st.hcmuaf.edu.vn");
+//        u.setPassword("000");
+//        System.out.println(UserDao2.getInstance().checkLogin(u));
+//    }
 
     public String hashPassword(String password){
         try {

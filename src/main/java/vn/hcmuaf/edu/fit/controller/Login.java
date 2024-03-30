@@ -2,6 +2,8 @@ package vn.hcmuaf.edu.fit.controller;
 
 
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.bean.User2;
+import vn.hcmuaf.edu.fit.dao.UserDao2;
 import vn.hcmuaf.edu.fit.services.RegisterService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
@@ -22,7 +24,16 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        User user = UserService.getInstance().checkLogin(email, password);
+
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        User2 u = new User2();
+        u.setEmail(email);
+        u.setPassword(password);
+        User user = UserDao2.getInstance().checkLogin(u, ipAddress);
         String infomation = UserService.getInstance().checkEmail(email);
 
         if (!"valid".equals(infomation)){
