@@ -28,10 +28,5 @@ public class JDBIConnector {
         if (connector == null) connector = new JDBIConnector();
         return connector.jdbi;
     }
-
-    public static void main(String[] args) {
-        System.out.println(BillService.getInstance().getAllBillByUserAndStatus(28, ""));
-    }
-
 }
 
