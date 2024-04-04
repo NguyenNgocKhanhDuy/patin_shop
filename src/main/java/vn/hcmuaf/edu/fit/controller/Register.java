@@ -27,12 +27,17 @@ public class Register extends HttpServlet {
         String address = request.getParameter("address");
         String information = "";
 
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+
         information = RegisterService.getInstance().checkFormLogin(fullName, email, phone);
 
         if (!information.equals("")) {
             request.setAttribute("type", "alert");
         } else {
-            String status = RegisterService.getInstance().register(email, pass, confirmPass, fullName, address, phone);
+            String status = RegisterService.getInstance().register(email, pass, confirmPass, fullName, address, phone, ipAddress);
             if (status.equals("Đăng ký thành công")){
                 List<Integer> allRsID = ResourcesService.getInstance().getAllID();
                 int id = UserService.getInstance().getUserByEmail(email).getId();

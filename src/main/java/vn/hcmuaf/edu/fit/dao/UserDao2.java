@@ -73,12 +73,6 @@ public class UserDao2 extends AbsDao<User2> {
         return user;
     }
 
-//    public static void main(String[] args) {
-//        User2 u = new User2();
-//        u.setEmail("21130035@st.hcmuaf.edu.vn");
-//        u.setPassword("000");
-//        System.out.println(UserDao2.getInstance().checkLogin(u));
-//    }
 
     public String hashPassword(String password){
         try {
