@@ -2,6 +2,8 @@ package vn.hcmuaf.edu.fit.db;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.jdbi.v3.core.Jdbi;
+import vn.hcmuaf.edu.fit.bean.User2;
+import vn.hcmuaf.edu.fit.dao.UserDao2;
 import vn.hcmuaf.edu.fit.services.BillService;
 
 import java.sql.SQLException;
@@ -28,5 +30,7 @@ public class JDBIConnector {
         if (connector == null) connector = new JDBIConnector();
         return connector.jdbi;
     }
+
+
 }
 

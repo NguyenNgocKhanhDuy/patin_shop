@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.controller;
 
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.bean.User2;
 import vn.hcmuaf.edu.fit.services.*;
 
 import javax.servlet.*;
@@ -37,13 +38,19 @@ public class Register extends HttpServlet {
         if (!information.equals("")) {
             request.setAttribute("type", "alert");
         } else {
-            String status = RegisterService.getInstance().register(email, pass, confirmPass, fullName, address, phone, ipAddress);
+            User2 user = new User2();
+            user.setEmail(email);
+            user.setPassword(pass);
+            user.setFullName(fullName);
+            user.setPhone(phone);
+            user.setAddress(address);
+            String status = RegisterService.getInstance().register(user, confirmPass, ipAddress);
             if (status.equals("Đăng ký thành công")){
-                List<Integer> allRsID = ResourcesService.getInstance().getAllID();
-                int id = UserService.getInstance().getUserByEmail(email).getId();
-                for (int i = 0; i < allRsID.size(); i++) {
-                    PermissionsService.getPermissionsService().addPer(allRsID.get(i), id, 1);
-                }
+//                List<Integer> allRsID = ResourcesService.getInstance().getAllID();
+//                int id = UserService.getInstance().getUserByEmail(email).getId();
+//                for (int i = 0; i < allRsID.size(); i++) {
+//                    PermissionsService.getPermissionsService().addPer(allRsID.get(i), id, 1);
+//                }
                 request.getSession().setAttribute("timeStart", RegisterService.getInstance().getCurrentTime());
                 request.getSession().setAttribute("email", email);
                 request.getRequestDispatcher("verifyEmail.jsp").forward(request, response);

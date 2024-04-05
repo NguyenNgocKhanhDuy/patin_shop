@@ -18,26 +18,30 @@ public class LogDao implements IDao{
     }
 
     @Override
-    public void select(AbsModel model,String ip, String level) {
+    public void select(AbsModel model,String ip, String level, String address) {
 
     }
 
     @Override
-    public void insert(AbsModel model, String ip, String level) {
+    public boolean insert(AbsModel model, String ip, String level, String address) {
         LocalDateTime date = LocalDateTime.now();
-        JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO log(ip, level, preValue, value, createAt) VALUES (:ip, :level, :preValue, :value, :createAt)")
-                    .bind("level", level).bind("ip", ip).bind("createAt", date)
-                    .bind("preValue", model.getBeforeData()).bind("value", model.getAfterData())
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO log(ip, level, address, value, createAt) VALUES (:ip, :level, :address, :value, :createAt)")
+                    .bind("level", level).bind("ip", ip).bind("createAt", date).bind("address", address)
+                    .bind("value", model.getAfterData())
                     .execute();
         });
+        return i == 1 ? true : false;
     }
 
-    public void update(AbsModel model) {
-
+    @Override
+    public boolean update(AbsModel model, String ip, String level, String address) {
+        return false;
     }
 
-    public void delete(AbsModel model) {
-
+    @Override
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        return false;
     }
+
 }
