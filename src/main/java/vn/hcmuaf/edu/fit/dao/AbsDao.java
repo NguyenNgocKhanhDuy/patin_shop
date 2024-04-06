@@ -15,5 +15,14 @@ public abstract class AbsDao<T extends IModel> implements IDao {
         return true;
     }
 
+    @Override
+    public boolean update(AbsModel model, String ip, String level, String address) {
+        LogDao.getInstance().insert(model, ip, level, address);
+        return true;
+    }
 
+    @Override
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        return false;
+    }
 }

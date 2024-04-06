@@ -2,6 +2,7 @@ package vn.hcmuaf.edu.fit.services;
 
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.dao.UserDao;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -174,8 +175,8 @@ public class UserService {
         return "";
     }
 
-    public boolean updateUser(User user) {
-        return UserDao.getInstance().updateUser(user);
+    public boolean updateUser(User user, String ip,String  level,String  address) {
+        return UserDao.getInstance().update( user,  ip,  level,  address);
     }
 
     public boolean checkPass(int user, String pass) {
