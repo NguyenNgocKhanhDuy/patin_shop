@@ -1,14 +1,12 @@
 package vn.hcmuaf.edu.fit.controller;
 
 import vn.hcmuaf.edu.fit.bean.User;
-import vn.hcmuaf.edu.fit.bean.User2;
 import vn.hcmuaf.edu.fit.services.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
-import java.util.List;
 
 
 @WebServlet(name = "Register", value = "/doRegister")
@@ -38,7 +36,7 @@ public class Register extends HttpServlet {
         if (!information.equals("")) {
             request.setAttribute("type", "alert");
         } else {
-            User2 user = new User2();
+            User user = new User();
             user.setEmail(email);
             user.setPassword(pass);
             user.setFullName(fullName);

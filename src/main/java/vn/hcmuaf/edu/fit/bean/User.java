@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.bean;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 
 
 
-public class User implements Serializable{
+public class User extends AbsModel implements Serializable{
     private int id;
     private String email;
     private String password;
@@ -156,4 +157,13 @@ public class User implements Serializable{
     }
 
 
+    @Override
+    public String getBeforeData() {
+        return this.email;
+    }
+
+    @Override
+    public String getAfterData() {
+        return this.fullName;
+    }
 }

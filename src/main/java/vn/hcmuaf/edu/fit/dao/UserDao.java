@@ -2,6 +2,7 @@ package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserDao {
+public class UserDao extends AbsDao<User>{
     private static UserDao instance;
 
     public UserDao() {
@@ -28,20 +29,26 @@ public class UserDao {
         return users;
     }
 
-    public User checkLogin(String email, String password) {
+    public User checkLogin(AbsModel model, String ip, String address) {
+        User user = (User) model;
+        String email =user.getEmail();
+        String password = user.getPassword();
         List<User> users = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT * " +
                             "FROM user " +
-                            "WHERE verify = 1 and email = ?")
+                            "WHERE email = ?")
                     .bind(0, email)
                     .mapToBean(User.class).stream().collect(Collectors.toList());
         });
 
         if (users.size() != 1) return null;
-        User user = users.get(0);
-        if (!user.getEmail().equals(email) || !user.getPassword().equals(hashPassword(password)))
+        User u = users.get(0);
+        if (!u.getEmail().equals(email) || !u.getPassword().equals(hashPassword(password))){
+            super.select(model, ip, "info", address);
             return null;
-        return user;
+        }
+        super.select(model, ip,"info", address);
+        return u;
     }
 
     public List<User> getUserByEmail(String email) {
@@ -206,4 +213,13 @@ public class UserDao {
     }
 
 
+    @Override
+    public boolean update(AbsModel model, String ip, String level, String address) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        return false;
+    }
 }

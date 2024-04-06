@@ -1,8 +1,7 @@
 package vn.hcmuaf.edu.fit.services;
 
 
-import vn.hcmuaf.edu.fit.bean.User2;
-import vn.hcmuaf.edu.fit.dao.UserDao2;
+import vn.hcmuaf.edu.fit.bean.User;
 
 public class RegisterService {
     private static RegisterService instance;
@@ -26,7 +25,7 @@ public class RegisterService {
         return "";
     }
 
-    public String register(User2 user, String confirmPass, String ip) {
+    public String register(User user, String confirmPass, String ip) {
         String email = user.getEmail();
         String password = user.getPassword();
         if (UserService.getInstance().isUserExists(email)){

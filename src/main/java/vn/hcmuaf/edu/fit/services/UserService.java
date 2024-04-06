@@ -1,24 +1,13 @@
 package vn.hcmuaf.edu.fit.services;
 
 import vn.hcmuaf.edu.fit.bean.User;
-import vn.hcmuaf.edu.fit.bean.User2;
 import vn.hcmuaf.edu.fit.dao.UserDao;
-import vn.hcmuaf.edu.fit.dao.UserDao2;
-import vn.hcmuaf.edu.fit.model.AbsModel;
 
-import javax.swing.text.DateFormatter;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.sql.Date.*;
 
 public class UserService {
     private static UserService instance;
@@ -31,8 +20,8 @@ public class UserService {
         return instance;
     }
 
-    public User2 checkLogin(User2 user, String ip, String address) {
-        return UserDao2.getInstance().checkLogin(user, ip, address);
+    public User checkLogin(User user, String ip, String address) {
+        return UserDao.getInstance().checkLogin(user, ip, address);
     }
 
     public List<User> getAllUser() {
@@ -53,8 +42,8 @@ public class UserService {
        return UserDao.getInstance().addUser(user);
     }
 
-    public boolean register(User2 user, String ip, String address) {
-        if (UserDao2.getInstance().insert(user, ip, "info", address)){
+    public boolean register(User user, String ip, String address) {
+        if (UserDao.getInstance().insert(user, ip, "info", address)){
             while (true){
                 int code = Integer.parseInt(randomCodeVerify());
                 if (!UserDao.getInstance().isExitsCode(code)) {
@@ -117,6 +106,7 @@ public class UserService {
     }
 
     public String checkEmail(String email) {
+//        Regular expression
         Pattern pattern = Pattern.compile("^[A-Za-z0-9]+[A-Za-z0-9\\.]+@[A-Za-z0-9]+([\\.A-Za-z0-9]+)$");
         Matcher matcher = pattern.matcher(email);
         if (email == null || "".equals(email)) {
@@ -248,6 +238,17 @@ public class UserService {
 
     public boolean deleteUser(int id) {
         return UserDao.getInstance().deleteUser(id);
+    }
+
+    public String checkPassword(String password) {
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9]+[A-Za-z0-9\\.]+@[A-Za-z0-9]+([\\.A-Za-z0-9]+)$");
+        Matcher matcher = pattern.matcher(password);
+        if (password == null || "".equals(password)) {
+            return "Mật khẩu không được để trống";
+        } else if (!matcher.matches()) {
+            return "Mật khẩu phải chứa ký tự viết hoa, ký tự số và có độ dài lớn hơn 8";
+        }
+        return "valid";
     }
 
 }
