@@ -2,9 +2,6 @@ package vn.hcmuaf.edu.fit.controller;
 
 
 import vn.hcmuaf.edu.fit.bean.User;
-import vn.hcmuaf.edu.fit.bean.User2;
-import vn.hcmuaf.edu.fit.dao.UserDao2;
-import vn.hcmuaf.edu.fit.services.RegisterService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
 import javax.servlet.*;
@@ -30,10 +27,10 @@ public class Login extends HttpServlet {
             ipAddress = request.getRemoteAddr();
         }
 
-        User2 u = new User2();
+        User u = new User();
         u.setEmail(email);
         u.setPassword(password);
-        User2 user = UserService.getInstance().checkLogin(u, ipAddress, "login");
+        User user = UserService.getInstance().checkLogin(u, ipAddress, "login");
         String infomation = UserService.getInstance().checkEmail(email);
 
         if (!"valid".equals(infomation)){
