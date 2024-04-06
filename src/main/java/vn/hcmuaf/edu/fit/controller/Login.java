@@ -33,7 +33,7 @@ public class Login extends HttpServlet {
         User2 u = new User2();
         u.setEmail(email);
         u.setPassword(password);
-        User user = UserDao2.getInstance().checkLogin(u, ipAddress);
+        User2 user = UserService.getInstance().checkLogin(u, ipAddress, "login");
         String infomation = UserService.getInstance().checkEmail(email);
 
         if (!"valid".equals(infomation)){
@@ -47,15 +47,20 @@ public class Login extends HttpServlet {
                 request.setAttribute("information", "Email hoặc mật khẩu không chính xác");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }else {
-                HttpSession session = request.getSession(true);
-                session.setAttribute("auth", user);
+                if (user.getVerify() == 1) {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("auth", user);
 
-                String location = (String) session.getAttribute("location");
-                if (location == null) location = "home";
+                    String location = (String) session.getAttribute("location");
+                    if (location == null) location = "home";
 
-                request.setAttribute("type", "success");
-                request.setAttribute("information", "Đăng nhập thành công");
-                request.getRequestDispatcher(location).forward(request, response);
+                    request.setAttribute("type", "success");
+                    request.setAttribute("information", "Đăng nhập thành công");
+                    request.getRequestDispatcher(location).forward(request, response);
+                }else {
+                    UserService.getInstance().reSend(user.getEmail());
+                    request.getRequestDispatcher("verifyEmail.jsp").forward(request, response);
+                }
             }
         }
     }

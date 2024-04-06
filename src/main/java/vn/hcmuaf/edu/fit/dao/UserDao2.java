@@ -23,62 +23,58 @@ public class UserDao2 extends AbsDao<User2> {
     }
 
     @Override
-    public void select(AbsModel model,String ip, String level) {
-        super.select(model, ip, level);
+    public void select(AbsModel model,String ip, String level, String address) {
+        super.select(model, ip, level, address);
     }
 
     @Override
-    public void insert(AbsModel model, String ip, String level) {
-        super.insert(model, ip, level);
+    public boolean insert(AbsModel model, String ip, String level, String address) {
+        super.insert(model, ip, level, address);
         User2 user = (User2) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role) " +
                             "VALUES (:email, :password, :verify, :fullname, :phone, :address, :sex, :dob, :avatar,:role)")
-                    .bind("email", user.getEmail()).bind("password", user.getPassword())
+                    .bind("email", user.getEmail()).bind("password", hashPassword(user.getPassword()))
                     .bind("verify", user.getVerify()).bind("fullname", user.getFullName()).bind("phone", user.getPhone()).bind("address", user.getAddress())
                     .bind("sex", user.getSex()).bind("dob", user.getDob()).bind("avatar", user.getAvatar())
                     .bind("role", user.getRole()).execute();
         });
+        return i == 1 ? true : false;
     }
 
     @Override
-    public void update(AbsModel model) {
-
+    public boolean update(AbsModel model, String ip, String level, String address) {
+        return false;
     }
 
     @Override
-    public void delete(AbsModel model) {
-
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        return false;
     }
 
-    public User checkLogin(AbsModel model, String ip) {
+
+    public User2 checkLogin(AbsModel model, String ip, String address) {
         User2 user2 = (User2) model;
         String email =user2.getEmail();
         String password = user2.getPassword();
-        List<User> users = JDBIConnector.get().withHandle(handle -> {
+        List<User2> users = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT * " +
                             "FROM user " +
-                            "WHERE verify = 1 and email = ?")
+                            "WHERE email = ?")
                     .bind(0, email)
-                    .mapToBean(User.class).stream().collect(Collectors.toList());
+                    .mapToBean(User2.class).stream().collect(Collectors.toList());
         });
 
         if (users.size() != 1) return null;
-        User user = users.get(0);
+        User2 user = users.get(0);
         if (!user.getEmail().equals(email) || !user.getPassword().equals(hashPassword(password))){
-            super.select(model, ip,"alert");
+            super.select(model, ip, "info", address);
             return null;
         }
-        super.select(model, ip,"info");
+        super.select(model, ip,"info", address);
         return user;
     }
 
-//    public static void main(String[] args) {
-//        User2 u = new User2();
-//        u.setEmail("21130035@st.hcmuaf.edu.vn");
-//        u.setPassword("000");
-//        System.out.println(UserDao2.getInstance().checkLogin(u));
-//    }
 
     public String hashPassword(String password){
         try {
@@ -91,4 +87,5 @@ public class UserDao2 extends AbsDao<User2> {
             return null;
         }
     }
+
 }

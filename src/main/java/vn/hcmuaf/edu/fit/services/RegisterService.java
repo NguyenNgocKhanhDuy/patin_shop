@@ -1,6 +1,9 @@
 package vn.hcmuaf.edu.fit.services;
 
 
+import vn.hcmuaf.edu.fit.bean.User2;
+import vn.hcmuaf.edu.fit.dao.UserDao2;
+
 public class RegisterService {
     private static RegisterService instance;
 
@@ -23,13 +26,15 @@ public class RegisterService {
         return "";
     }
 
-    public String register(String email, String password, String confirmPass, String fullname, String address, String phone) {
+    public String register(User2 user, String confirmPass, String ip) {
+        String email = user.getEmail();
+        String password = user.getPassword();
         if (UserService.getInstance().isUserExists(email)){
             return "Đã tồn tại tài khoản sử dụng email";
         } else if (!password.equals(confirmPass)) {
             return "Mật khẩu không đúng";
         }else {
-            UserService.getInstance().register(email, password, fullname, address, phone);
+            UserService.getInstance().register(user, ip, "register");
             return "Đăng ký thành công";
         }
     }

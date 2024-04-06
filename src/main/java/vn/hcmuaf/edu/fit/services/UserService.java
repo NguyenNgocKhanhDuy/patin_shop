@@ -1,7 +1,10 @@
 package vn.hcmuaf.edu.fit.services;
 
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.bean.User2;
 import vn.hcmuaf.edu.fit.dao.UserDao;
+import vn.hcmuaf.edu.fit.dao.UserDao2;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import javax.swing.text.DateFormatter;
 import java.sql.Date;
@@ -28,8 +31,8 @@ public class UserService {
         return instance;
     }
 
-    public User checkLogin(String email, String password) {
-        return UserDao.getInstance().checkLogin(email, password);
+    public User2 checkLogin(User2 user, String ip, String address) {
+        return UserDao2.getInstance().checkLogin(user, ip, address);
     }
 
     public List<User> getAllUser() {
@@ -50,13 +53,13 @@ public class UserService {
        return UserDao.getInstance().addUser(user);
     }
 
-    public boolean register(String email, String password, String fullname, String address, String phone) {
-        if (UserDao.getInstance().addUser(email, password, 0, fullname, address, phone,"Nam", LocalDateTime.now(), "http://localhost:8080/patin_shop/assets/images/logo.PNG", 0)){
+    public boolean register(User2 user, String ip, String address) {
+        if (UserDao2.getInstance().insert(user, ip, "info", address)){
             while (true){
                 int code = Integer.parseInt(randomCodeVerify());
                 if (!UserDao.getInstance().isExitsCode(code)) {
-                    insertVerifyCode(code, email);
-                    return MailService.getInstance().sendMailVerify(email, String.valueOf(code));
+                    insertVerifyCode(code, user.getEmail());
+                    return MailService.getInstance().sendMailVerify(user.getEmail(), String.valueOf(code));
                 }
             }
         }
