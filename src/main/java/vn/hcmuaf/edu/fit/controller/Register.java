@@ -31,7 +31,7 @@ public class Register extends HttpServlet {
             ipAddress = request.getRemoteAddr();
         }
 
-        information = RegisterService.getInstance().checkFormLogin(fullName, email, phone);
+        information = RegisterService.getInstance().checkFormLogin(fullName, email, pass, phone);
 
         if (!information.equals("")) {
             request.setAttribute("type", "alert");
