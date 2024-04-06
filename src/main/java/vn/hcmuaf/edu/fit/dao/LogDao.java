@@ -4,6 +4,7 @@ import vn.hcmuaf.edu.fit.bean.Log;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class LogDao implements IDao{
@@ -41,7 +42,13 @@ public class LogDao implements IDao{
 
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
-        return false;
+        LocalDateTime date = LocalDateTime.now();
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO log(ip,level,address,preValue,createAt) VALUES(:ip, :level, :address, :preValue, :createAt)")
+                    .bind("level", level).bind("ip",ip).bind("createAt",date).bind("address",address).bind("preValue",model.getBeforeData())
+                    .execute();
+        });
+        return i== 1 ? true : false;
     }
 
 }
