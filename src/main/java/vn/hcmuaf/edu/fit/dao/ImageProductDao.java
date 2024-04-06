@@ -2,11 +2,12 @@ package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.bean.ImageProduct;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ImageProductDao {
+public class ImageProductDao extends AbsDao<ImageProduct> {
     private static ImageProductDao instance;
 
     public ImageProductDao() {
@@ -55,5 +56,24 @@ public class ImageProductDao {
         });
         return i == 1 ? true : false;
 
+    }
+
+    @Override
+    public void select(AbsModel model, String ip, String level, String address) {
+
+    }
+    @Override
+    public boolean insert(AbsModel model, String ip, String level, String address) {
+        return false;
+    }
+    @Override
+    public boolean update(AbsModel model, String ip, String level, String address) {
+    return false;
+    }
+    @Override
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        ImageProduct imgProduct = (ImageProduct) model;
+        super.delete(imgProduct,ip,level,address);
+        return deleteImage(imgProduct.getId(),imgProduct.getProduct().getId());
     }
 }

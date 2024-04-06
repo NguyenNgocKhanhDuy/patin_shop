@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.dao;
 
+import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.model.IModel;
 
@@ -14,6 +15,11 @@ public abstract class AbsDao<T extends IModel> implements IDao {
         LogDao.getInstance().insert(model,ip, level, address);
         return true;
     }
+    @Override
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        LogDao.getInstance().delete(model,ip, level, address);
+        return true;
+    }
 
     @Override
     public boolean update(AbsModel model, String ip, String level, String address) {
@@ -21,9 +27,5 @@ public abstract class AbsDao<T extends IModel> implements IDao {
         return false;
     }
 
-    @Override
-    public boolean delete(AbsModel model, String ip, String level, String address) {
-        LogDao.getInstance().delete(model, ip, level, address);
-        return false;
-    }
+
 }

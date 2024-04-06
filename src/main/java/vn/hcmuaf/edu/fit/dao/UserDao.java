@@ -220,7 +220,9 @@ public class UserDao extends AbsDao<User>{
 
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
-        return false;
+        User user = (User) model;
+        super.delete(user,ip,level,address);
+        return deleteUser(user.getId());
     }
 
     @Override

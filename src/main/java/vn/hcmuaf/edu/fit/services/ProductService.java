@@ -4,6 +4,7 @@ import vn.hcmuaf.edu.fit.bean.Product;
 import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.dao.ProductDao;
+import vn.hcmuaf.edu.fit.dao.ProductDetailDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +199,7 @@ public class ProductService {
     }
 
     public List<ProductMain> getAllProductDetail(int id) {
-        return ProductDao.getInstance().getAllProductDetail(id);
+        return ProductDetailDao.getInstance().getAllProductDetail(id);
     }
 
     public List<ProductMain> getWishList(int userID) {
@@ -214,7 +215,7 @@ public class ProductService {
     }
 
     public ProductMain getProductDetail(int id, int size, int color){
-        return ProductDao.getInstance().getProductDetail(id, size, color);
+        return ProductDetailDao.getInstance().getProductDetail(id, size, color);
     }
 
     public boolean reduceQuantity(int id, int size, int color, int amount) {
@@ -230,7 +231,7 @@ public class ProductService {
     }
 
     public boolean addProductDetail(ProductDetail product) {
-        return ProductDao.getInstance().addProductDetail(product);
+        return ProductDetailDao.getInstance().addProductDetail(product);
     }
 
     public int getIdNewProduct() {
@@ -241,11 +242,11 @@ public class ProductService {
         return ProductDao.getInstance().updateProduct(product);
     }
     public boolean updateProductDetail(ProductDetail product, int oldSize, int oldColor) {
-        return ProductDao.getInstance().updateProductDetail(product, oldSize, oldColor);
+        return ProductDetailDao.getInstance().updateProductDetail(product, oldSize, oldColor);
     }
 
     public boolean isExistProductDetail(int id, int size, int color) {
-        return ProductDao.getInstance().getProductDetail(id, size, color) != null ? true : false;
+        return ProductDetailDao.getInstance().getProductDetail(id, size, color) != null ? true : false;
     }
 
     public boolean deleleProductAll(int id){
@@ -253,7 +254,7 @@ public class ProductService {
     }
 
     public boolean deleleProductDetail(int id, int size, int color){
-        return ProductDao.getInstance().deleteProductDetail(id, size, color);
+        return ProductDetailDao.getInstance().deleteProductDetail(id, size, color);
     }
 
     public boolean isExistInWishList(int user, int p){
