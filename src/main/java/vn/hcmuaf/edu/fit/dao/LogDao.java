@@ -36,12 +36,33 @@ public class LogDao implements IDao{
 
     @Override
     public boolean update(AbsModel model, String ip, String level, String address) {
-        return false;
+        LocalDateTime date = LocalDateTime.now();
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO log(ip, level, address, value, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :value, :preValue, :creatAt, :updateAt)")
+                    .bind("ip", ip).bind("level", level).bind("createAt", 0).bind("updateAt", date)
+                    .bind("value", model.getAfterData()).bind("preValue", model.getBeforeData()).execute();
+        });
+        return i == 1 ? true : false;
     }
 
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
-        return false;
+        LocalDateTime date = LocalDateTime.now();
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO log(ip, level, address, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :preValue, :createAt, :updateAt)")
+                    .bind("ip", ip).bind("level", level).bind("address", address)
+                    .bind("createAt", getCreateAtByPreValue(model.getBeforeData())).bind("updateAt", date)
+                    .bind("preValue", model.getBeforeData()).execute();
+        });
+        return i == 1 ? true : false;
+    }
+
+    public LocalDateTime getCreateAtByPreValue(String preValue) {
+        Log log = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT creatAt FROM log WHERE preValue = ?")
+                    .bind(0, preValue).mapToBean(Log.class).one();
+        });
+        return log.getCreateAt();
     }
 
 }

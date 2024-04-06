@@ -4,10 +4,10 @@ import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.model.IModel;
 
 public abstract class AbsDao<T extends IModel> implements IDao {
-    @Override
-    public void select(AbsModel model, String ip,String level, String address) {
-        LogDao.getInstance().insert(model, ip, level, address);
-    }
+//    @Override
+//    public void select(AbsModel model, String ip,String level, String address) {
+//        LogDao.getInstance().insert(model, ip, level, address);
+//    }
 
     @Override
     public boolean insert(AbsModel model, String ip, String level, String address) {
@@ -15,5 +15,15 @@ public abstract class AbsDao<T extends IModel> implements IDao {
         return true;
     }
 
+    @Override
+    public boolean update(AbsModel model, String ip, String level, String address) {
+        LogDao.getInstance().update(model, ip, level, address);
+        return false;
+    }
 
+    @Override
+    public boolean delete(AbsModel model, String ip, String level, String address) {
+        LogDao.getInstance().delete(model, ip, level, address);
+        return false;
+    }
 }
