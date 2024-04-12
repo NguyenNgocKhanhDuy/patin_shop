@@ -39,8 +39,9 @@ public class LogDao implements IDao{
     public boolean update(AbsModel model, String ip, String level, String address) {
         LocalDateTime date = LocalDateTime.now();
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO log(ip, level, address, value, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :value, :preValue, :creatAt, :updateAt)")
-                    .bind("ip", ip).bind("level", level).bind("createAt", 0).bind("updateAt", date)
+            return handle.createUpdate("INSERT INTO log(ip, level, address, value, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :value, :preValue, :createAt, :updateAt)")
+                    .bind("ip", ip).bind("level", level).bind("address", address)
+                    .bind("createAt", date).bind("updateAt", date)
                     .bind("value", model.getAfterData()).bind("preValue", model.getBeforeData()).execute();
         });
         return i == 1 ? true : false;
