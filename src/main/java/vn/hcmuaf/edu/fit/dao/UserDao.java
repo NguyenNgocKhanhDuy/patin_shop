@@ -215,6 +215,15 @@ public class UserDao extends AbsDao<User>{
 
     @Override
     public boolean update(AbsModel model, String ip, String level, String address) {
+        User user = (User) model;
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
+                    .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
+                    .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("role", user.getRole()).bind("verify", user.getVerify())
+                    .execute();
+        });
+        super.update(user, ip, level, address);
+        if(i == 1) return true;
         return false;
     }
 

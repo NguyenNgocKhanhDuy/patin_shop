@@ -96,8 +96,11 @@ public class UpdateUserAdmin extends HttpServlet {
                             avatar = userOld.getAvatar();
                         }
                         user.setAvatar(avatar);
-
-                        if (UserService.getInstance().updateUser(user)){
+                        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                        if (ipAddress == null) {
+                            ipAddress = request.getRemoteAddr();
+                        }
+                        if (UserService.getInstance().updateUser( user, ipAddress,  "info", "UpdateInfomation")){
                             List<Integer> rsID = ResourcesService.getInstance().getAllID();
                             boolean flag = true;
                             for (int i = 1; i <= role; i++) {

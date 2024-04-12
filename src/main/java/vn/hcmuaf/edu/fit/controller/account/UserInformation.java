@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.account;
 
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.services.UserService;
 
 import javax.servlet.*;
@@ -18,7 +19,7 @@ import java.time.format.DateTimeFormatter;
         maxFileSize = 1024 * 1024 * 10,
         maxRequestSize = 1024 * 1024 * 100
 )
-public class UserInformation extends HttpServlet {
+public class    UserInformation extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -91,8 +92,13 @@ public class UserInformation extends HttpServlet {
                         avatar = userOld.getAvatar();
                     }
                     user.setAvatar(avatar);
+                    String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                    if (ipAddress == null) {
+                        ipAddress = request.getRemoteAddr();
+                    }
 
-                    if (UserService.getInstance().updateUser(user)){
+                    String level="info";
+                    if (UserService.getInstance().updateUser(user,ipAddress, "info", "UpdateInfomation")){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Cập nhật thành công");
                         request.getRequestDispatcher("account.jsp").forward(request, response);

@@ -53,7 +53,7 @@ public class AddBill extends HttpServlet {
                 user.setFullName(fullName);
                 user.setPhone(phone);
                 user.setAddress(address);
-                UserService.getInstance().updateUser(user);
+//                UserService.getInstance().updateUser(user);
 
                 if (payment.equals("cash")){
                     payment = "Trả tiền khi nhận";
