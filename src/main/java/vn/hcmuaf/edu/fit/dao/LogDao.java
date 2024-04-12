@@ -4,6 +4,7 @@ import vn.hcmuaf.edu.fit.bean.Log;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class LogDao implements IDao{
@@ -45,24 +46,34 @@ public class LogDao implements IDao{
         return i == 1 ? true : false;
     }
 
+//    @Override
+//    public boolean delete(AbsModel model, String ip, String level, String address) {
+//        LocalDateTime date = LocalDateTime.now();
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("INSERT INTO log(ip, level, address, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :preValue, :createAt, :updateAt)")
+//                    .bind("ip", ip).bind("level", level).bind("address", address)
+//                    .bind("createAt", getCreateAtByPreValue(model.getBeforeData())).bind("updateAt", date)
+//                    .bind("preValue", model.getBeforeData()).execute();
+//        });
+//        return i == 1 ? true : false;
+//    }
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
         LocalDateTime date = LocalDateTime.now();
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO log(ip, level, address, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :preValue, :createAt, :updateAt)")
+            return handle.createUpdate("INSERT INTO log(ip, level, address, preValue, updateAt) VALUES (:ip, :level, :address, :preValue, :updateAt)")
                     .bind("ip", ip).bind("level", level).bind("address", address)
-                    .bind("createAt", getCreateAtByPreValue(model.getBeforeData())).bind("updateAt", date)
+                    .bind("updateAt", date)
                     .bind("preValue", model.getBeforeData()).execute();
         });
         return i == 1 ? true : false;
     }
 
-    public LocalDateTime getCreateAtByPreValue(String preValue) {
-        Log log = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT creatAt FROM log WHERE preValue = ?")
-                    .bind(0, preValue).mapToBean(Log.class).one();
-        });
-        return log.getCreateAt();
-    }
-
+//    public LocalDateTime getCreateAtByPreValue(String preValue) {
+//        Log log = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createQuery("SELECT creatAt FROM log WHERE preValue = ?")
+//                    .bind(0, preValue).mapToBean(Log.class).one();
+//        });
+//        return log.getCreateAt();
+//    }
 }

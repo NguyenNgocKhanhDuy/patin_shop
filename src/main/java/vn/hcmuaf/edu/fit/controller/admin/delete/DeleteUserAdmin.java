@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.services.PermissionsService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
@@ -19,10 +20,16 @@ public class DeleteUserAdmin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id;
+        int id =0;
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
         try {
             id = Integer.parseInt(request.getParameter("id"));
-            if (UserService.getInstance().deleteUser(id)){
+            User user = new User();
+            user.setId(id);
+            if (UserDao.getInstance().delete(user,ipAddress,"danger","admin delete user")){
                 PermissionsService.getPermissionsService().deletePer(id);
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");

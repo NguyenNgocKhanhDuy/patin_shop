@@ -1,5 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
+import vn.hcmuaf.edu.fit.bean.ImageProduct;
+import vn.hcmuaf.edu.fit.bean.Product;
 import vn.hcmuaf.edu.fit.dao.ImageProductDao;
 
 import javax.servlet.*;
@@ -19,10 +21,18 @@ public class DeleteImg extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
         int idImg;
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
         try {
             id = Integer.parseInt(request.getParameter("id"));
             idImg = Integer.parseInt(request.getParameter("idImg"));
-            if (ImageProductDao.getInstance().deleteImage(idImg, id)){
+            ImageProduct imgProduct = new ImageProduct();
+            Product product = new Product();
+            product.setId(id);
+            imgProduct.setProduct(product);
+            if (ImageProductDao.getInstance().delete(imgProduct,ipAddress,"danger","admin delete img")){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");
                 request.getRequestDispatcher("showProductDetailAdmin?id="+id).forward(request, response);

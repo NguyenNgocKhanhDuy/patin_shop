@@ -1,10 +1,11 @@
 package vn.hcmuaf.edu.fit.bean;
 
 import org.jdbi.v3.core.mapper.Nested;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.io.Serializable;
 
-public class ImageProduct implements Serializable {
+public class ImageProduct extends AbsModel implements Serializable {
     private int id;
     private String url;
     @Nested("product")
@@ -52,5 +53,16 @@ public class ImageProduct implements Serializable {
                 ", url='" + url + '\'' +
                 ", product=" + product +
                 '}';
+    }
+
+    @Override
+    public String getBeforeData() {
+        return "pd id="+product.getId()+
+                ", img id="+this.id;
+    }
+
+    @Override
+    public String getAfterData() {
+        return null;
     }
 }

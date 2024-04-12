@@ -1,8 +1,10 @@
 package vn.hcmuaf.edu.fit.bean;
 
+import vn.hcmuaf.edu.fit.model.AbsModel;
+
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product extends AbsModel implements Serializable {
     private int id;
     private String name;
     private int hot;
@@ -70,5 +72,15 @@ public class Product implements Serializable {
                 ", salePercent=" + salePercent +
                 ", information='" + information + '\'' +
                 '}';
+    }
+
+    @Override
+    public String getBeforeData() {
+        return "Name: " + this.name;
+    }
+
+    @Override
+    public String getAfterData() {
+        return null;
     }
 }
