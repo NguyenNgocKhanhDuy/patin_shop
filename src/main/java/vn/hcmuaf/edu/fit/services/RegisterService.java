@@ -14,11 +14,13 @@ public class RegisterService {
         return instance;
     }
 
-    public String checkFormLogin(String fullName, String email, String phone) {
+    public String checkFormLogin(String fullName, String email, String password, String phone) {
         if (!UserService.getInstance().checkFullName(fullName).equals("valid")) {
             return UserService.getInstance().checkFullName(fullName);
         } else if (!UserService.getInstance().checkEmail(email).equals("valid")) {
             return UserService.getInstance().checkEmail(email);
+        } else if (!UserService.getInstance().checkPassword(password).equals("valid")) {
+            return UserService.getInstance().checkPassword(password);
         } else if (!UserService.getInstance().checkPhone(phone).equals("valid")) {
             return UserService.getInstance().checkPhone(phone);
         }

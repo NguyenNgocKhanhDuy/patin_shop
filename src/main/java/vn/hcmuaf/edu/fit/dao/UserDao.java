@@ -44,10 +44,10 @@ public class UserDao extends AbsDao<User>{
         if (users.size() != 1) return null;
         User u = users.get(0);
         if (!u.getEmail().equals(email) || !u.getPassword().equals(hashPassword(password))){
-            super.select(model, ip, "info", address);
+            super.insert(model, ip, "info", address);
             return null;
         }
-        super.select(model, ip,"info", address);
+        super.insert(model, ip,"info", address);
         return u;
     }
 
@@ -229,6 +229,31 @@ public class UserDao extends AbsDao<User>{
 
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
+        return false;
+    }
+
+    @Override
+    public void select(AbsModel model, String ip, String level, String address) {
+
+    }
+
+    @Override
+    public boolean insert(AbsModel model, String ip, String level, String address) {
+        User user = (User) model;
+        String hashPass = hashPassword(user.getPassword());
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role) " +
+                            "VALUES (:email, :password, :verify, :fullname, :phone, :address, :sex, :dob, :avatar,:role)")
+                    .bind("email", user.getEmail()).bind("password", hashPass)
+                    .bind("verify", user.getVerify()).bind("fullname", user.getFullName()).bind("phone", user.getPhone()).bind("address", user.getAddress())
+                    .bind("sex", user.getSex()).bind("dob", user.getDob()).bind("avatar", user.getAvatar())
+                    .bind("role", user.getRole()).execute();
+        });
+
+        super.insert(user, ip, level, address);
+
+        if (i == 1)
+            return true;
         return false;
     }
 }

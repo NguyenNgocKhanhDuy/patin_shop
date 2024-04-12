@@ -107,7 +107,6 @@ public class UserService {
     }
 
     public String checkEmail(String email) {
-//        Regular expression
         Pattern pattern = Pattern.compile("^[A-Za-z0-9]+[A-Za-z0-9\\.]+@[A-Za-z0-9]+([\\.A-Za-z0-9]+)$");
         Matcher matcher = pattern.matcher(email);
         if (email == null || "".equals(email)) {
@@ -242,7 +241,7 @@ public class UserService {
     }
 
     public String checkPassword(String password) {
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9]+[A-Za-z0-9\\.]+@[A-Za-z0-9]+([\\.A-Za-z0-9]+)$");
+        Pattern pattern = Pattern.compile("^(?=.*[A-Z])(?=.*\\d).{8,}$");
         Matcher matcher = pattern.matcher(password);
         if (password == null || "".equals(password)) {
             return "Mật khẩu không được để trống";
