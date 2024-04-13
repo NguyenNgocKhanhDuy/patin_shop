@@ -90,8 +90,12 @@ public class AddUserAdmin extends HttpServlet {
 
                         User user = new User(0, email, password, verify, fullname, address, phone, sex, date, avatar, 0, role);
                         response.getWriter().println(email);
+                        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                        if (ipAddress == null) {
+                            ipAddress = request.getRemoteAddr();
+                        }
 
-                        if (UserService.getInstance().addUser(user)){
+                        if (UserService.getInstance().addUser( user, ipAddress,  "alern", "AdminAddUser")){
                             int idNew = UserService.getInstance().getUserByEmail(email).getId();
                             List<Integer> rsID = ResourcesService.getInstance().getAllID();
                             boolean flag = true;
@@ -109,6 +113,7 @@ public class AddUserAdmin extends HttpServlet {
                             request.setAttribute("type", "success");
                             request.setAttribute("information", "Thêm thành công");
                             request.getRequestDispatcher("showUserAdmin").forward(request, response);
+
                         }else {
                             request.setAttribute("type", "error");
                             request.setAttribute("information", "Lỗi sql");
