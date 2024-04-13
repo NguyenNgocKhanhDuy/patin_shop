@@ -31,6 +31,7 @@ public class DeleteImg extends HttpServlet {
             ImageProduct imgProduct = new ImageProduct();
             Product product = new Product();
             product.setId(id);
+            imgProduct.setId(idImg);
             imgProduct.setProduct(product);
             if (ImageProductDao.getInstance().delete(imgProduct,ipAddress,"danger","admin delete img")){
                 request.setAttribute("type", "success");

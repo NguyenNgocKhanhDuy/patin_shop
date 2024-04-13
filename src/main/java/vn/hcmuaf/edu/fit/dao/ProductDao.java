@@ -617,8 +617,9 @@ public class ProductDao extends AbsDao<Product>{
     public boolean delete(AbsModel model, String ip, String level, String address) {
         Product product = (Product) model;
         int id = product.getId();
-        if(deleteProduct(id) || deleteProductDetailAll(id)|| ImageProductDao.getInstance().deleteAllImageOfProduct(id)){
-            return super.delete(model, ip, level, address);
+        if(ImageProductDao.getInstance().deleteAllImageOfProduct(id) && deleteProductDetailAll(id) && deleteProduct(id)){
+            super.delete(product, ip, level, address);
+            return true;
         }
         return false;
     }
