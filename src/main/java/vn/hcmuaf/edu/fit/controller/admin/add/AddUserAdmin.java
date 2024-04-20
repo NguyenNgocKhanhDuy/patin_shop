@@ -95,7 +95,7 @@ public class AddUserAdmin extends HttpServlet {
                             ipAddress = request.getRemoteAddr();
                         }
 
-                        if (UserService.getInstance().addUser( user, ipAddress,  "alern", "AdminAddUser")){
+                        if (UserService.getInstance().addUser( user, ipAddress,  "alert", "AdminAddUser")){
                             int idNew = UserService.getInstance().getUserByEmail(email).getId();
                             List<Integer> rsID = ResourcesService.getInstance().getAllID();
                             boolean flag = true;
