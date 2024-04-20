@@ -3,6 +3,9 @@ package vn.hcmuaf.edu.fit.controller;
 import vn.hcmuaf.edu.fit.bean.*;
 import vn.hcmuaf.edu.fit.cart.Cart;
 import vn.hcmuaf.edu.fit.cart.CartKey;
+import vn.hcmuaf.edu.fit.dao.BillDao;
+import vn.hcmuaf.edu.fit.dao.BillDetailDao;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.services.BillService;
 import vn.hcmuaf.edu.fit.services.ProductService;
 import vn.hcmuaf.edu.fit.services.UserService;
@@ -67,8 +70,12 @@ public class AddBill extends HttpServlet {
                 Bill bill = new Bill(0, "", BillService.getInstance().getCurrentDate(), "Đang xử lý", payment, note, user);
 
                 List<BillDetail> listBill = new ArrayList<>();
-
-                BillService.getInstance().addBill(bill);
+                String ip = request.getHeader("X-FORWARDED_FOR");
+                if(ip == null){
+                    ip = request.getRemoteAddr();
+                }
+//                BillService.getInstance().addBill(bill);
+                BillDao.getInstance().insert(bill, ip, "normal", "user mua hang");
 
                 Bill newBill = BillService.getInstance().getNewBill(user.getId());
 
@@ -88,11 +95,13 @@ public class AddBill extends HttpServlet {
                     billDetail.setQuantity(cart.getData().get(ck).getQuantity());
 
                     ProductService.getInstance().reduceQuantity(ck.getId(), ck.getSize(), ck.getColor(), cart.getData().get(ck).getQuantity());
-
                     listBill.add(billDetail);
+
+                    BillDetailDao.getInstance().insert(billDetail,ip,"normal","add bill detail");
                 }
 
-                BillService.getInstance().addBillDetail(listBill);
+              // BillService.getInstance().addBillDetail(listBill);
+
                 BillService.getInstance().updateName(BillService.getInstance().generateName(newBill, listBill), newBill.getId());
                 request.getSession().removeAttribute("cart");
 

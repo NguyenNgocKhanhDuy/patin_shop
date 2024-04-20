@@ -2,12 +2,13 @@ package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.bean.BillDetail;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BillDetailDao implements Serializable {
+public class BillDetailDao extends AbsDao<BillDetail> implements Serializable {
     private static BillDetailDao instance;
 
     public BillDetailDao() {
@@ -17,7 +18,12 @@ public class BillDetailDao implements Serializable {
         if (instance == null) instance = new BillDetailDao();
         return instance;
     }
-
+    @Override
+    public boolean insert(AbsModel model, String ip, String level, String address) {
+        BillDetail billDetail = (BillDetail) model;
+        super.insert(billDetail,ip,level,address);
+        return addBillDetail(billDetail) == 0;
+    }
     public int addBillDetail(BillDetail billDetail){
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO bill_detail(bill_id, product_id, size_id, color_id, quantity, price) VALUES (:bill, :product, :size, :color, :quantity, :price)")
@@ -50,4 +56,10 @@ public class BillDetailDao implements Serializable {
         return i;
 
     }
+
+    @Override
+    public void select(AbsModel model, String ip, String level, String address) {
+
+    }
+
 }

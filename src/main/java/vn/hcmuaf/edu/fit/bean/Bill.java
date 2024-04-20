@@ -1,11 +1,13 @@
 package vn.hcmuaf.edu.fit.bean;
 
 import org.jdbi.v3.core.mapper.Nested;
+import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.model.IModel;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Bill implements Serializable {
+public class Bill extends AbsModel implements Serializable {
     private int id;
     private String name;
     private LocalDateTime date;
@@ -96,5 +98,15 @@ public class Bill implements Serializable {
                 ", note='" + note + '\'' +
                 ", user=" + user +
                 '}';
+    }
+
+    @Override
+    public String getBeforeData() {
+        return user.getBeforeData();
+    }
+
+    @Override
+    public String getAfterData() {
+        return  user.getAfterData();
     }
 }
