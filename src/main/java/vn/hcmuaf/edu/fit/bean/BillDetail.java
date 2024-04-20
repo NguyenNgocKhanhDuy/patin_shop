@@ -1,10 +1,11 @@
 package vn.hcmuaf.edu.fit.bean;
 
 import org.jdbi.v3.core.mapper.Nested;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.io.Serializable;
 
-public class BillDetail implements Serializable {
+public class BillDetail extends AbsModel implements Serializable {
     @Nested("bill")
     private Bill bill;
     @Nested("product")
@@ -94,5 +95,15 @@ public class BillDetail implements Serializable {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public String getBeforeData() {
+        return product.getProductDetail().getBeforeData();
+    }
+
+    @Override
+    public String getAfterData() {
+        return product.getProductDetail().getBeforeData()+"\t Buy quantity:"+quantity;
     }
 }

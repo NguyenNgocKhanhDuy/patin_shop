@@ -2,11 +2,12 @@ package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.bean.Bill;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BillDao {
+public class BillDao extends AbsDao<Bill>{
     private static BillDao instance;
 
     public BillDao() {
@@ -17,7 +18,13 @@ public class BillDao {
         return instance;
     }
 
-
+    @Override
+    public boolean insert(AbsModel model, String ip, String level, String address) {
+        Bill bill = (Bill) model;
+        super.insert(bill,ip,level,address);
+        int i = addBill(bill);
+        return i == 0;
+    }
     public int addBill(Bill bill) {
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO bill(name, date, status, payment, note, user_id) VALUES (:name, :date, :status, :payment, :note, :user)")
@@ -113,4 +120,8 @@ public class BillDao {
     }
 
 
+    @Override
+    public void select(AbsModel model, String ip, String level, String address) {
+
+    }
 }
