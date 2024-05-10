@@ -798,9 +798,9 @@
                                 <div class="gender">
                                     <label>Giới tính:</label>
                                     <div class="selectGender">
-                                        <input type="radio" name="gender" checked = "true" value="Nam">
+                                        <input type="radio" name="gender" checked = "true" value="0">
                                         <label>Nam</label>
-                                        <input type="radio" name="gender" value="Nữ">
+                                        <input type="radio" name="gender" value="1">
                                         <label>Nữ</label>
                                     </div>
                                 </div>
@@ -877,9 +877,9 @@
                                 <div class="gender">
                                     <label>Giới tính:</label>
                                     <div class="selectGender">
-                                        <input type="radio" name="gender" checked = "true" value="Nam">
+                                        <input type="radio" name="gender" checked = "true" value="0">
                                         <label>Nam</label>
-                                        <input type="radio" name="gender" value="Nữ">
+                                        <input type="radio" name="gender" value="1">
                                         <label>Nữ</label>
                                     </div>
                                 </div>
