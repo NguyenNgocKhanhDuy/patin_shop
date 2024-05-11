@@ -85,30 +85,4 @@ public class ProductDetail extends AbsModel implements Serializable {
     }
 
 
-//    @Override
-//    public String getBeforeData() {
-//        return "product id= "+product.getId()+
-//                ",size=" + size +
-//                ", color=" + color;
-//    }
-//
-//    @Override
-//    public String getAfterData() {
-//        return null;
-//    }
-
-    @Override
-    public String getBeforeData() {
-        return   product.getBeforeData()+
-                "product id= "+product.getId()+
-                ",size=" + size +
-                ", color=" + color+
-                ",quantity =" + quantity;
-    }
-
-    @Override
-    public String getAfterData() {
-        return null;
-    }
-
 }
