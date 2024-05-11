@@ -156,14 +156,4 @@ public class User extends AbsModel implements Serializable{
                 '}';
     }
 
-
-    @Override
-    public String getBeforeData() {
-        return this.email;
-    }
-
-    @Override
-    public String getAfterData() {
-        return this.fullName;
-    }
 }

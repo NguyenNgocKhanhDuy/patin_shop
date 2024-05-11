@@ -55,14 +55,14 @@ public class ImageProduct extends AbsModel implements Serializable {
                 '}';
     }
 
-    @Override
-    public String getBeforeData() {
-        return "pd id="+product.getId()+
-                ", img id="+this.id;
-    }
-
-    @Override
-    public String getAfterData() {
-        return null;
-    }
+//    @Override
+//    public String getBeforeData() {
+//        return "pd id="+product.getId()+
+//                ", img id="+this.id;
+//    }
+//
+//    @Override
+//    public String getAfterData() {
+//        return null;
+//    }
 }
