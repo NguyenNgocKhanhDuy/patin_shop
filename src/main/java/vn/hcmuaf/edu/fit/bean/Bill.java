@@ -99,14 +99,4 @@ public class Bill extends AbsModel implements Serializable {
                 ", user=" + user +
                 '}';
     }
-
-    @Override
-    public String getBeforeData() {
-        return user.getBeforeData();
-    }
-
-    @Override
-    public String getAfterData() {
-        return  user.getAfterData();
-    }
 }
