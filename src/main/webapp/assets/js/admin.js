@@ -195,17 +195,17 @@ function addInModalUser(user) {
                 <label>Giới tính:</label>
                 <div class="selectGender">`
 
-    if(user.sex == "Nam"){
+    if(user.sex == "0"){
         html += `
-                    <input type="radio" name="gender" checked = "true" value="Nam">
+                    <input type="radio" name="gender" checked = "true" value="0">
                     <label>Nam</label>
-                    <input type="radio" name="gender" value="Nữ">
+                    <input type="radio" name="gender" value="1">
                     <label>Nữ</label>`
     }else {
         html += `
-                    <input type="radio" name="gender" value="Nam">
+                    <input type="radio" name="gender" value="0">
                     <label>Nam</label>
-                    <input type="radio" name="gender" checked = "true" value="Nữ">
+                    <input type="radio" name="gender" checked = "true" value="1">
                     <label>Nữ</label>`
     }
     html +=

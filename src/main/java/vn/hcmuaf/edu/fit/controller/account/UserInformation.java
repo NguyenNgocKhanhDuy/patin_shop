@@ -29,13 +29,13 @@ public class    UserInformation extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fullName = request.getParameter("fullname");
         String phone = request.getParameter("phone");
-        String sex = request.getParameter("gender");
+        int sex;
         int day ;
         int month ;
         int year ;
         User user = (User) request.getSession().getAttribute("auth");
 
-        if (fullName == null || phone == null || sex == null || user == null){
+        if (fullName == null || phone == null || user == null){
             request.setAttribute("type", "error");
             request.setAttribute("information", "Lỗi");
             request.getRequestDispatcher("account.jsp").forward(request, response);
@@ -52,6 +52,7 @@ public class    UserInformation extends HttpServlet {
             request.getRequestDispatcher("account.jsp").forward(request, response);
         }else {
             try {
+                sex = Integer.parseInt(request.getParameter("gender"));
                 day = Integer.parseInt(request.getParameter("day"));
                 month = Integer.parseInt(request.getParameter("month"));
                 year = Integer.parseInt(request.getParameter("year"));

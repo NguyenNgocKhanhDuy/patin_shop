@@ -190,9 +190,9 @@
                                 <div class="part gender">
                                     <label>Giới tính:</label>
                                     <div class="selectGender">
-                                        <input type="radio" value="Nam" name="gender" checked = "true">
+                                        <input type="radio" value="0" name="gender" ${sessionScope.auth.getSex() == 0 ? "checked" : ""}>
                                         <label>Nam</label>
-                                        <input type="radio" value="Nữ" name="gender">
+                                        <input type="radio" value="1" name="gender" ${sessionScope.auth.getSex() == 1 ? "checked" : ""}>
                                         <label>Nữ</label>
                                     </div>
                                 </div>

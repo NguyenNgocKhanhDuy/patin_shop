@@ -74,13 +74,13 @@ public class Product extends AbsModel implements Serializable {
                 '}';
     }
 
-    @Override
-    public String getBeforeData() {
-        return "Name: " + this.name;
-    }
-
-    @Override
-    public String getAfterData() {
-        return null;
-    }
+//    @Override
+//    public String getBeforeData() {
+//        return "Name: " + this.name;
+//    }
+//
+//    @Override
+//    public String getAfterData() {
+//        return null;
+//    }
 }

@@ -17,7 +17,7 @@ public class User extends AbsModel implements Serializable{
     private String fullName;
     private String address;
     private String phone;
-    private String sex;
+    private int sex;
     private Date dob;
     private String avatar;
     private int keyPass;
@@ -26,7 +26,7 @@ public class User extends AbsModel implements Serializable{
     public User() {
     }
 
-    public User(int id, String email, String password, int verify, String fullName, String address, String phone, String sex, Date dob, String avatar, int keyPass, int role) {
+    public User(int id, String email, String password, int verify, String fullName, String address, String phone, int sex, Date dob, String avatar, int keyPass, int role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -98,11 +98,11 @@ public class User extends AbsModel implements Serializable{
         this.phone = phone;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
@@ -156,14 +156,4 @@ public class User extends AbsModel implements Serializable{
                 '}';
     }
 
-
-    @Override
-    public String getBeforeData() {
-        return this.email;
-    }
-
-    @Override
-    public String getAfterData() {
-        return this.fullName;
-    }
 }
