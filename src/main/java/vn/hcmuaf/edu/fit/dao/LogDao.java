@@ -68,8 +68,7 @@ public class LogDao implements IDao{
                     .bind("preValue", preValue).bind("ip", ip)
                     .mapToBean(Log.class).stream().collect(Collectors.toList());
         });
-        return logs.get(0).getCreateAt();
-
+        return logs.size() == 1 ? logs.get(0).getCreateAt() : null;
     }
 
 }

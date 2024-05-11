@@ -33,7 +33,7 @@ public class DeleteImg extends HttpServlet {
             product.setId(id);
             imgProduct.setId(idImg);
             imgProduct.setProduct(product);
-            imgProduct.setBeforeData("id:" + imgProduct.getId()+"product Name:" + imgProduct.getProduct().getName());
+            imgProduct.setBeforeData("id:" + imgProduct.getId());
             if (ImageProductDao.getInstance().delete(imgProduct,ipAddress,"danger","admin delete img product")){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");
