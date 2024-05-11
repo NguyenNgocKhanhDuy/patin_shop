@@ -28,6 +28,7 @@ public class DeleteProductAdmin extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
             Product product = new Product();
             product.setId(id);
+            product.setBeforeData("id:" + product.getId() + "name:" + product.getName());
             if (ProductDao.getInstance().delete(product,ipAddress,"danger","admin delete prod")){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");
