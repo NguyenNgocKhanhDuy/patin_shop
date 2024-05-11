@@ -50,24 +50,13 @@ public class LogDao implements IDao{
         return i == 1 ? true : false;
     }
 
-//    @Override
-//    public boolean delete(AbsModel model, String ip, String level, String address) {
-//        LocalDateTime date = LocalDateTime.now();
-//        Integer i = JDBIConnector.get().withHandle(handle -> {
-//            return handle.createUpdate("INSERT INTO log(ip, level, address, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :preValue, :createAt, :updateAt)")
-//                    .bind("ip", ip).bind("level", level).bind("address", address)
-//                    .bind("createAt", getCreateAtByPreValue(model.getBeforeData(), ip)).bind("updateAt", date)
-//                    .bind("preValue", model.getBeforeData()).execute();
-//        });
-//        return i == 1 ? true : false;
-//    }
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
         LocalDateTime date = LocalDateTime.now();
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO log(ip, level, address, preValue, createAt, updateAt) VALUES (:ip, :level, :address, :preValue, :createAt, :updateAt)")
                     .bind("ip", ip).bind("level", level).bind("address", address)
-                    .bind("createAt",date).bind("updateAt", date)
+                    .bind("createAt", getCreateAtByPreValue(model.getBeforeData(), ip)).bind("updateAt", date)
                     .bind("preValue", model.getBeforeData()).execute();
         });
         return i == 1 ? true : false;
