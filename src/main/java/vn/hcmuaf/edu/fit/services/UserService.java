@@ -39,9 +39,8 @@ public class UserService {
         return UserDao.getInstance().getUserByEmail(email).get(0);
     }
 
-    public boolean addUser(User user, String ip, String level, String address) {
-
-        return UserDao.getInstance().insert(user,  ip,  level,  address);
+    public boolean addUser(User user) {
+       return UserDao.getInstance().addUser(user);
     }
 
     public boolean register(User user, String ip, String address) {
