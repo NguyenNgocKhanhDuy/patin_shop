@@ -74,6 +74,13 @@
                         <a href="register.jsp">Tạo tài khoản</a>
                         <a id="forgetPass">Quên mật khẩu</a>
                     </div>
+                    <div class="other">
+                        Đăng nhập với
+                        <a href="">
+                            <i class="fa-brands fa-google"></i>
+                            Google
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
