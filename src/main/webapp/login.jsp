@@ -10,14 +10,10 @@
 <html>
 <%@ page isELIgnored="false" %>
 <head>
-<%--    <script src="https://apis.google.com/js/platform.js" async defer></script>--%>
     <meta charset="UTF-8">
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="364252646575-s7ogdt6pl2949v6pv3hlt8rgcb27u26u.apps.googleusercontent.com">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">'x
 
     <title>Đăng Nhập</title>
 </head>
@@ -81,12 +77,12 @@
                     </div>
                     <div class="other">
                         Đăng nhập với
-                        <a href="">
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile&redirect_uri=http://localhost:8080/patin_shop/googleLogin&response_type=code
+		   &client_id=364252646575-s7ogdt6pl2949v6pv3hlt8rgcb27u26u.apps.googleusercontent.com&approval_prompt=force">
                             <i class="fa-brands fa-google"></i>
                             Google
                         </a>
                     </div>
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 </form>
             </div>
         </div>
@@ -147,34 +143,6 @@
             </div>
         </div>
     </footer>
-    <script>
-        function onSignIn(googleUser) {
-            console.log('ok')
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        }
-
-        function handleCredentialResponse(response) {
-            console.log('Encoded JWT ID token: ' + response.credential);
-        }
-
-        window.onload = function() {
-            google.accounts.id.initialize({
-                client_id: '364252646575-s7ogdt6pl2949v6pv3hlt8rgcb27u26u.apps.googleusercontent.com',
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById('buttonDiv'),
-                { theme: 'outline', size: 'large' }  // customization attributes
-            );
-            google.accounts.id.prompt();  // also display the One Tap dialog
-        }
-
-
-    </script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
