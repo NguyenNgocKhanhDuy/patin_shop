@@ -96,14 +96,4 @@ public class BillDetail extends AbsModel implements Serializable {
                 ", price=" + price +
                 '}';
     }
-
-    @Override
-    public String getBeforeData() {
-        return product.getProductDetail().getBeforeData();
-    }
-
-    @Override
-    public String getAfterData() {
-        return product.getProductDetail().getBeforeData()+"\t Buy quantity:"+quantity;
-    }
 }

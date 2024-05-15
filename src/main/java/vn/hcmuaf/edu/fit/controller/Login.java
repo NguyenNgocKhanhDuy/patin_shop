@@ -21,6 +21,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
         if (ipAddress == null) {
@@ -32,6 +33,7 @@ public class Login extends HttpServlet {
         u.setPassword(password);
         User user = UserService.getInstance().checkLogin(u, ipAddress, "login");
         String infomation = UserService.getInstance().checkEmail(email);
+
 
         if (!"valid".equals(infomation)){
             request.setAttribute("type", "alert");
@@ -45,15 +47,22 @@ public class Login extends HttpServlet {
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }else {
                 if (user.getVerify() == 1) {
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("auth", user);
+                    if (!gRecaptchaResponse.equals("")) {
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("auth", user);
 
-                    String location = (String) session.getAttribute("location");
-                    if (location == null) location = "home";
+                        String location = (String) session.getAttribute("location");
+                        if (location == null) location = "home";
 
-                    request.setAttribute("type", "success");
-                    request.setAttribute("information", "Đăng nhập thành công");
-                    request.getRequestDispatcher(location).forward(request, response);
+                        request.setAttribute("type", "success");
+                        request.setAttribute("information", "Đăng nhập thành công");
+                        request.getRequestDispatcher(location).forward(request, response);
+                    } else {
+                        request.setAttribute("type", "error");
+                        request.setAttribute("information", "Xác minh rằng bạn không phải là robot");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    }
+
                 }else {
                     UserService.getInstance().reSend(user.getEmail());
                     request.getRequestDispatcher("verifyEmail.jsp").forward(request, response);
@@ -61,4 +70,5 @@ public class Login extends HttpServlet {
             }
         }
     }
+
 }

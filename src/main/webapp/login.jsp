@@ -69,7 +69,8 @@
                         <label>Mật khẩu</label>
                         <input type="password" name="password" placeholder="Mật khẩu...">
                     </div>
-                    <button type="submit">Đăng Nhập</button>
+                    <div class="g-recaptcha" data-sitekey="6LeLNN0pAAAAAGVjYX9nrfE9Hso09IVG9E-HeDOF"></div>
+                    <button type="submit" id="submitButton" onclick="checkCaptcha()" >Đăng Nhập</button>
                     <div class="more">
                         <a href="register.jsp">Tạo tài khoản</a>
                         <a id="forgetPass">Quên mật khẩu</a>
@@ -134,7 +135,21 @@
             </div>
         </div>
     </footer>
-    
+<%--    <script>--%>
+<%--        function checkCaptcha() {--%>
+<%--            var form = document.getElementById("doLogin");--%>
+<%--            var popup = document.querySelector(".popup");--%>
+<%--            const response = grecaptcha.getResponse();--%>
+<%--            console.log(response);--%>
+<%--            if(response){--%>
+<%--                form.submit();--%>
+<%--            }else{--%>
+<%--                $('.popup').addClass("error").removeClass("none")--%>
+<%--                $('.popup').html(`<i class="fa-solid fa-ban fa-flip-horizontal icon"></i> <p>Xác minh bạn không phải là robot</p> <i class="fa-solid fa-xmark del"></i>`)--%>
+<%--            }--%>
+<%--        }--%>
+<%--    </script>--%>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
