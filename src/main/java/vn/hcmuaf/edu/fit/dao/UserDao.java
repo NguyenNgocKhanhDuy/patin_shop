@@ -258,4 +258,19 @@ public class UserDao extends AbsDao<User>{
             return true;
         return false;
     }
+
+    public boolean addLoginGoogle(AbsModel model, String ip, String level, String address) {
+        User user = (User) model;
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO user(email, verify, fullname, avatar, role) " +
+                            "VALUES (:email, :verify, :fullname, :avatar, :role)")
+                    .bind("email", user.getEmail())
+                    .bind("verify", 1).bind("fullname", user.getFullName())
+                    .bind("avatar", user.getAvatar()).bind("role", 0).execute();
+        });
+
+        super.insert(user, ip, level, address);
+
+        return i == 1 ? true : false;
+    }
 }

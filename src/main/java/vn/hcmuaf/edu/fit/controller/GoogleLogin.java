@@ -11,8 +11,10 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Form;
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.google_login.Constants;
 import vn.hcmuaf.edu.fit.google_login.UserGoogle;
+import vn.hcmuaf.edu.fit.services.UserService;
 
 
 @WebServlet(name = "GoogleLogin", value = "/googleLogin")
@@ -22,10 +24,24 @@ public class GoogleLogin extends HttpServlet {
         String code = request.getParameter("code");
         String accessToken = getToken(code);
         UserGoogle userGoogle = getUserInfo(accessToken);
-        response.getWriter().println(userGoogle);
+
+        User user = new User();
+        user.setEmail(userGoogle.getEmail());
+        user.setFullName(userGoogle.getName());
+        user.setAvatar(userGoogle.getPicture());
+
+        if (!UserService.getInstance().isUserExists(user.getEmail())){
+            UserDao.getInstance().addLoginGoogle(user, "", "info", "login google");
+        }
+        HttpSession session = request.getSession(true);
+        session.setAttribute("auth", user);
+        String location = (String) session.getAttribute("location");
+        if (location == null) location = "home";
+        request.setAttribute("type", "success");
+        request.setAttribute("information", "Đăng nhập thành công");
+        request.getRequestDispatcher(location).forward(request, response);
     }
     public static String getToken(String code) throws ClientProtocolException, IOException {
-        // call api to get token
         String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
                         .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
