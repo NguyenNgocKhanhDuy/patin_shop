@@ -36,9 +36,17 @@ public class Login extends HttpServlet {
 
 
         if (!"valid".equals(infomation)){
-            request.setAttribute("type", "alert");
-            request.setAttribute("infomation", infomation);
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            int loginAttempts = UserService.getInstance().incrementLoginAttempts(request);
+            if (loginAttempts >= 5) {
+//                user.setVerify(0);
+                UserService.getInstance().lockAccount(request);
+                request.setAttribute("type","error");
+                request.setAttribute("information", "Đăng nhập quá 5 lần");
+                request.getRequestDispatcher("home.jsp").forward(request,response);
+            }
+//            request.setAttribute("type", "alert");
+//            request.setAttribute("information", information);
+//            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }else {
             if (user == null) {
                 request.setAttribute("email", email);
@@ -46,8 +54,10 @@ public class Login extends HttpServlet {
                 request.setAttribute("information", "Email hoặc mật khẩu không chính xác");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }else {
+
                 if (user.getVerify() == 1) {
                     if (!gRecaptchaResponse.equals("")) {
+//                        UserService.getInstance().resetLoginAttempts(request);
                         HttpSession session = request.getSession(true);
                         session.setAttribute("auth", user);
 
@@ -70,5 +80,4 @@ public class Login extends HttpServlet {
             }
         }
     }
-
-}
+    }

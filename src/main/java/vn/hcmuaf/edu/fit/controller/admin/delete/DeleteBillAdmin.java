@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
+import vn.hcmuaf.edu.fit.bean.Bill;
 import vn.hcmuaf.edu.fit.services.BillService;
 
 import javax.servlet.*;
@@ -18,9 +19,17 @@ public class DeleteBillAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
+
         try {
             id = Integer.parseInt(request.getParameter("id"));
-            if (BillService.getInstance().deleteBill(id)){
+            Bill bill = new Bill();
+            bill.setId(id);
+            bill.setBeforeData(bill.getName());
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");
+            if(ipAddress == null){
+                ipAddress = request.getRemoteAddr();
+            }
+            if (BillService.getInstance().deleteBill(id,bill,ipAddress,"danger","admin delete bill")){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");
                 request.getRequestDispatcher("showBillAdmin").forward(request, response);
