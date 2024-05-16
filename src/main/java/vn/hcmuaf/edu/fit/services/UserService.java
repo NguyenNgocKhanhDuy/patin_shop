@@ -252,4 +252,21 @@ public class UserService {
         return "valid";
     }
 
+    public String checkChangeInfoUser(User userOld, User userNew){
+        String changes = "";
+        if (!userOld.getFullName().equals(userNew.getFullName()))
+            changes += "\nFullName: "+userOld.getFullName()+" => "+userNew.getFullName();
+        if (!userOld.getPhone().equals(userNew.getPhone()))
+            changes += "\nPhone: "+userOld.getPhone()+" => "+userNew.getPhone();
+        if (!userOld.getAddress().equals(userNew.getAddress()))
+            changes += "\nAddress: "+userOld.getAddress()+" => "+userNew.getAddress();
+        if (userOld.getSex() != userNew.getSex())
+            changes += "\nSex: "+userOld.getSex()+" => "+userNew.getSex();
+        if (userOld.getVerify() != userNew.getVerify())
+            changes += "\nVerify: "+userOld.getVerify()+" => "+userNew.getVerify();
+        if (userOld.getRole() != userNew.getRole())
+            changes += "\nRole: "+userOld.getRole()+" => "+userNew.getRole();
+        return changes;
+    }
+
 }
