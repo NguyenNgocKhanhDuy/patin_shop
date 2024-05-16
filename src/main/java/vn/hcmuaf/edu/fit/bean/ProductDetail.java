@@ -85,9 +85,4 @@ public class ProductDetail extends AbsModel implements Serializable {
     }
 
 
-    @Override
-    public String getAfterData() {
-        return null;
-    }
-
 }
