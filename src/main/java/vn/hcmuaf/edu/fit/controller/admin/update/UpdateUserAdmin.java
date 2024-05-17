@@ -102,10 +102,6 @@ public class UpdateUserAdmin extends HttpServlet {
                         if (ipAddress == null) {
                             ipAddress = request.getRemoteAddr();
                         }
-                        User userOldCheckChange = UserService.getInstance().getUserByEmail(email);
-                        user.setBeforeData("Email: "+user.getEmail());
-                        String infoChange = UserService.getInstance().checkChangeInfoUser(userOldCheckChange, user);
-                        user.setAfterData("Email: "+user.getEmail()+", Update: "+infoChange);
                         if (UserService.getInstance().updateUser( user, ipAddress,  "info", "Update Infomation")){
                             List<Integer> rsID = ResourcesService.getInstance().getAllID();
                             boolean flag = true;
