@@ -29,6 +29,7 @@ public class DeleteUserAdmin extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
             User user = new User();
             user.setId(id);
+            user.setBeforeData("email:"+user.getEmail());
             if (UserDao.getInstance().delete(user,ipAddress,"danger","admin delete user")){
                 PermissionsService.getPermissionsService().deletePer(id);
                 request.setAttribute("type", "success");

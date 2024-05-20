@@ -68,13 +68,13 @@ public class AddBill extends HttpServlet {
                     payment = "Chuyển khoản ngân hàng";
                 }
                 Bill bill = new Bill(0, "", BillService.getInstance().getCurrentDate(), "Đang xử lý", payment, note, user);
-
                 List<BillDetail> listBill = new ArrayList<>();
                 String ip = request.getHeader("X-FORWARDED_FOR");
                 if(ip == null){
                     ip = request.getRemoteAddr();
                 }
 //                BillService.getInstance().addBill(bill);
+                bill.setBeforeData("user:" +user.getEmail());
                 BillDao.getInstance().insert(bill, ip, "normal", "user mua hang");
 
                 Bill newBill = BillService.getInstance().getNewBill(user.getId());
@@ -96,7 +96,7 @@ public class AddBill extends HttpServlet {
 
                     ProductService.getInstance().reduceQuantity(ck.getId(), ck.getSize(), ck.getColor(), cart.getData().get(ck).getQuantity());
                     listBill.add(billDetail);
-
+                    billDetail.setBeforeData("quantity:"+ billDetail.getQuantity());
                     BillDetailDao.getInstance().insert(billDetail,ip,"normal","add bill detail");
                 }
 

@@ -31,6 +31,7 @@ public class UserDao extends AbsDao<User>{
 
     public User checkLogin(AbsModel model, String ip, String address) {
         User user = (User) model;
+
         String email =user.getEmail();
         String password = user.getPassword();
         List<User> users = JDBIConnector.get().withHandle(handle -> {
@@ -41,12 +42,18 @@ public class UserDao extends AbsDao<User>{
                     .mapToBean(User.class).stream().collect(Collectors.toList());
         });
 
-        if (users.size() != 1) return null;
+        if (users.size() != 1){
+            user.setAfterData("Email: "+email+" Status: Thất bại");
+            return null;
+        }
+
         User u = users.get(0);
         if (!u.getEmail().equals(email) || !u.getPassword().equals(hashPassword(password))){
+            user.setAfterData("Email: "+email+" Status: Thất bại");
             super.insert(model, ip, "info", address);
             return null;
         }
+        user.setAfterData("Email: "+email+" Status: Thành công");
         super.insert(model, ip,"info", address);
         return u;
     }
@@ -257,10 +264,13 @@ public class UserDao extends AbsDao<User>{
                     .bind("role", user.getRole()).execute();
         });
 
+        user.setAfterData("Email: " +user.getEmail()+ " Status: Thành công ");
         super.insert(user, ip, level, address);
 
-        if (i == 1)
+        if (i == 1){
             return true;
+        }
+        user.setAfterData("Email: " +user.getEmail()+ " Status: Thất bại");
         return false;
     }
 

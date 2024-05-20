@@ -40,7 +40,7 @@ public class OrderAccount extends HttpServlet {
         List<Bill> bills = new ArrayList<>();
 
         if (!(billStatus == 0)){
-            String status = billStatus == 1 ? "Đang giao" : "Đã giao";
+            String status = billStatus == 1 ? "Dang giao" : "Hoan thanh";
             allBills = BillService.getInstance().getAllBillByUserAndStatus(user.getId(), status);
             bills = BillService.getInstance().getBillPerPageByUserAndStatus(currentPage,(int) productPerPage, user.getId(), status);
         }else {
