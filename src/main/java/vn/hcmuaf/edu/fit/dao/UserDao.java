@@ -60,7 +60,7 @@ public class UserDao extends AbsDao<User>{
 
     public List<User> getUserByEmail(String email) {
         List<User> users = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT id, email " +
+            return handle.createQuery("SELECT * " +
                             "FROM user " +
                             "WHERE email = ?")
                     .bind(0, email)
@@ -223,14 +223,19 @@ public class UserDao extends AbsDao<User>{
     @Override
     public boolean update(AbsModel model, String ip, String level, String address) {
         User user = (User) model;
+        user.setBeforeData(UserDao.getInstance().getUserByEmail(user.getEmail()).get(0).toString());
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
                     .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
                     .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("role", user.getRole()).bind("verify", user.getVerify())
                     .execute();
         });
+
+        user.setAfterData(UserDao.getInstance().getUserByEmail(user.getEmail()).get(0).toString());
         super.update(user, ip, level, address);
-        if(i == 1) return true;
+        if(i == 1){
+            return true;
+        }
         return false;
     }
 
@@ -267,5 +272,20 @@ public class UserDao extends AbsDao<User>{
         }
         user.setAfterData("Email: " +user.getEmail()+ " Status: Thất bại");
         return false;
+    }
+
+    public boolean addLoginGoogle(AbsModel model, String ip, String level, String address) {
+        User user = (User) model;
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO user(email, verify, fullname, avatar, role) " +
+                            "VALUES (:email, :verify, :fullname, :avatar, :role)")
+                    .bind("email", user.getEmail())
+                    .bind("verify", 1).bind("fullname", user.getFullName())
+                    .bind("avatar", user.getAvatar()).bind("role", 0).execute();
+        });
+
+        super.insert(user, ip, level, address);
+
+        return i == 1 ? true : false;
     }
 }

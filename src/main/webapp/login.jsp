@@ -13,7 +13,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">'x
+
     <title>Đăng Nhập</title>
 </head>
 <body>
@@ -74,6 +75,14 @@
                     <div class="more">
                         <a href="register.jsp">Tạo tài khoản</a>
                         <a id="forgetPass">Quên mật khẩu</a>
+                    </div>
+                    <div class="other">
+                        Đăng nhập với
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile&redirect_uri=http://localhost:8080/patin_shop/googleLogin&response_type=code
+		   &client_id=364252646575-s7ogdt6pl2949v6pv3hlt8rgcb27u26u.apps.googleusercontent.com&approval_prompt=force">
+                            <i class="fa-brands fa-google"></i>
+                            Google
+                        </a>
                     </div>
                 </form>
             </div>

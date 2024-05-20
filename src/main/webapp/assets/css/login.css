@@ -6,6 +6,7 @@
 #content .login {
     background-color: #fff;
     width: 400px;
+    /*height: 400px;*/
     height: 500px;
     margin: 0 auto;
     padding: 30px;
@@ -146,4 +147,25 @@
 .modal-container form input[type=submit]:hover {
     opacity: 0.8;
     box-shadow: 0 0 4px 3px #ccc ;
+}
+
+.other {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 40px;
+}
+
+.other a {
+    display: block;
+    padding: 10px;
+    background-color: #df4930;
+    color: #fff !important;
+    margin: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none !important;
+    font-size: 16px !important;
+}
+
+.other a i {
+    margin-right: 4px;
 }

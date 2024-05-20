@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.admin.update;
 
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.services.PermissionsService;
 import vn.hcmuaf.edu.fit.services.ResourcesService;
 import vn.hcmuaf.edu.fit.services.UserService;
@@ -101,7 +102,7 @@ public class UpdateUserAdmin extends HttpServlet {
                         if (ipAddress == null) {
                             ipAddress = request.getRemoteAddr();
                         }
-                        if (UserService.getInstance().updateUser( user, ipAddress,  "info", "UpdateInfomation")){
+                        if (UserService.getInstance().updateUser( user, ipAddress,  "info", "Update Infomation")){
                             List<Integer> rsID = ResourcesService.getInstance().getAllID();
                             boolean flag = true;
                             for (int i = 1; i <= role; i++) {
