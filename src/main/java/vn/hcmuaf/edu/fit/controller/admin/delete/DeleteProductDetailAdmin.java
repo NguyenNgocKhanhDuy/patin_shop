@@ -43,7 +43,7 @@ public class DeleteProductDetailAdmin extends HttpServlet {
             productDetail.setProduct(product);
             productDetail.setSize(sz);
             productDetail.setColor(cl);
-
+            productDetail.setBeforeData("id:" + productDetail.getProduct().getId() +"quantity:" + productDetail.getQuantity());
             if (ProductDetailDao.getInstance().delete(productDetail,ipAddress, "danger", "admin delete detail product")){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");

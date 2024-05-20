@@ -21,6 +21,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
         if (ipAddress == null) {
@@ -33,10 +34,19 @@ public class Login extends HttpServlet {
         User user = UserService.getInstance().checkLogin(u, ipAddress, "login");
         String infomation = UserService.getInstance().checkEmail(email);
 
+
         if (!"valid".equals(infomation)){
-            request.setAttribute("type", "alert");
-            request.setAttribute("infomation", infomation);
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            int loginAttempts = UserService.getInstance().incrementLoginAttempts(request);
+            if (loginAttempts >= 5) {
+//                user.setVerify(0);
+                UserService.getInstance().lockAccount(request);
+                request.setAttribute("type","error");
+                request.setAttribute("information", "Đăng nhập quá 5 lần");
+                request.getRequestDispatcher("home.jsp").forward(request,response);
+            }
+//            request.setAttribute("type", "alert");
+//            request.setAttribute("information", information);
+//            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }else {
             if (user == null) {
                 request.setAttribute("email", email);
@@ -44,16 +54,25 @@ public class Login extends HttpServlet {
                 request.setAttribute("information", "Email hoặc mật khẩu không chính xác");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }else {
+
                 if (user.getVerify() == 1) {
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("auth", user);
+                    if (!gRecaptchaResponse.equals("")) {
+//                        UserService.getInstance().resetLoginAttempts(request);
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("auth", user);
 
-                    String location = (String) session.getAttribute("location");
-                    if (location == null) location = "home";
+                        String location = (String) session.getAttribute("location");
+                        if (location == null) location = "home";
 
-                    request.setAttribute("type", "success");
-                    request.setAttribute("information", "Đăng nhập thành công");
-                    request.getRequestDispatcher(location).forward(request, response);
+                        request.setAttribute("type", "success");
+                        request.setAttribute("information", "Đăng nhập thành công");
+                        request.getRequestDispatcher(location).forward(request, response);
+                    } else {
+                        request.setAttribute("type", "error");
+                        request.setAttribute("information", "Xác minh rằng bạn không phải là robot");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    }
+
                 }else {
                     UserService.getInstance().reSend(user.getEmail());
                     request.getRequestDispatcher("verifyEmail.jsp").forward(request, response);
@@ -61,4 +80,4 @@ public class Login extends HttpServlet {
             }
         }
     }
-}
+    }

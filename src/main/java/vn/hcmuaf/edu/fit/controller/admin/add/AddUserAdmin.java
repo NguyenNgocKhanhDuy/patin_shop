@@ -2,6 +2,7 @@ package vn.hcmuaf.edu.fit.controller.admin.add;
 
 import vn.hcmuaf.edu.fit.bean.ImageRating;
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.services.PermissionsService;
 import vn.hcmuaf.edu.fit.services.RatingService;
 import vn.hcmuaf.edu.fit.services.ResourcesService;
@@ -96,7 +97,7 @@ public class AddUserAdmin extends HttpServlet {
                             ipAddress = request.getRemoteAddr();
                         }
 
-                        if (UserService.getInstance().addUser( user, ipAddress,  "alert", "AdminAddUser")){
+                        if (UserDao.getInstance().insert(user, ipAddress,  "alert", "AdminAddUser")){
                             int idNew = UserService.getInstance().getUserByEmail(email).getId();
                             List<Integer> rsID = ResourcesService.getInstance().getAllID();
                             boolean flag = true;

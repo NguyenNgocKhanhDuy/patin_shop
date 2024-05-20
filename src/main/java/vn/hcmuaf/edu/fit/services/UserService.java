@@ -4,6 +4,8 @@ import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +31,7 @@ public class UserService {
         return UserDao.getInstance().getAllUser();
     }
 
-    public boolean isUserExists(String email){
+    public boolean isUserExists(String email) {
         if (UserDao.getInstance().getUserByEmail(email).size() > 0)
             return true;
         return false;
@@ -39,14 +41,13 @@ public class UserService {
         return UserDao.getInstance().getUserByEmail(email).get(0);
     }
 
-    public boolean addUser(User user, String ip, String level, String address) {
-
-        return UserDao.getInstance().insert(user,  ip,  level,  address);
+    public boolean addUser(User user) {
+        return UserDao.getInstance().addUser(user);
     }
 
     public boolean register(User user, String ip, String address) {
-        if (UserDao.getInstance().insert(user, ip, "info", address)){
-            while (true){
+        if (UserDao.getInstance().insert(user, ip, "info", address)) {
+            while (true) {
                 int code = Integer.parseInt(randomCodeVerify());
                 if (!UserDao.getInstance().isExitsCode(code)) {
                     insertVerifyCode(code, user.getEmail());
@@ -58,7 +59,7 @@ public class UserService {
     }
 
     public boolean reSend(String email) {
-        while (true){
+        while (true) {
             int code = Integer.parseInt(randomCodeVerify());
             if (!UserDao.getInstance().isExitsCode(code)) {
                 insertVerifyCode(code, email);
@@ -72,14 +73,14 @@ public class UserService {
     }
 
     public boolean verifyMail(int code, String email) {
-        if (UserDao.getInstance().getVerifyByEmail(email) == code){
+        if (UserDao.getInstance().getVerifyByEmail(email) == code) {
             return UserDao.getInstance().verify(1, email);
         }
         return false;
     }
 
     public boolean sendforgetPass(String email) {
-        while (true){
+        while (true) {
             int code = Integer.parseInt(randomCodeVerify());
             if (!UserDao.getInstance().isExitsCodePass(code) && UserDao.getInstance().keyForgetPass(code, email)) {
                 return MailService.getInstance().sendMailVerify(email, String.valueOf(code));
@@ -102,7 +103,7 @@ public class UserService {
         Random random = new Random();
         String result = "";
         for (int i = 0; i < 6; i++) {
-            result += (random.nextInt(9)+1);
+            result += (random.nextInt(9) + 1);
         }
         return result;
     }
@@ -156,6 +157,7 @@ public class UserService {
         return "";
 
     }
+
     public String checkForm(String fullName, String phone, String address) {
         if (!checkFullName(fullName).equals("valid")) {
             return checkFullName(fullName);
@@ -166,6 +168,7 @@ public class UserService {
         }
         return "";
     }
+
     public String checkForm(String fullName, String email) {
         if (!checkFullName(fullName).equals("valid")) {
             return checkFullName(fullName);
@@ -175,8 +178,8 @@ public class UserService {
         return "";
     }
 
-    public boolean updateUser(User user, String ip,String  level,String  address) {
-        return UserDao.getInstance().update( user,  ip,  level,  address);
+    public boolean updateUser(User user, String ip, String level, String address) {
+        return UserDao.getInstance().update(user, ip, level, address);
     }
 
     public boolean checkPass(int user, String pass) {
@@ -186,9 +189,9 @@ public class UserService {
     public String checkDOB(int day, int month, int year) {
         LocalDateTime dateTime = LocalDateTime.now();
         int yearNow = dateTime.getYear();
-        if (yearNow - year >= 18){
+        if (yearNow - year >= 18) {
             int dayMax = 0;
-            switch (month){
+            switch (month) {
                 case 1:
                 case 3:
                 case 5:
@@ -211,7 +214,7 @@ public class UserService {
             if (!(day > 0 && day <= dayMax)) {
                 return "Ngày không hợp lệ";
             }
-        }else {
+        } else {
             return "Bạn chưa đủ 18 tuổi";
         }
         return "";
@@ -226,7 +229,7 @@ public class UserService {
     public List<User> getUserPerPage(int currentPage, int productPerPage) {
         int start;
         if (currentPage > 1) {
-            start =  ((currentPage - 1) * productPerPage);
+            start = ((currentPage - 1) * productPerPage);
         } else {
             start = 0;
         }
@@ -252,4 +255,36 @@ public class UserService {
         return "valid";
     }
 
+    // Method to reset login attempts
+    public void resetLoginAttempts(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        session.removeAttribute("loginAttempts");
+    }
+
+    public int incrementLoginAttempts(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        Integer loginAttempts = (Integer) session.getAttribute("loginAttempts");
+        if (loginAttempts == null) {
+            loginAttempts = 1;
+        } else {
+            loginAttempts++;
+        }
+        session.setAttribute("loginAttempts", loginAttempts);
+        return loginAttempts;
+    }
+
+    // Method to lock the account temporarily (for 15 minutes)
+    public void lockAccount(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        session.setAttribute("accountLocked", true);
+        session.setMaxInactiveInterval(15 * 60);
+    }
+
+    // Method to check if the account is locked
+    public boolean isAccountLocked(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return session != null && session.getAttribute("accountLocked") != null;
+    }
 }
+
+

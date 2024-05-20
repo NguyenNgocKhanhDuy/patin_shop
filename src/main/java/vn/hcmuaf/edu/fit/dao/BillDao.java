@@ -112,10 +112,11 @@ public class BillDao extends AbsDao<Bill>{
         });
         return i == 1 ? true : false;
     }
-    public boolean deleteBill(int id){
+    public boolean deleteBill(int id, AbsModel bill, String ip, String level, String address){
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("DELETE FROM bill WHERE id = :id").bind("id", id).execute();
         });
+        super.delete(bill,ip,level,address);
         return i == 1 ? true : false;
     }
 

@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/account.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/DataTables/datatables.min.css">--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/DataTables/datatables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Tài khoản</title>
     <fmt:setLocale value="vi_VN"/>
 </head>
@@ -260,38 +264,42 @@
                             </c:if>
 
                             <c:if test="${bills.size() > 0}">
-                                <div class="bill section">
-                                    <div class="bill-list">
-                                        <div class="title">
-                                            <h4>STT</h4>
-                                            <h4>Mã đơn hàng</h4>
-                                            <h4>Ngày đặt</h4>
-                                            <h4>Tình trạng</h4>
-                                            <h4>Phương thức</h4>
-                                        </div>
-                                        <c:forEach var="bill" items="${bills}" varStatus="index">
-                                            <div class="bill-item">
-                                                <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                                <p class="id">${bill.getName()}</p>
-                                                <p class="date">
-                                                    <fmt:parseDate value="${bill.getDate()}" pattern="y-M-dd'T'H:m" var="myParseDate"/>
-                                                    <fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm"/>
-                                                </p>
 
-                                                <p class="state">${bill.getStatus()}</p>
-                                                <p class="payment">${bill.getPayment()}</p>
-                                                <a href="showOrderDetail?id=${bill.getId()}">
-                                                    <i class="fa-solid fa-clipboard detail"></i>
-                                                </a>
-                                                    <%--                                            <i class="fa-solid fa-xmark del"></i>--%>
-                                            </div>
-                                        </c:forEach>
+<%--                            </c:if>--%>
+<%--                                <div class="bill section">--%>
+<%--                                    <div class="bill-list">--%>
+                                        <table id="billTable" class="table table-striped table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tình trạng</th>
+                                                <th>Phương thức</th>
+                                                <th>Hủy đơn</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+<%--                                        <c:forEach var="bill" items="${bills}" varStatus="index">--%>
+<%--                                            <div class="bill-item">--%>
+<%--                                                <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                                <p class="id">${bill.getName()}</p>--%>
+<%--                                                <p class="date">--%>
+<%--                                                    <fmt:parseDate value="${bill.getDate()}" pattern="y-M-dd'T'H:m" var="myParseDate"/>--%>
+<%--                                                    <fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm"/>--%>
+<%--                                                </p>--%>
 
-                                    </div>
-                                </div>
+<%--                                                <p class="state">${bill.getStatus()}</p>--%>
+<%--                                                <p class="payment">${bill.getPayment()}</p>--%>
+<%--                                                <a href="showOrderDetail?id=${bill.getId()}">--%>
+<%--                                                    <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                                </a>--%>
+<%--                                                    &lt;%&ndash;                                            <i class="fa-solid fa-xmark del"></i>&ndash;%&gt;--%>
+<%--                                            </div>--%>
+<%--                                        </c:forEach>--%>
+
+<%--                                    </div>--%>
+<%--                                </div>--%>
                             </c:if>
-
-
                         </div>
                     </div>
                 </c:if>
@@ -439,5 +447,9 @@
     <script src="${pageContext.request.contextPath}/assets/js/search.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/account.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/billTable.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="${pageContext.request.contextPath}/assets/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="${pageContext.request.contextPath}/assets/DataTables/datatables.js"></script>
 </body>
 </html>
