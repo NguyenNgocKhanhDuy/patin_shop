@@ -43,7 +43,7 @@ public class UserDao extends AbsDao<User>{
         });
 
         if (users.size() != 1){
-            user.setAfterData("Email: "+email+"Status: Thất bại");
+            user.setAfterData("Email: "+email+" Status: Thất bại");
             return null;
         }
 
@@ -259,10 +259,13 @@ public class UserDao extends AbsDao<User>{
                     .bind("role", user.getRole()).execute();
         });
 
+        user.setAfterData("Email: " +user.getEmail()+ " Status: Thành công ");
         super.insert(user, ip, level, address);
 
-        if (i == 1)
+        if (i == 1){
             return true;
+        }
+        user.setAfterData("Email: " +user.getEmail()+ " Status: Thất bại");
         return false;
     }
 }
