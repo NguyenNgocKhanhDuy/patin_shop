@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.dao;
 
+import vn.hcmuaf.edu.fit.bean.Bill;
 import vn.hcmuaf.edu.fit.bean.BillDetail;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
@@ -42,9 +43,10 @@ public class BillDetailDao extends AbsDao<BillDetail> implements Serializable {
         return billDetails;
     }
 
-    public boolean deleteAllBillDetail(int id){
+    public boolean deleteAllBillDetail(AbsModel model){
+        Bill bill = (Bill) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM bill_detail WHERE bill_id = :id").bind("id", id).execute();
+            return handle.createUpdate("DELETE FROM bill_detail WHERE bill_id = :id").bind("id", bill.getId()).execute();
         });
         return i > 0 ? true : false;
     }

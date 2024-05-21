@@ -43,18 +43,19 @@ public class UserDao extends AbsDao<User>{
         });
 
         if (users.size() != 1){
-            user.setAfterData("Email: "+email+" Status: Thất bại");
+            user.setAfterData(user.toString()+"\nStatus: Thất bại");
+            super.insert(user, ip, "alert", address);
             return null;
         }
 
         User u = users.get(0);
         if (!u.getEmail().equals(email) || !u.getPassword().equals(hashPassword(password))){
-            user.setAfterData("Email: "+email+" Status: Thất bại");
-            super.insert(model, ip, "info", address);
+            user.setAfterData(user.toString()+"\nStatus: Thất bại");
+            super.insert(user, ip, "alert", address);
             return null;
         }
-        user.setAfterData("Email: "+email+" Status: Thành công");
-        super.insert(model, ip,"info", address);
+        user.setAfterData(user.toString()+"\nStatus: Thành công");
+        super.insert(user, ip,"info", address);
         return u;
     }
 
@@ -264,13 +265,13 @@ public class UserDao extends AbsDao<User>{
                     .bind("role", user.getRole()).execute();
         });
 
-        user.setAfterData("Email: " +user.getEmail()+ " Status: Thành công ");
-        super.insert(user, ip, level, address);
 
         if (i == 1){
+            user.setAfterData(user.toString());
+            super.insert(user, ip, level, address);
             return true;
         }
-        user.setAfterData("Email: " +user.getEmail()+ " Status: Thất bại");
+        user.setAfterData(user.toString());
         return false;
     }
 

@@ -30,12 +30,11 @@ public class DeleteBill extends HttpServlet {
             Bill bill = new Bill();
             bill.setId(billId);
             bill.setBeforeData(bill.getName());
-            BillService.getInstance().deleteBill(billId,bill,ipAddress,"danger","user delete bill");
+            BillService.getInstance().deleteBill(bill,ipAddress,"danger","user delete bill");
             response.getWriter().println("Bill deleted.");
         } catch (Exception e) {
             response.getWriter().println("Bill deleted fail.");
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
