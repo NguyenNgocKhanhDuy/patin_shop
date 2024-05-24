@@ -24,12 +24,12 @@ public class DeleteBillAdmin extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
             Bill bill = new Bill();
             bill.setId(id);
-            bill.setBeforeData(bill.getName());
+//            bill.setBeforeData(bill.getName());
             String ipAddress = request.getHeader("X-FORWARDED-FOR");
             if(ipAddress == null){
                 ipAddress = request.getRemoteAddr();
             }
-            if (BillService.getInstance().deleteBill(id,bill,ipAddress,"danger","admin delete bill")){
+            if (BillService.getInstance().deleteBill(bill,ipAddress,"danger","admin delete bill")){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");
                 request.getRequestDispatcher("showBillAdmin").forward(request, response);

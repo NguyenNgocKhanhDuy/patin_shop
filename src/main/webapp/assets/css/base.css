@@ -369,6 +369,7 @@ header .user ul li .amount {
     text-shadow: 0 0 5px #000;
     z-index: 1;
     white-space: nowrap;
+    background-color: transparent;
 }
 
 #image .container-img .breadcrumb a {

@@ -7,13 +7,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="./assets/mdb/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/mdb/css/addons/datatables.min.css">
+<%--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">--%>
+<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/DataTables/datatables.min.css">--%>
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/account.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/DataTables/datatables.min.css">--%>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/DataTables/datatables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Tài khoản</title>
     <fmt:setLocale value="vi_VN"/>
 </head>
@@ -447,9 +448,11 @@
     <script src="${pageContext.request.contextPath}/assets/js/search.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/account.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<%--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+    <script src="./assets/mdb/js/jquery.min.js"></script>
+    <script src="./assets/mdb/js/bootstrap.js"></script>
+    <script src="./assets/mdb/js/addons/datatables.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/billTable.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="${pageContext.request.contextPath}/assets/DataTables/datatables.min.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="${pageContext.request.contextPath}/assets/DataTables/datatables.js"></script>
+
 </body>
 </html>
