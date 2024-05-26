@@ -32,18 +32,21 @@ public class DeleteUserAdmin extends HttpServlet {
             user.setBeforeData("email:"+user.getEmail());
             if (UserDao.getInstance().delete(user,ipAddress,"danger","admin delete user")){
                 PermissionsService.getPermissionsService().deletePer(id);
-                request.setAttribute("type", "success");
-                request.setAttribute("information", "Xoá thành công");
-                request.getRequestDispatcher("showUserAdmin").forward(request, response);
+                response.getWriter().println("Xoá thành công");
+//                request.setAttribute("type", "success");
+//                request.setAttribute("information", "Xoá thành công");
+//                request.getRequestDispatcher("showUserAdmin").forward(request, response);
             }else {
-                request.setAttribute("type", "error");
-                request.setAttribute("information", "Lỗi sql");
-                request.getRequestDispatcher("showUserAdmin").forward(request, response);
+                response.getWriter().println("Lỗi SQL");
+//                request.setAttribute("type", "error");
+//                request.setAttribute("information", "Lỗi sql");
+//                request.getRequestDispatcher("showUserAdmin").forward(request, response);
             }
         }catch (NumberFormatException e){
-            request.setAttribute("type", "error");
-            request.setAttribute("information", "Lỗi null");
-            request.getRequestDispatcher("showUserAdmin").forward(request, response);
+            response.getWriter().println("Lỗi Null");
+//            request.setAttribute("type", "error");
+//            request.setAttribute("information", "Lỗi null");
+//            request.getRequestDispatcher("showUserAdmin").forward(request, response);
         }
     }
 }

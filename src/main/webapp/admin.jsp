@@ -7,6 +7,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./assets/mdb/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/mdb/css/addons/datatables.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
@@ -251,27 +253,40 @@
                             </c:if>
                         </div>
                         <div class="user-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                                <h4>Email</h4>
-                                <h4>SĐT</h4>
-                            </div>
-                            <c:forEach var="user" items="${users}" varStatus="index">
-                                <div class="user-item">
-                                    <input type="hidden" class="id" value="${user.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">${user.getFullName()}</p>
-                                    <p class="email">${user.getEmail()}</p>
-                                    <p class="phone">${user.getPhone()}</p>
-                                    <i class="fa-solid fa-clipboard detail"></i>
-                                    <c:if test="${per > 1}">
-                                        <a href="deleteUserAdmin?id=${user.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+
+                            <table id="billTable" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Avatar</th>
+                                    <th>Họ Tên</th>
+                                    <th>Email</th>
+                                    <th>SĐT</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                            </table>
+
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                                <h4>Email</h4>--%>
+<%--                                <h4>SĐT</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="user" items="${users}" varStatus="index">--%>
+<%--                                <div class="user-item">--%>
+<%--                                    <input type="hidden" class="id" value="${user.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">${user.getFullName()}</p>--%>
+<%--                                    <p class="email">${user.getEmail()}</p>--%>
+<%--                                    <p class="phone">${user.getPhone()}</p>--%>
+<%--                                    <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <a href="deleteUserAdmin?id=${user.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -1285,9 +1300,16 @@
         </div>
     </footer>
 
+
+    <script src="./assets/mdb/js/jquery.min.js"></script>
+    <script src="./assets/mdb/js/bootstrap.min.js"></script>
+    <script src="./assets/mdb/js/addons/datatables.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/showDanhMuc.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/search.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
+    <c:if test="${users != null}">
+        <script src="./assets/js/adminAccount.js"></script>
+    </c:if>
     <c:if test="${productDetail == null && billDetail == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>

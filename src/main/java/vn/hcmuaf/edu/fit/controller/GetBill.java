@@ -38,7 +38,8 @@ public class GetBill extends HttpServlet {
 
         }else {
             bills = BillService.getInstance().getAllBillByUser(user.getId());
-        } response.setContentType("application/json");
+        }
+        response.setContentType("application/json");
         response.getWriter().println(gson.toJson(bills));
     }
 
