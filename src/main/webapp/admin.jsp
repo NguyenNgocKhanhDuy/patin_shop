@@ -480,37 +480,49 @@
                     <div class="report section">
                         <div class="bill section">
 
-                            <div class="bill-list">
-                                <div class="title">
-                                    <h4>STT</h4>
-                                    <h4>Mã đơn hàng</h4>
-                                    <h4>Email</h4>
-                                    <h4>Ngày đặt</h4>
-                                    <h4>Tình trạng</h4>
-                                </div>
-                                <c:forEach var="bill" items="${bills}" varStatus="index">
-                                    <div class="bill-item">
-                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                        <p class="id">${bill.getName()}</p>
-                                        <p class="email">${bill.getUser().getEmail()}</p>
-                                        <p class="date">
-                                            <fmt:parseDate value="${bill.getDate()}" pattern="y-M-dd'T'H:m" var="myParseDate"/>
-                                            <fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm"/>
-                                        </p>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tình trạng</th>
+                                    <th>Phương thức</th>
+                                    <th>Hủy đơn</th>
+                                </tr>
+                                </thead>
+                            </table>
 
-                                        <p class="state">${bill.getStatus()}</p>
-                                        <a href="showBillDetailAdmin?id=${bill.getId()}">
-                                            <i class="fa-solid fa-clipboard detail"></i>
-                                        </a>
-                                        <c:if test="${per > 1}">
-                                            <a href="deleteBillAdmin?id=${bill.getId()}">
-                                                <i class="fa-solid fa-xmark del"></i>
-                                            </a>
-                                        </c:if>
-                                    </div>
-                                </c:forEach>
+<%--                            <div class="bill-list">--%>
+<%--                                <div class="title">--%>
+<%--                                    <h4>STT</h4>--%>
+<%--                                    <h4>Mã đơn hàng</h4>--%>
+<%--                                    <h4>Email</h4>--%>
+<%--                                    <h4>Ngày đặt</h4>--%>
+<%--                                    <h4>Tình trạng</h4>--%>
+<%--                                </div>--%>
+<%--                                <c:forEach var="bill" items="${bills}" varStatus="index">--%>
+<%--                                    <div class="bill-item">--%>
+<%--                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                        <p class="id">${bill.getName()}</p>--%>
+<%--                                        <p class="email">${bill.getUser().getEmail()}</p>--%>
+<%--                                        <p class="date">--%>
+<%--                                            <fmt:parseDate value="${bill.getDate()}" pattern="y-M-dd'T'H:m" var="myParseDate"/>--%>
+<%--                                            <fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm"/>--%>
+<%--                                        </p>--%>
 
-                            </div>
+<%--                                        <p class="state">${bill.getStatus()}</p>--%>
+<%--                                        <a href="showBillDetailAdmin?id=${bill.getId()}">--%>
+<%--                                            <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        </a>--%>
+<%--                                        <c:if test="${per > 1}">--%>
+<%--                                            <a href="deleteBillAdmin?id=${bill.getId()}">--%>
+<%--                                                <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                            </a>--%>
+<%--                                        </c:if>--%>
+<%--                                    </div>--%>
+<%--                                </c:forEach>--%>
+
+<%--                            </div>--%>
                         </div>
                     </div>
                 </c:if>
@@ -1315,6 +1327,9 @@
     </c:if>
     <c:if test="${productDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalImg.js"></script>
+    </c:if>
+    <c:if test="${bills != null}">
+        <script src="./assets/js/adminBill.js"></script>
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
