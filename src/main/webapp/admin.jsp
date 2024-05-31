@@ -254,7 +254,7 @@
                         </div>
                         <div class="user-list">
 
-                            <table id="billTable" class="table table-striped table-bordered">
+                            <table id="data" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Avatar</th>
@@ -262,6 +262,8 @@
                                     <th>Email</th>
                                     <th>SĐT</th>
                                     <th>Role</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                             </table>

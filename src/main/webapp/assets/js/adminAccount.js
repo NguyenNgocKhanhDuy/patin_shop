@@ -10,6 +10,7 @@ $(document).ready(function (){
         columns:[
             {
               data: "avatar",
+              className: "table-avatar",
               render: function (data) {
                   return `<img src="${data}">`
               }
@@ -23,19 +24,37 @@ $(document).ready(function (){
                 className :'text-center'
             },
             {
-                data: "phone",
+                data: null,
                 className :'text-center' ,
+                render: function (data){
+                    return data.address == null ? "" : data.address
+                }
             },
             {
                 data: "role",
                 className :'text-center'
+            },
+            {
+                data: null,
+                className :'text-center edit',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
             }
         ]
     })
     $('#data tbody').on('click', 'td.delete', function () {
         var rowIndex = table.cell($(this)).index().row;
         var rowData = table.row(rowIndex).data();
-        var idBill = rowData.id;
+        var id = rowData.id;
 
         $.ajax({
             url: 'deleteUserAdmin',
