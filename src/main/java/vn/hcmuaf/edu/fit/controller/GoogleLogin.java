@@ -34,11 +34,12 @@ public class GoogleLogin extends HttpServlet {
             UserDao.getInstance().addLoginGoogle(user, "", "info", "login google");
         }
         HttpSession session = request.getSession(true);
-        session.setAttribute("auth", user);
+        session.setAttribute("auth", UserService.getInstance().getUserByEmail(user.getEmail()));
         String location = (String) session.getAttribute("location");
         if (location == null) location = "home";
         request.setAttribute("type", "success");
         request.setAttribute("information", "Đăng nhập thành công");
+        UserDao.getInstance().addLoginGoogle(user, "", "alert", "login google");
         request.getRequestDispatcher(location).forward(request, response);
     }
     public static String getToken(String code) throws ClientProtocolException, IOException {

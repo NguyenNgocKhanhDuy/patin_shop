@@ -67,6 +67,7 @@ public class UserDao extends AbsDao<User>{
                     .bind(0, email)
                     .mapToBean(User.class).stream().collect(Collectors.toList());
         });
+
         return users;
     }
 
@@ -285,6 +286,7 @@ public class UserDao extends AbsDao<User>{
                     .bind("avatar", user.getAvatar()).bind("role", 0).execute();
         });
 
+        user.setAfterData("Email: "+user.getEmail()+" Status: Thành công");
         super.insert(user, ip, level, address);
 
         return i == 1 ? true : false;
