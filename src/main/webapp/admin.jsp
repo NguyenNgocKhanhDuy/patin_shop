@@ -105,6 +105,8 @@
         </div>
     </div>
 
+    <input type="hidden" id="typeToShow" value="${typeToShow != null ? typeToShow : "user"}">
+
     <div id="content">
         <div class="container">
             <div class="left">
@@ -316,26 +318,37 @@
                             </c:if>
                         </div>
                         <div class="product-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Ảnh</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach var="product" items="${products}" varStatus="index">
-                                <div class="product-item">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <img src="${product.getImg()}" alt="">
-                                    <p class="name">${product.getProductDetail().getProduct().getName()}</p>
-                                    <a href="showProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                    </a>
-                                    <c:if test="${per > 1}">
-                                        <a href="deleteProductAdmin?id=${product.getProductDetail().getProduct().getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Ảnh</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="product" items="${products}" varStatus="index">--%>
+<%--                                <div class="product-item">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <img src="${product.getImg()}" alt="">--%>
+<%--                                    <p class="name">${product.getProductDetail().getProduct().getName()}</p>--%>
+<%--                                    <a href="showProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                    </a>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <a href="deleteProductAdmin?id=${product.getProductDetail().getProduct().getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
 
                     </div>
@@ -365,23 +378,33 @@
                             </div>
                         </div>
                         <div class="brand-list">
-                            <div class="brand-title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach items="${categories}" var="category" varStatus="index">
-                                <div class="brand-item">
-                                    <input type="hidden" class="id" value="${category.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">${category.getName()}</p>
-                                    <c:if test="${per > 1}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                        <a href="deleteCategoryAdmin?id=${category.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="brand-title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach items="${categories}" var="category" varStatus="index">--%>
+<%--                                <div class="brand-item">--%>
+<%--                                    <input type="hidden" class="id" value="${category.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">${category.getName()}</p>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        <a href="deleteCategoryAdmin?id=${category.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -411,23 +434,33 @@
                             </div>
                         </div>
                         <div class="color-list">
-                            <div class="color-title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach var="color" items="${colors}" varStatus="index">
-                                <div class="color-item">
-                                    <input type="hidden" class="id" value="${color.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">Màu ${color.getName()}</p>
-                                    <c:if test="${per > 1}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                        <a href="deleteColorAdmin?id=${color.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="color-title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="color" items="${colors}" varStatus="index">--%>
+<%--                                <div class="color-item">--%>
+<%--                                    <input type="hidden" class="id" value="${color.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">Màu ${color.getName()}</p>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        <a href="deleteColorAdmin?id=${color.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -457,23 +490,33 @@
                             </div>
                         </div>
                         <div class="size-list">
-                            <div class="size-title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach items="${sizes}" var="size" varStatus="index">
-                                <div class="size-item">
-                                    <input type="hidden" class="id" value="${size.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">Size ${size.getName()}</p>
-                                    <c:if test="${per > 1}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                        <a href="deleteSizeAdmin?id=${size.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="size-title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach items="${sizes}" var="size" varStatus="index">--%>
+<%--                                <div class="size-item">--%>
+<%--                                    <input type="hidden" class="id" value="${size.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">Size ${size.getName()}</p>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        <a href="deleteSizeAdmin?id=${size.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>

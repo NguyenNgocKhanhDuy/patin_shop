@@ -47,6 +47,7 @@ public class ShowCategoryAdmin extends HttpServlet {
 
             List<Category> categories = CategoryDao.getInstance().getCategoryPerPage(currentPage, (int) productPerPage);
             request.setAttribute("categories", categories);
+            request.setAttribute("typeToShow", "category");
 
             request.setAttribute("type", request.getAttribute("type"));
             request.setAttribute("information", request.getAttribute("information"));

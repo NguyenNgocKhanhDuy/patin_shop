@@ -441,6 +441,47 @@ function addInSize(c) {
 
 
 $(document).ready(function (){
+    var type = $('#typeToShow').value
+    if (type == "user") {
+        dataTableForUser()
+    }else if (type == "product") {
+        dataTableForProduct()
+    }else if (type == "bill") {
+
+    }else  {
+        dataTableForColorCategorySize(type)
+    }
+
+
+    $('#data tbody').on('click', 'td.edit', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.id;
+        modalDetail(id, "user")
+        modalEdit.style.display = "flex";
+    })
+
+    $('#data tbody').on('click', 'td.delete', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.id;
+
+        $.ajax({
+            url: 'deleteUserAdmin',
+            type: 'POST',
+            data: { id: id },
+            success: function(response) {
+                table.row(rowIndex).remove().draw();
+                alert("SUCCES: "+response)
+            },
+            error: function(xhr, status, error) {
+                alert("Error status: " + status + "\nError: " + error + "\nResponse: " + xhr.responseText);
+            }
+        });
+    })
+});
+
+function dataTableForUser() {
     var table = $('#data').DataTable({
         ajax:{
             url:"getUser",
@@ -495,32 +536,98 @@ $(document).ready(function (){
             }
         ]
     })
+}
 
-    $('#data tbody').on('click', 'td.edit', function () {
-        var rowIndex = table.cell($(this)).index().row;
-        var rowData = table.row(rowIndex).data();
-        var id = rowData.id;
-        modalDetail(id, "user")
-        modalEdit.style.display = "flex";
-    })
+function dataTableForColorCategorySize(typeToShow) {
+    var url = ""
+    if (typeToShow == "category") {
+        url = "getCategory"
+    }else if (typeToShow == "size") {
+        url = "getSize"
+    }else if (typeToShow == "color") {
+        url = "getColor"
+    }
 
-    $('#data tbody').on('click', 'td.delete', function () {
-        var rowIndex = table.cell($(this)).index().row;
-        var rowData = table.row(rowIndex).data();
-        var idUser = rowData.id;
-        console.log("ID: "+idUser)
-
-        $.ajax({
-            url: 'deleteUserAdmin',
-            type: 'POST',
-            data: { id: idUser },
-            success: function(response) {
-                table.row(rowIndex).remove().draw();
-                alert("SUCCES: "+response)
+    var table = $('#data').DataTable({
+        ajax:{
+            url: url,
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+              data: null,
+              render: function (data) {
+                  // return this.index();
+                  return data.id;
+              }
             },
-            error: function(xhr, status, error) {
-                alert("Error status: " + status + "\nError: " + error + "\nResponse: " + xhr.responseText);
+            {
+                data: name,
+                className: 'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center edit align-middle',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
             }
-        });
+        ]
     })
-});
+}
+
+function dataTableForProduct() {
+    var table = $('#data').DataTable({
+        ajax:{
+            url: "getProduct",
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+              data: null,
+              render: function (data) {
+                  // return this.index();
+                  return data.id;
+              }
+            },
+            {
+              data: null,
+              className: 'text-center align-middle',
+              render: function (data) {
+                  return `<img src="${data.img}"/>`
+              }
+            },
+            {
+                data: name,
+                className: 'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center edit align-middle',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+}

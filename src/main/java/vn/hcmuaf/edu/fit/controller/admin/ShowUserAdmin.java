@@ -45,6 +45,7 @@ public class ShowUserAdmin extends HttpServlet {
 
             List<User> users = UserService.getInstance().getUserPerPage(currentPage, (int) productPerPage);
             request.setAttribute("users", users);
+            request.setAttribute("typeToShow", "user");
 
 
 

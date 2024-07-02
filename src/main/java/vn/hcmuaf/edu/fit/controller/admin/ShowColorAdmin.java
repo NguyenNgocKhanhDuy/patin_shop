@@ -49,6 +49,7 @@ public class ShowColorAdmin extends HttpServlet {
 
             List<Color> colors = ColorDao.getInstance().getColorPerPage(currentPage, (int) productPerPage);
             request.setAttribute("colors", colors);
+            request.setAttribute("typeToShow", "color");
 
             request.setAttribute("type", request.getAttribute("type"));
             request.setAttribute("information", request.getAttribute("information"));

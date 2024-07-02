@@ -48,6 +48,7 @@ public class ShowProductAdmin extends HttpServlet {
 
             List<ProductMain> products = ProductService.getInstance().getProductPerPage(currentPage, "", (int) productPerPage);
             request.setAttribute("products", products);
+            request.setAttribute("typeToShow", "product");
 
             request.setAttribute("type", request.getAttribute("type"));
             request.setAttribute("information", request.getAttribute("information"));
