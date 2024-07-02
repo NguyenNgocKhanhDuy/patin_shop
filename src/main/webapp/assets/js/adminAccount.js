@@ -1,6 +1,5 @@
 $(document).ready(function (){
-    var table = $('#data').DataTable({
-        order:[1,"asc"],
+   var table = $('#dataUser').DataTable({
         ajax:{
             url:"getUser",
             type:"get",
@@ -10,33 +9,36 @@ $(document).ready(function (){
         columns:[
             {
               data: "avatar",
-              className: "table-avatar",
+              className: "text-center align-middle",
               render: function (data) {
-                  return `<img src="${data}">`
+                  return `<img class="table-avatar" src="${data != null ? data : "./assets/images/logo.PNG"}">`
               }
             },
             {
                 data: "fullName",
-                className: 'text-center'
+                className: 'text-center align-middle'
             },
             {
                 data: "email",
-                className :'text-center'
+                className :'text-center align-middle'
             },
             {
                 data: null,
-                className :'text-center' ,
+                className :'text-center align-middle' ,
                 render: function (data){
-                    return data.address == null ? "" : data.address
+                    return data.phone == undefined ? "" : data.phone
                 }
             },
             {
                 data: "role",
-                className :'text-center'
+                className :'text-center align-middle',
+                render: function (data) {
+                    return (data.role == 0 ? "Người dùng" : (data.role == 1 ? "Mod" : "Admin"))
+                }
             },
             {
                 data: null,
-                className :'text-center edit',
+                className :'text-center edit align-middle',
                 render: function (data) {
                     return `<input type="hidden" value="${data.id}"/>
                             <i class="fa-solid fa-clipboard detail"></i>`
@@ -44,14 +46,15 @@ $(document).ready(function (){
             },
             {
                 data: null,
-                className :'text-center delete',
+                className :'text-center delete align-middle',
                 render: function (data) {
                     return `<i class="fa-solid fa-xmark del"></i>`
                 }
             }
         ]
     })
-    $('#data tbody').on('click', 'td.delete', function () {
+
+    $('#dataUser tbody').on('click', 'td.delete', function () {
         var rowIndex = table.cell($(this)).index().row;
         var rowData = table.row(rowIndex).data();
         var id = rowData.id;

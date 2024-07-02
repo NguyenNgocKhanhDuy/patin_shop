@@ -122,6 +122,14 @@ public class BillDao extends AbsDao<Bill>{
         return i == 1 ? true : false;
     }
 
+    public List<Integer> getBillIDByUser(int idUser) {
+        List<Integer> integers = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT id FROM bill WHERE user_id = ?").bind(0, idUser).mapTo(Integer.class).stream().collect(Collectors.toList());
+        });
+        return integers;
+    }
+
+
 
     @Override
     public void select(AbsModel model, String ip, String level, String address) {

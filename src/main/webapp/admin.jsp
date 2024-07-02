@@ -482,7 +482,7 @@
                     <div class="report section">
                         <div class="bill section">
 
-                            <table id="data" class="table table-striped table-bordered">
+                            <table id="dataBill" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Mã đơn hàng</th>
@@ -697,92 +697,92 @@
                     </div>
                 </c:if>
 
-                <div class="pagination">
-                    <ul>
-                        <c:if test="${currentPage == 1}">
-                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-left"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != 1}">
-                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=1"><i class="fa-solid fa-angles-left"></i></a></li>
-                        </c:if>
+<%--                <div class="pagination">--%>
+<%--                    <ul>--%>
+<%--                        <c:if test="${currentPage == 1}">--%>
+<%--                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-left"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != 1}">--%>
+<%--                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=1"><i class="fa-solid fa-angles-left"></i></a></li>--%>
+<%--                        </c:if>--%>
 
-                        <c:if test="${currentPage == 1}">
-                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-left"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != 1}">
-                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=${currentPage-1}"><i class="fa-solid fa-chevron-left"></i></a></li>
-                        </c:if>
-                        <ul id="number-page">
-                            <c:choose>
-                                <c:when test="${totalPage >= 3}">
-                                    <c:if test="${currentPage == 1}">
-                                        <li class="numb"> <a class="pageNumberActive">
-                                                ${currentPage}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">
-                                                ${currentPage + 1}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+2}">
-                                                ${currentPage + 2}
-                                        </a> </li>
-                                    </c:if>
-                                    <c:if test="${currentPage > 1 && currentPage < totalPage}">
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">
-                                                ${currentPage - 1}
-                                        </a> </li>
-                                        <li class="numb"> <a class="pageNumberActive">
-                                                ${currentPage}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">
-                                                ${currentPage + 1}
-                                        </a> </li>
-                                    </c:if>
-                                    <c:if test="${currentPage == totalPage}">
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-2}">
-                                                ${currentPage - 2}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">
-                                                ${currentPage - 1}
-                                        </a> </li>
-                                        <li class="numb"> <a class="pageNumberActive">
-                                                ${currentPage}
-                                        </a> </li>
-                                    </c:if>
+<%--                        <c:if test="${currentPage == 1}">--%>
+<%--                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-left"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != 1}">--%>
+<%--                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=${currentPage-1}"><i class="fa-solid fa-chevron-left"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <ul id="number-page">--%>
+<%--                            <c:choose>--%>
+<%--                                <c:when test="${totalPage >= 3}">--%>
+<%--                                    <c:if test="${currentPage == 1}">--%>
+<%--                                        <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                ${currentPage}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">--%>
+<%--                                                ${currentPage + 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+2}">--%>
+<%--                                                ${currentPage + 2}--%>
+<%--                                        </a> </li>--%>
+<%--                                    </c:if>--%>
+<%--                                    <c:if test="${currentPage > 1 && currentPage < totalPage}">--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">--%>
+<%--                                                ${currentPage - 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                ${currentPage}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">--%>
+<%--                                                ${currentPage + 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                    </c:if>--%>
+<%--                                    <c:if test="${currentPage == totalPage}">--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-2}">--%>
+<%--                                                ${currentPage - 2}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">--%>
+<%--                                                ${currentPage - 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                ${currentPage}--%>
+<%--                                        </a> </li>--%>
+<%--                                    </c:if>--%>
 
-                                </c:when>
-                                <c:when test="${totalPage < 3}">
-                                    <c:forEach begin="1" end="${totalPage}" varStatus="index">
-                                        <c:if test="${index.count == currentPage}">
-                                            <li class="numb"> <a class="pageNumberActive">
-                                                    ${index.count}
-                                            </a> </li>
-                                        </c:if>
-                                        <c:if test="${index.count != currentPage}">
-                                            <li class="numb"> <a href="${href}&currentPage=${index.count}">
-                                                    ${index.count}
-                                            </a> </li>
-                                        </c:if>
-                                    </c:forEach>
-                                </c:when>
-                            </c:choose>
+<%--                                </c:when>--%>
+<%--                                <c:when test="${totalPage < 3}">--%>
+<%--                                    <c:forEach begin="1" end="${totalPage}" varStatus="index">--%>
+<%--                                        <c:if test="${index.count == currentPage}">--%>
+<%--                                            <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                    ${index.count}--%>
+<%--                                            </a> </li>--%>
+<%--                                        </c:if>--%>
+<%--                                        <c:if test="${index.count != currentPage}">--%>
+<%--                                            <li class="numb"> <a href="${href}&currentPage=${index.count}">--%>
+<%--                                                    ${index.count}--%>
+<%--                                            </a> </li>--%>
+<%--                                        </c:if>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </c:when>--%>
+<%--                            </c:choose>--%>
 
-                        </ul>
+<%--                        </ul>--%>
 
-                        <c:if test="${currentPage == totalPage}">
-                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-right"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != totalPage}">
-                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${currentPage+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
-                        </c:if>
+<%--                        <c:if test="${currentPage == totalPage}">--%>
+<%--                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-right"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != totalPage}">--%>
+<%--                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${currentPage+1}"><i class="fa-solid fa-chevron-right"></i></a></li>--%>
+<%--                        </c:if>--%>
 
-                        <c:if test="${currentPage == totalPage}">
-                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-right"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != totalPage}">
-                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${totalPage}"><i class="fa-solid fa-angles-right"></i></a></li>
-                        </c:if>
-                    </ul>
-                </div>
+<%--                        <c:if test="${currentPage == totalPage}">--%>
+<%--                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-right"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != totalPage}">--%>
+<%--                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${totalPage}"><i class="fa-solid fa-angles-right"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                    </ul>--%>
+<%--                </div>--%>
 
 
 
@@ -1322,7 +1322,7 @@
     <script src="${pageContext.request.contextPath}/assets/js/search.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
     <c:if test="${users != null}">
-        <script src="./assets/js/adminAccount.js"></script>
+<%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
     <c:if test="${productDetail == null && billDetail == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>

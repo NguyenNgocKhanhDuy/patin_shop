@@ -102,6 +102,7 @@ function showDetailUser() {
     for (let i = 0; i < userDetails.length; i++) {
         userDetails[i].addEventListener("click", function () {
             modalDetail(document.querySelectorAll(".user-list .id")[i].value, "user")
+            console.log("click: "+i)
             modalEdit.style.display = "flex";
 
         });
@@ -441,7 +442,6 @@ function addInSize(c) {
 
 $(document).ready(function (){
     var table = $('#data').DataTable({
-        order:[1,"asc"],
         ajax:{
             url:"getUser",
             type:"get",
@@ -451,33 +451,36 @@ $(document).ready(function (){
         columns:[
             {
                 data: "avatar",
-                className: "table-avatar",
+                className: "text-center align-middle",
                 render: function (data) {
-                    return `<img src="${data}">`
+                    return `<img class="table-avatar" src="${data != null ? data : "./assets/images/logo.PNG"}">`
                 }
             },
             {
                 data: "fullName",
-                className: 'text-center'
+                className: 'text-center align-middle'
             },
             {
                 data: "email",
-                className :'text-center'
+                className :'text-center align-middle'
             },
             {
                 data: null,
-                className :'text-center' ,
+                className :'text-center align-middle' ,
                 render: function (data){
-                    return data.address == null ? "" : data.address
+                    return data.phone == undefined ? "" : data.phone
                 }
             },
             {
-                data: "role",
-                className :'text-center'
+                data: null,
+                className :'text-center align-middle',
+                render: function (data) {
+                    return (data.role == 2 ? "Admin" : (data.role == 1 ? "Mod" : "Khách hàng"))
+                }
             },
             {
                 data: null,
-                className :'text-center edit',
+                className :'text-center edit align-middle',
                 render: function (data) {
                     return `<input type="hidden" value="${data.id}"/>
                             <i class="fa-solid fa-clipboard detail"></i>`
@@ -485,7 +488,7 @@ $(document).ready(function (){
             },
             {
                 data: null,
-                className :'text-center delete',
+                className :'text-center delete align-middle',
                 render: function (data) {
                     return `<i class="fa-solid fa-xmark del"></i>`
                 }
@@ -499,24 +502,24 @@ $(document).ready(function (){
         var id = rowData.id;
         modalDetail(id, "user")
         modalEdit.style.display = "flex";
-
     })
 
     $('#data tbody').on('click', 'td.delete', function () {
         var rowIndex = table.cell($(this)).index().row;
         var rowData = table.row(rowIndex).data();
-        var id = rowData.id;
+        var idUser = rowData.id;
+        console.log("ID: "+idUser)
 
         $.ajax({
             url: 'deleteUserAdmin',
             type: 'POST',
-            data: { id: id },
+            data: { id: idUser },
             success: function(response) {
                 table.row(rowIndex).remove().draw();
-                alert(response)
+                alert("SUCCES: "+response)
             },
             error: function(xhr, status, error) {
-                alert(error)
+                alert("Error status: " + status + "\nError: " + error + "\nResponse: " + xhr.responseText);
             }
         });
     })
