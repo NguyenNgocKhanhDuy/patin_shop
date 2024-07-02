@@ -27,12 +27,14 @@ public class BillDao extends AbsDao<Bill>{
     }
     public int addBill(Bill bill) {
         Integer i = JDBIConnector.get().withHandle(handle -> {
+            System.out.println(bill.getId());
             return handle.createUpdate("INSERT INTO bill(name, date, status, payment, note, user_id) VALUES (:name, :date, :status, :payment, :note, :user)")
                     .bind("name", bill.getName()).bind("date", bill.getDate()).bind("status", bill.getStatus()).bind("payment", bill.getPayment())
                     .bind("note", bill.getNote()).bind("user", bill.getUser().getId()).execute();
         });
         return i;
     }
+
 
 
     public Bill getNewBill(int idUser) {

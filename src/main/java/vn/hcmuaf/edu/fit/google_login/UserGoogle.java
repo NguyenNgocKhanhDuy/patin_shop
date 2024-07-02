@@ -32,6 +32,7 @@ public class UserGoogle {
         return id;
     }
 
+
     public void setId(String id) {
         this.id = id;
     }
@@ -96,4 +97,5 @@ public class UserGoogle {
                 ", picture='" + picture + '\'' +
                 '}';
     }
+
 }
