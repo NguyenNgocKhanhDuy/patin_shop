@@ -23,22 +23,22 @@ public class GetBill extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = (User) request.getSession().getAttribute("auth");
-        int billStatus;
-        try {
-            billStatus = Integer.parseInt(request.getParameter("billStatus"));
-        }catch (NumberFormatException e){
-            billStatus = 0;
-        }
+//        int billStatus;
+//        try {
+//            billStatus = Integer.parseInt(request.getParameter("billStatus"));
+//        }catch (NumberFormatException e){
+//            billStatus = 0;
+//        }
 
-        List<Bill> bills = new ArrayList<>();
+        List<Bill> bills = BillService.getInstance().getAllBillByUser(user.getId());;
 
-        if (billStatus == 1 || billStatus == 2) {
-            String status = billStatus == 1 ? "Dang giao" : "Hoan thanh";
-            bills = BillService.getInstance().getAllBillByUserAndStatus(user.getId(), status);
-
-        }else {
-            bills = BillService.getInstance().getAllBillByUser(user.getId());
-        }
+//        if (billStatus == 1 || billStatus == 2) {
+//            String status = billStatus == 1 ? "Dang giao" : "Hoan thanh";
+//            bills = BillService.getInstance().getAllBillByUserAndStatus(user.getId(), status);
+//
+//        }else {
+//            bills = BillService.getInstance().getAllBillByUser(user.getId());
+//        }
         response.setContentType("application/json");
         response.getWriter().println(gson.toJson(bills));
     }

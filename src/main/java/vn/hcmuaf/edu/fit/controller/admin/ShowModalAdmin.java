@@ -48,7 +48,7 @@ public class ShowModalAdmin extends HttpServlet {
                         ProductMain product = ProductService.getInstance().getProductDetail(id, idSize, idColor);
                         response.getWriter().println(gson.toJson(product));
                     }
-                } else if (select.equals("brand")) {
+                } else if (select.equals("category")) {
                     Category category = CategoryDao.getInstance().getCategory(id);
                     response.getWriter().println(gson.toJson(category));
                 } else if (select.equals("color")) {

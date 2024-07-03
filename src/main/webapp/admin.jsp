@@ -259,6 +259,7 @@
                             <table id="data" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Avatar</th>
                                     <th>Họ Tên</th>
                                     <th>Email</th>
@@ -494,7 +495,7 @@
                                 <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Tên</th>
+                                    <th>Số</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -525,14 +526,14 @@
                     <div class="report section">
                         <div class="bill section">
 
-                            <table id="dataBill" class="table table-striped table-bordered">
+                            <table id="data" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã đơn hàng</th>
                                     <th>Ngày đặt</th>
                                     <th>Tình trạng</th>
                                     <th>Phương thức</th>
-                                    <th>Hủy đơn</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -1367,7 +1368,7 @@
     <c:if test="${users != null}">
 <%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
-    <c:if test="${productDetail == null && billDetail == null}">
+    <c:if test="${productDetail == null && billDetail == null && bills == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">

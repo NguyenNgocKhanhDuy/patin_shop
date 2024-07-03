@@ -19,6 +19,8 @@ showManage();
 
 
 function modalDetail(id, select) {
+    console.log("SELECT: "+select)
+    console.log("ID: "+id)
 
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "showModalAdmin?id="+id+"&select="+select, true)
@@ -39,7 +41,7 @@ function addInModal(c, select) {
         addInModalUser(c);
     }else if (select == "product"){
         addInModalProduct(c);
-    }else if(select == "brand"){
+    }else if(select == "category"){
         addInModalBrand(c);
     }else if (select == "color"){
         addInModalColor(c);
@@ -438,36 +440,40 @@ function addInSize(c) {
 }
 
 
-
+var table;
 
 $(document).ready(function (){
-    var type = $('#typeToShow').value
+    var type = document.querySelector("#typeToShow").value
+    var urlDelete = ""
     if (type == "user") {
         dataTableForUser()
+        urlDelete = "deleteUserAdmin"
     }else if (type == "product") {
         dataTableForProduct()
-    }else if (type == "bill") {
-
-    }else  {
+        urlDelete = "deleteProductAdmin"
+    }else if (type != "bill")  {
         dataTableForColorCategorySize(type)
+        urlDelete = (type == "category") ? "deleteCategoryAdmin" : (type == "size" ? "deleteSizeAdmin" : "deleteColorAdmin")
     }
+
 
 
     $('#data tbody').on('click', 'td.edit', function () {
         var rowIndex = table.cell($(this)).index().row;
         var rowData = table.row(rowIndex).data();
         var id = rowData.id;
-        modalDetail(id, "user")
+        modalDetail(id, type)
         modalEdit.style.display = "flex";
     })
 
     $('#data tbody').on('click', 'td.delete', function () {
         var rowIndex = table.cell($(this)).index().row;
         var rowData = table.row(rowIndex).data();
-        var id = rowData.id;
+        var id = (type == "product") ? rowData.productDetail.product.id : rowData.id;
+        console.log(urlDelete)
 
         $.ajax({
-            url: 'deleteUserAdmin',
+            url: urlDelete,
             type: 'POST',
             data: { id: id },
             success: function(response) {
@@ -482,7 +488,7 @@ $(document).ready(function (){
 });
 
 function dataTableForUser() {
-    var table = $('#data').DataTable({
+    table = $('#data').DataTable({
         ajax:{
             url:"getUser",
             type:"get",
@@ -491,10 +497,16 @@ function dataTableForUser() {
         },
         columns:[
             {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
                 data: "avatar",
                 className: "text-center align-middle",
                 render: function (data) {
-                    return `<img class="table-avatar" src="${data != null ? data : "./assets/images/logo.PNG"}">`
+                    return `<img class="table-img" src="${data != null ? data : "./assets/images/logo.PNG"}">`
                 }
             },
             {
@@ -548,7 +560,7 @@ function dataTableForColorCategorySize(typeToShow) {
         url = "getColor"
     }
 
-    var table = $('#data').DataTable({
+    table = $('#data').DataTable({
         ajax:{
             url: url,
             type:"get",
@@ -558,13 +570,12 @@ function dataTableForColorCategorySize(typeToShow) {
         columns:[
             {
               data: null,
-              render: function (data) {
-                  // return this.index();
-                  return data.id;
-              }
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
             },
             {
-                data: name,
+                data: "name",
                 className: 'text-center align-middle'
             },
             {
@@ -587,7 +598,7 @@ function dataTableForColorCategorySize(typeToShow) {
 }
 
 function dataTableForProduct() {
-    var table = $('#data').DataTable({
+    table = $('#data').DataTable({
         ajax:{
             url: "getProduct",
             type:"get",
@@ -596,29 +607,27 @@ function dataTableForProduct() {
         },
         columns:[
             {
-              data: null,
-              render: function (data) {
-                  // return this.index();
-                  return data.id;
-              }
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
             },
             {
               data: null,
               className: 'text-center align-middle',
               render: function (data) {
-                  return `<img src="${data.img}"/>`
+                  return `<img class="table-img" src="${data.img}"/>`
               }
             },
             {
-                data: name,
+                data: "productDetail.product.name",
                 className: 'text-center align-middle'
             },
             {
                 data: null,
-                className :'text-center edit align-middle',
+                className :'text-center align-middle',
                 render: function (data) {
-                    return `<input type="hidden" value="${data.id}"/>
-                            <i class="fa-solid fa-clipboard detail"></i>`
+                    return `<a href="showProductDetailAdmin?id=${data.productDetail.product.id}"><i class="fa-solid fa-clipboard detail"></i></a>`
                 }
             },
             {
@@ -631,3 +640,4 @@ function dataTableForProduct() {
         ]
     })
 }
+
