@@ -320,3 +320,97 @@ modalAddImgDel.addEventListener("click", function () {
 modalAddImgContainer.addEventListener("click", function () {
     event.stopPropagation()
 })
+
+
+$(document).ready(function (){
+    var id = document.querySelector(".product_detail .productID");
+    var table = $('#data').DataTable({
+        ajax:{
+            url:"getUser",
+            type:"get",
+            dataType:"json",
+            dataSrc:"",
+            data: { id: id }
+        },
+        columns:[
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+                data: "productDetail.color.name",
+                className: "text-center align-middle",
+            },
+            {
+                data: "productDetail.size.name",
+                className: 'text-center align-middle'
+            },
+            {
+                data: "productDetail.price",
+                className :'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center align-middle' ,
+                render: function (data){
+                    return data.productDetail.price - (data.productDetail.price * data.productDetail.product.salePercent)
+                }
+            },
+            {
+                data: "productDetail.quantity",
+                className :'text-center align-middle',
+            },
+            {
+                data: null,
+                className :'text-center edit align-middle',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+
+
+    $('#data tbody').on('click', 'td.edit', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.productDetail.product.id;
+        var size = rowData.productDetail.size.id;
+        var color = rowData.productDetail.color.id;
+
+        modalDetail(id, size, color, "product");
+        modalEdit.style.display = "flex";
+    })
+
+    $('#data tbody').on('click', 'td.delete', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.productDetail.product.id;
+        var size = rowData.productDetail.size.id;
+        var color = rowData.productDetail.color.id;
+
+
+        $.ajax({
+            url: "deleteProductDetailAdmin",
+            type: 'POST',
+            data: { id: id, size:size, color:color },
+            success: function(response) {
+                table.row(rowIndex).remove().draw();
+                alert("SUCCES: "+response)
+            },
+            error: function(xhr, status, error) {
+                alert("Error status: " + status + "\nError: " + error + "\nResponse: " + xhr.responseText);
+            }
+        });
+    })
+});

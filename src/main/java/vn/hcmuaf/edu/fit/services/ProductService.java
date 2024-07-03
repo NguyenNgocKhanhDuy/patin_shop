@@ -260,4 +260,8 @@ public class ProductService {
     public boolean isExistInWishList(int user, int p){
         return ProductDao.getInstance().isExistInWishList(user, p);
     }
+
+    public static void main(String[] args) {
+        System.out.println(ProductService.getInstance().getAllProductDetail(1));
+    }
 }

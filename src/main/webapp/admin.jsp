@@ -575,6 +575,7 @@
 
                 <c:if test="${productDetail != null}">
                     <div class="product_detail section">
+                        <input type="hidden" value="${product.getProductDetail().getProduct().getId()}" class="productID">
                         <div class="general">
                             <p class="name">Tên sản phẩm: ${product.getProductDetail().getProduct().getName()}</p>
                             <p class="price">
@@ -645,37 +646,51 @@
                             </div>
                         </c:if>
                         <div class="product-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Màu sắc</h4>
-                                <h4>Size</h4>
-                                <h4>Giá gốc</h4>
-                                <h4>Giá giảm giá</h4>
-                                <h4>Số lượng</h4>
-                            </div>
-                            <c:if test="${productDetail.size() > 0}">
-                                <c:forEach var="product" varStatus="index" items="${productDetail}">
-                                    <div class="product-item">
-                                        <input type="hidden" class="id" value="${product.getProductDetail().getProduct().getId()}">
-                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                        <p class="color">${product.getProductDetail().getColor().getName()}</p>
-                                        <p class="size">${product.getProductDetail().getSize().getName()}</p>
-                                        <p class="price">
-                                            <fmt:formatNumber value="${product.getProductDetail().getPrice() / (1 - product.getProductDetail().getProduct().getSalePercent())}" type="currency"/>
-                                        </p>
-                                        <p class="priceSale">
-                                            <fmt:formatNumber value="${product.getProductDetail().getPrice()}" type="currency"/>
-                                        </p>
-                                        <p class="quantỉty">${product.getProductDetail().getQuantity()}</p>
-                                        <c:if test="${per > 1}">
-                                            <i class="fa-solid fa-clipboard detail"></i>
-                                            <a href="deleteProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}&size=${product.getProductDetail().getSize().getId()}&color=${product.getProductDetail().getColor().getId()}">
-                                                <i class="fa-solid fa-xmark del"></i>
-                                            </a>
-                                        </c:if>
-                                    </div>
-                                </c:forEach>
-                            </c:if>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Màu sắc</th>
+                                    <th>Size</th>
+                                    <th>Giá gốc</th>
+                                    <th>Giá giảm giá</th>
+                                    <th>Số lượng</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Màu sắc</h4>--%>
+<%--                                <h4>Size</h4>--%>
+<%--                                <h4>Giá gốc</h4>--%>
+<%--                                <h4>Giá giảm giá</h4>--%>
+<%--                                <h4>Số lượng</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:if test="${productDetail.size() > 0}">--%>
+<%--                                <c:forEach var="product" varStatus="index" items="${productDetail}">--%>
+<%--                                    <div class="product-item">--%>
+<%--                                        <input type="hidden" class="id" value="${product.getProductDetail().getProduct().getId()}">--%>
+<%--                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                        <p class="color">${product.getProductDetail().getColor().getName()}</p>--%>
+<%--                                        <p class="size">${product.getProductDetail().getSize().getName()}</p>--%>
+<%--                                        <p class="price">--%>
+<%--                                            <fmt:formatNumber value="${product.getProductDetail().getPrice() / (1 - product.getProductDetail().getProduct().getSalePercent())}" type="currency"/>--%>
+<%--                                        </p>--%>
+<%--                                        <p class="priceSale">--%>
+<%--                                            <fmt:formatNumber value="${product.getProductDetail().getPrice()}" type="currency"/>--%>
+<%--                                        </p>--%>
+<%--                                        <p class="quantỉty">${product.getProductDetail().getQuantity()}</p>--%>
+<%--                                        <c:if test="${per > 1}">--%>
+<%--                                            <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                            <a href="deleteProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}&size=${product.getProductDetail().getSize().getId()}&color=${product.getProductDetail().getColor().getId()}">--%>
+<%--                                                <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                            </a>--%>
+<%--                                        </c:if>--%>
+<%--                                    </div>--%>
+<%--                                </c:forEach>--%>
+<%--                            </c:if>--%>
                         </div>
                     </div>
                 </c:if>
