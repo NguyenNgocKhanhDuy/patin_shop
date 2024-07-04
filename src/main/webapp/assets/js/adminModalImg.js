@@ -307,9 +307,13 @@ var modalAddImg = document.querySelector(".modal-addImg")
 var modalAddImgContainer = document.querySelector(".modal-addImg .modal-container")
 var modalAddImgDel = document.querySelector(".modal-addImg .modal-container .del")
 
-document.querySelector(".addImg").addEventListener("click", function () {
-    modalAddImg.style.display = "flex";
-})
+var imgSize = document.querySelector(".product_detail .imgSize")
+if (imgSize < 5) {
+    document.querySelector(".addImg").addEventListener("click", function () {
+        modalAddImg.style.display = "flex";
+    })
+}
+
 
 modalAddImg.addEventListener("click", function () {
     modalAddImg.style.display = "none"
@@ -323,14 +327,18 @@ modalAddImgContainer.addEventListener("click", function () {
 
 
 $(document).ready(function (){
-    var id = document.querySelector(".product_detail .productID");
+    var id = document.querySelector(".product_detail .productID").value;
+    console.log("ID: "+id)
     var table = $('#data').DataTable({
         ajax:{
-            url:"getUser",
+            url:"getProductDetail",
             type:"get",
             dataType:"json",
+            data: function (d) {
+                d.id = id;
+                return d;
+            },
             dataSrc:"",
-            data: { id: id }
         },
         columns:[
             {
@@ -348,14 +356,17 @@ $(document).ready(function (){
                 className: 'text-center align-middle'
             },
             {
-                data: "productDetail.price",
-                className :'text-center align-middle'
+                data: null,
+                className :'text-center align-middle',
+                render: function (data) {
+                    return changeCurrency(data.productDetail.price)
+                }
             },
             {
                 data: null,
                 className :'text-center align-middle' ,
                 render: function (data){
-                    return data.productDetail.price - (data.productDetail.price * data.productDetail.product.salePercent)
+                    return changeCurrency(data.productDetail.price - (data.productDetail.price * data.productDetail.product.salePercent))
                 }
             },
             {
@@ -389,7 +400,7 @@ $(document).ready(function (){
         var color = rowData.productDetail.color.id;
 
         modalDetail(id, size, color, "product");
-        modalEdit.style.display = "flex";
+        modalEditDetail.style.display = "flex";
     })
 
     $('#data tbody').on('click', 'td.delete', function () {
@@ -414,3 +425,10 @@ $(document).ready(function (){
         });
     })
 });
+
+function changeCurrency(text) {
+    return parseFloat(text).toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+}

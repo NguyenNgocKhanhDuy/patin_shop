@@ -635,6 +635,7 @@
                                     </div>
                             </div>
                         </c:if>
+                        <input type="hidden" value="${image.size() < 5 ? image.size() : 5}" class="imgSize">
                         <c:if test="${images.size() == 5 && per > 1}">
                             <div class="add rightBtn addProduct">
                                 Thêm sản phẩm
