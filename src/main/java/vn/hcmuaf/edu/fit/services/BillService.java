@@ -5,6 +5,7 @@ import vn.hcmuaf.edu.fit.dao.BillDao;
 import vn.hcmuaf.edu.fit.dao.BillDetailDao;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 
+import javax.management.MBeanAttributeInfo;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class BillService {
     }
 
 
-    public boolean updateStatusBill(int id, String status) {
+    public boolean updateStatusBill(int id, int status) {
         return BillDao.getInstance().updateStatusBill(id, status);
     }
 
@@ -121,4 +122,7 @@ public class BillService {
         return BillDetailDao.getInstance().getToTalPrice(id);
     }
 
+    public static void main(String[] args) {
+        System.out.println(BillService.getInstance().getBillDetail(26));;
+    }
 }

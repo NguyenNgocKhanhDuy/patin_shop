@@ -22,24 +22,30 @@ public class UpdateBillAdmin extends HttpServlet {
         try {
             id = Integer.parseInt(request.getParameter("id"));
             status = Integer.parseInt(request.getParameter("status"));
-            String statusText = "";
-            if (status == 0){
-                statusText = "Đang xử lý";
-            } else if (status == 1) {
-                statusText = "Đang giao";
-            }else {
-                statusText = "Đã giao";
-            }
-            if (BillService.getInstance().updateStatusBill(id, statusText)){
-                request.setAttribute("type", "success");
-                request.setAttribute("information", "Cập nhật thành công");
-                request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
-            }else {
+            int oldStatus = BillService.getInstance().getBill(id).getStatus();
+            if (oldStatus == 3 && status < 3) {
                 request.setAttribute("type", "error");
-                request.setAttribute("information", "Lỗi sql");
+                request.setAttribute("information", "Đơn hàng đang giao không thể quay lại trạng thái trước");
                 request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
+            } else if (oldStatus == 4) {
+                request.setAttribute("type", "error");
+                request.setAttribute("information", "Đơn hàng đã giao không thể thay đổi");
+                request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
+            } else if (oldStatus == 5) {
+                request.setAttribute("type", "error");
+                request.setAttribute("information", "Đơn hàng đã bị huỷ");
+                request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
+            }else  {
+                if (BillService.getInstance().updateStatusBill(id, status)){
+                    request.setAttribute("type", "success");
+                    request.setAttribute("information", "Thay đổi trạng thái thành công");
+                    request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
+                }else {
+                    request.setAttribute("type", "error");
+                    request.setAttribute("information", "Lỗi sql");
+                    request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
+                }
             }
-
         }catch (NumberFormatException e){
             request.setAttribute("type", "error");
             request.setAttribute("information", "Lỗi null");

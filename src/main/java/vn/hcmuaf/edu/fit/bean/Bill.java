@@ -11,7 +11,7 @@ public class Bill extends AbsModel implements Serializable {
     private int id;
     private String name;
     private LocalDateTime date;
-    private String status;
+    private int status;
     private String payment;
     private String note;
     @Nested("user")
@@ -20,7 +20,7 @@ public class Bill extends AbsModel implements Serializable {
     public Bill() {
     }
 
-    public Bill(int id, String name, LocalDateTime date, String status, String payment, String note, User user) {
+    public Bill(int id, String name, LocalDateTime date, int status, String payment, String note, User user) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -54,11 +54,11 @@ public class Bill extends AbsModel implements Serializable {
         this.date = date;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

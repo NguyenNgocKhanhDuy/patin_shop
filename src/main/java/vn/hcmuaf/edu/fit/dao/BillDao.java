@@ -106,7 +106,7 @@ public class BillDao extends AbsDao<Bill>{
     }
 
 
-    public boolean updateStatusBill(int id, String status){
+    public boolean updateStatusBill(int id, int status){
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE bill SET status = :status WHERE id = :id").bind("status", status).bind("id", id).execute();
         });

@@ -908,12 +908,12 @@
 }
 
 #content .right .bill_detail .bill-list {
-    margin-top: 40px;
-    background-color: #283e57;
-    color: #fff;
-    display: grid;
-    grid-template-rows: 70px repeat(5, 1fr);
-    grid-row-gap: 20px;
+    /*margin-top: 40px;*/
+    /*background-color: #283e57;*/
+    /*color: #fff;*/
+    /*display: grid;*/
+    /*grid-template-rows: 70px repeat(5, 1fr);*/
+    /*grid-row-gap: 20px;*/
 }
 
 #content .right .bill_detail .bill-list .title {

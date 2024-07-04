@@ -534,6 +534,7 @@
                                     <th>Ngày đặt</th>
                                     <th>Tình trạng</th>
                                     <th>Phương thức</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                             </table>
@@ -699,6 +700,7 @@
 
                 <c:if test="${billDetail != null}">
                     <div class="bill_detail section">
+                        <input type="hidden" value="${bill.getId()}" class="billID">
                         <div class="general">
                             <p class="name">Người mua hàng: ${bill.getUser().getFullName()} </p>
                             <p class="phone">Số điện thoại: ${bill.getUser().getPhone()} </p>
@@ -710,7 +712,7 @@
                                 Đơn hàng: ${bill.getName()}
                             </span>
                                 <span class="status">
-                                Tình trạng: ${bill.getStatus()}
+                                Tình trạng: ${bill.getStatus() == 0 ? "Đang xác nhận" : (bill.getStatus() == 1 ? "Đang xử lý" : (bill.getStatus() == 2 ? "Đang đóng gói" : (bill.getStatus() == 3 ? "Đang giao" : (bill.getStatus() == 4 ? "Đã giao" : "Huỷ đơn"))))}
                             </span>
                                 <span class="payment">
                                 Phương thức thanh toán: ${bill.getPayment()}
@@ -731,28 +733,40 @@
                         </div>
 
                         <div class="bill-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Tên sản phẩm</h4>
-                                <h4>Màu sắc</h4>
-                                <h4>Size</h4>
-                                <h4>Giá</h4>
-                                <h4>Số lượng</h4>
-                            </div>
-                            <c:forEach var="b" items="${billDetail}" varStatus="index">
-                                <div class="bill-item">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">${b.getProduct().getProductDetail().getProduct().getName()}</p>
-                                    <p class="color">${b.getColor().getName()}</p>
-                                    <p class="size">${b.getSize().getName()}</p>
-                                    <p class="price">
-                                        <fmt:formatNumber value="${b.getPrice()}" type="currency"/>
-                                    </p>
-                                    <p class="quantỉty">${b.getQuantity()}</p>
-<%--                                    <i class="fa-solid fa-clipboard detail"></i>--%>
-<%--                                    <i class="fa-solid fa-xmark del"></i>--%>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Size</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên sản phẩm</h4>--%>
+<%--                                <h4>Màu sắc</h4>--%>
+<%--                                <h4>Size</h4>--%>
+<%--                                <h4>Giá</h4>--%>
+<%--                                <h4>Số lượng</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="b" items="${billDetail}" varStatus="index">--%>
+<%--                                <div class="bill-item">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">${b.getProduct().getProductDetail().getProduct().getName()}</p>--%>
+<%--                                    <p class="color">${b.getColor().getName()}</p>--%>
+<%--                                    <p class="size">${b.getSize().getName()}</p>--%>
+<%--                                    <p class="price">--%>
+<%--                                        <fmt:formatNumber value="${b.getPrice()}" type="currency"/>--%>
+<%--                                    </p>--%>
+<%--                                    <p class="quantỉty">${b.getQuantity()}</p>--%>
+<%--&lt;%&ndash;                                    <i class="fa-solid fa-clipboard detail"></i>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                                    <i class="fa-solid fa-xmark del"></i>&ndash;%&gt;--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -1318,10 +1332,9 @@
                 <form action="updateBillAdmin" method="post">
                     <h3>Trạng thái</h3>
                     <input type="hidden" name="id" value="${bill.getId()}">
-                    <select name="status">
-                        <option value="0">Đang xử lý</option>
-                        <option value="1">Đang giao</option>
-                        <option value="2">Đã giao</option>
+                    <input type="hidden" value="${bill.getStatus()}" class="billStatus">
+                    <select class="status" name="status" ${bill.getStatus() == 5 ? "disabled" : ""}>
+
                     </select>
                     <input type="submit" class="add" value="Cập nhật">
                 </form>
