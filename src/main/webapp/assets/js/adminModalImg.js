@@ -307,9 +307,13 @@ var modalAddImg = document.querySelector(".modal-addImg")
 var modalAddImgContainer = document.querySelector(".modal-addImg .modal-container")
 var modalAddImgDel = document.querySelector(".modal-addImg .modal-container .del")
 
-document.querySelector(".addImg").addEventListener("click", function () {
-    modalAddImg.style.display = "flex";
-})
+var imgSize = document.querySelector(".product_detail .imgSize")
+if (imgSize < 5) {
+    document.querySelector(".addImg").addEventListener("click", function () {
+        modalAddImg.style.display = "flex";
+    })
+}
+
 
 modalAddImg.addEventListener("click", function () {
     modalAddImg.style.display = "none"
@@ -320,3 +324,111 @@ modalAddImgDel.addEventListener("click", function () {
 modalAddImgContainer.addEventListener("click", function () {
     event.stopPropagation()
 })
+
+
+$(document).ready(function (){
+    var id = document.querySelector(".product_detail .productID").value;
+    console.log("ID: "+id)
+    var table = $('#data').DataTable({
+        ajax:{
+            url:"getProductDetail",
+            type:"get",
+            dataType:"json",
+            data: function (d) {
+                d.id = id;
+                return d;
+            },
+            dataSrc:"",
+        },
+        columns:[
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+                data: "productDetail.color.name",
+                className: "text-center align-middle",
+            },
+            {
+                data: "productDetail.size.name",
+                className: 'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center align-middle',
+                render: function (data) {
+                    return changeCurrency(data.productDetail.price)
+                }
+            },
+            {
+                data: null,
+                className :'text-center align-middle' ,
+                render: function (data){
+                    return changeCurrency(data.productDetail.price - (data.productDetail.price * data.productDetail.product.salePercent))
+                }
+            },
+            {
+                data: "productDetail.quantity",
+                className :'text-center align-middle',
+            },
+            {
+                data: null,
+                className :'text-center edit align-middle',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+
+
+    $('#data tbody').on('click', 'td.edit', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.productDetail.product.id;
+        var size = rowData.productDetail.size.id;
+        var color = rowData.productDetail.color.id;
+
+        modalDetail(id, size, color, "product");
+        modalEditDetail.style.display = "flex";
+    })
+
+    $('#data tbody').on('click', 'td.delete', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.productDetail.product.id;
+        var size = rowData.productDetail.size.id;
+        var color = rowData.productDetail.color.id;
+
+
+        $.ajax({
+            url: "deleteProductDetailAdmin",
+            type: 'POST',
+            data: { id: id, size:size, color:color },
+            success: function(response) {
+                table.row(rowIndex).remove().draw();
+                alert("SUCCES: "+response)
+            },
+            error: function(xhr, status, error) {
+                alert("Error status: " + status + "\nError: " + error + "\nResponse: " + xhr.responseText);
+            }
+        });
+    })
+});
+
+function changeCurrency(text) {
+    return parseFloat(text).toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+}

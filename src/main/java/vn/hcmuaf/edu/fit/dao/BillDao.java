@@ -108,7 +108,7 @@ public class BillDao extends AbsDao<Bill>{
     }
 
 
-    public boolean updateStatusBill(int id, String status){
+    public boolean updateStatusBill(int id, int status){
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE bill SET status = :status WHERE id = :id").bind("status", status).bind("id", id).execute();
         });
@@ -123,6 +123,14 @@ public class BillDao extends AbsDao<Bill>{
         super.delete(bill,ip,level,address);
         return i == 1 ? true : false;
     }
+
+    public List<Integer> getBillIDByUser(int idUser) {
+        List<Integer> integers = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT id FROM bill WHERE user_id = ?").bind(0, idUser).mapTo(Integer.class).stream().collect(Collectors.toList());
+        });
+        return integers;
+    }
+
 
 
     @Override

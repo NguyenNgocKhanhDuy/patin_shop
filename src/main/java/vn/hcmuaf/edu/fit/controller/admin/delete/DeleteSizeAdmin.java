@@ -21,23 +21,27 @@ public class DeleteSizeAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
+        response.setContentType("text/plain");
         try {
             id = Integer.parseInt(request.getParameter("id"));
 
             if (SizeDao.getInstance().deleteSize(id)){
-                request.setAttribute("type", "success");
-                request.setAttribute("information", "Xoá thành công");
-                request.getRequestDispatcher("showSizeAdmin").forward(request, response);
+                response.getWriter().println("Xoá thành công");
+//                request.setAttribute("type", "success");
+//                request.setAttribute("information", "Xoá thành công");
+//                request.getRequestDispatcher("showSizeAdmin").forward(request, response);
             }else {
-                request.setAttribute("type", "error");
-                request.setAttribute("information", "Lỗi sql");
-                request.getRequestDispatcher("showSizeAdmin").forward(request, response);
+                response.getWriter().println("Lỗi SQL");
+//                request.setAttribute("type", "error");
+//                request.setAttribute("information", "Lỗi sql");
+//                request.getRequestDispatcher("showSizeAdmin").forward(request, response);
             }
 
         }catch (NumberFormatException e){
-            request.setAttribute("type", "error");
-            request.setAttribute("information", "Lỗi null");
-            request.getRequestDispatcher("showSizeAdmin").forward(request, response);
+            response.getWriter().println("Lỗi Null");
+//            request.setAttribute("type", "error");
+//            request.setAttribute("information", "Lỗi null");
+//            request.getRequestDispatcher("showSizeAdmin").forward(request, response);
         }
     }
 }

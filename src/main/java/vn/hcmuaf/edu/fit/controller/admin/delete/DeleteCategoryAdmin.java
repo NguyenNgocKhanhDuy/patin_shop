@@ -21,25 +21,29 @@ public class DeleteCategoryAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
+        response.setContentType("text/plain");
         try {
             id = Integer.parseInt(request.getParameter("id"));
 
 
             if (CategoryDao.getInstance().deleteCategory(id)){
-                request.setAttribute("type", "success");
-                request.setAttribute("information", "Xoá thành công");
-                request.getRequestDispatcher("showCategoryAdmin").forward(request, response);
+                response.getWriter().println("Xoá thành công");
+//                request.setAttribute("type", "success");
+//                request.setAttribute("information", "Xoá thành công");
+//                request.getRequestDispatcher("showCategoryAdmin").forward(request, response);
             }else {
-                request.setAttribute("type", "error");
-                request.setAttribute("information", "Lỗi sql");
-                request.getRequestDispatcher("showCategoryAdmin").forward(request, response);
+                response.getWriter().println("Lỗi SQL");
+//                request.setAttribute("type", "error");
+//                request.setAttribute("information", "Lỗi sql");
+//                request.getRequestDispatcher("showCategoryAdmin").forward(request, response);
             }
 
 
         }catch (NumberFormatException e){
-            request.setAttribute("type", "error");
-            request.setAttribute("information", "Lỗi");
-            request.getRequestDispatcher("showCategoryAdmin").forward(request, response);
+            response.getWriter().println("Lỗi Null");
+//            request.setAttribute("type", "error");
+//            request.setAttribute("information", "Lỗi");
+//            request.getRequestDispatcher("showCategoryAdmin").forward(request, response);
         }
     }
 }

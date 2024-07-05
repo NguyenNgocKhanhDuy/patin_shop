@@ -7,6 +7,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./assets/mdb/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/mdb/css/addons/datatables.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
@@ -102,6 +104,8 @@
             <img src="${pageContext.request.contextPath}/assets/images/patin.jpg" alt="">
         </div>
     </div>
+
+    <input type="hidden" id="typeToShow" value="${typeToShow != null ? typeToShow : "user"}">
 
     <div id="content">
         <div class="container">
@@ -251,27 +255,43 @@
                             </c:if>
                         </div>
                         <div class="user-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                                <h4>Email</h4>
-                                <h4>SĐT</h4>
-                            </div>
-                            <c:forEach var="user" items="${users}" varStatus="index">
-                                <div class="user-item">
-                                    <input type="hidden" class="id" value="${user.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">${user.getFullName()}</p>
-                                    <p class="email">${user.getEmail()}</p>
-                                    <p class="phone">${user.getPhone()}</p>
-                                    <i class="fa-solid fa-clipboard detail"></i>
-                                    <c:if test="${per > 1}">
-                                        <a href="deleteUserAdmin?id=${user.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Avatar</th>
+                                    <th>Họ Tên</th>
+                                    <th>Email</th>
+                                    <th>SĐT</th>
+                                    <th>Role</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                                <h4>Email</h4>--%>
+<%--                                <h4>SĐT</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="user" items="${users}" varStatus="index">--%>
+<%--                                <div class="user-item">--%>
+<%--                                    <input type="hidden" class="id" value="${user.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">${user.getFullName()}</p>--%>
+<%--                                    <p class="email">${user.getEmail()}</p>--%>
+<%--                                    <p class="phone">${user.getPhone()}</p>--%>
+<%--                                    <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <a href="deleteUserAdmin?id=${user.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -299,26 +319,37 @@
                             </c:if>
                         </div>
                         <div class="product-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Ảnh</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach var="product" items="${products}" varStatus="index">
-                                <div class="product-item">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <img src="${product.getImg()}" alt="">
-                                    <p class="name">${product.getProductDetail().getProduct().getName()}</p>
-                                    <a href="showProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                    </a>
-                                    <c:if test="${per > 1}">
-                                        <a href="deleteProductAdmin?id=${product.getProductDetail().getProduct().getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Ảnh</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="product" items="${products}" varStatus="index">--%>
+<%--                                <div class="product-item">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <img src="${product.getImg()}" alt="">--%>
+<%--                                    <p class="name">${product.getProductDetail().getProduct().getName()}</p>--%>
+<%--                                    <a href="showProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                    </a>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <a href="deleteProductAdmin?id=${product.getProductDetail().getProduct().getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
 
                     </div>
@@ -348,23 +379,33 @@
                             </div>
                         </div>
                         <div class="brand-list">
-                            <div class="brand-title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach items="${categories}" var="category" varStatus="index">
-                                <div class="brand-item">
-                                    <input type="hidden" class="id" value="${category.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">${category.getName()}</p>
-                                    <c:if test="${per > 1}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                        <a href="deleteCategoryAdmin?id=${category.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="brand-title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach items="${categories}" var="category" varStatus="index">--%>
+<%--                                <div class="brand-item">--%>
+<%--                                    <input type="hidden" class="id" value="${category.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">${category.getName()}</p>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        <a href="deleteCategoryAdmin?id=${category.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -394,23 +435,33 @@
                             </div>
                         </div>
                         <div class="color-list">
-                            <div class="color-title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach var="color" items="${colors}" varStatus="index">
-                                <div class="color-item">
-                                    <input type="hidden" class="id" value="${color.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">Màu ${color.getName()}</p>
-                                    <c:if test="${per > 1}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                        <a href="deleteColorAdmin?id=${color.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="color-title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="color" items="${colors}" varStatus="index">--%>
+<%--                                <div class="color-item">--%>
+<%--                                    <input type="hidden" class="id" value="${color.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">Màu ${color.getName()}</p>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        <a href="deleteColorAdmin?id=${color.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -440,23 +491,33 @@
                             </div>
                         </div>
                         <div class="size-list">
-                            <div class="size-title">
-                                <h4>STT</h4>
-                                <h4>Tên</h4>
-                            </div>
-                            <c:forEach items="${sizes}" var="size" varStatus="index">
-                                <div class="size-item">
-                                    <input type="hidden" class="id" value="${size.getId()}">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">Size ${size.getName()}</p>
-                                    <c:if test="${per > 1}">
-                                        <i class="fa-solid fa-clipboard detail"></i>
-                                        <a href="deleteSizeAdmin?id=${size.getId()}">
-                                            <i class="fa-solid fa-xmark del"></i>
-                                        </a>
-                                    </c:if>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Số</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="size-title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach items="${sizes}" var="size" varStatus="index">--%>
+<%--                                <div class="size-item">--%>
+<%--                                    <input type="hidden" class="id" value="${size.getId()}">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">Size ${size.getName()}</p>--%>
+<%--                                    <c:if test="${per > 1}">--%>
+<%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        <a href="deleteSizeAdmin?id=${size.getId()}">--%>
+<%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                        </a>--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -465,43 +526,57 @@
                     <div class="report section">
                         <div class="bill section">
 
-                            <div class="bill-list">
-                                <div class="title">
-                                    <h4>STT</h4>
-                                    <h4>Mã đơn hàng</h4>
-                                    <h4>Email</h4>
-                                    <h4>Ngày đặt</h4>
-                                    <h4>Tình trạng</h4>
-                                </div>
-                                <c:forEach var="bill" items="${bills}" varStatus="index">
-                                    <div class="bill-item">
-                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                        <p class="id">${bill.getName()}</p>
-                                        <p class="email">${bill.getUser().getEmail()}</p>
-                                        <p class="date">
-                                            <fmt:parseDate value="${bill.getDate()}" pattern="y-M-dd'T'H:m" var="myParseDate"/>
-                                            <fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm"/>
-                                        </p>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tình trạng</th>
+                                    <th>Phương thức</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
 
-                                        <p class="state">${bill.getStatus()}</p>
-                                        <a href="showBillDetailAdmin?id=${bill.getId()}">
-                                            <i class="fa-solid fa-clipboard detail"></i>
-                                        </a>
-                                        <c:if test="${per > 1}">
-                                            <a href="deleteBillAdmin?id=${bill.getId()}">
-                                                <i class="fa-solid fa-xmark del"></i>
-                                            </a>
-                                        </c:if>
-                                    </div>
-                                </c:forEach>
+<%--                            <div class="bill-list">--%>
+<%--                                <div class="title">--%>
+<%--                                    <h4>STT</h4>--%>
+<%--                                    <h4>Mã đơn hàng</h4>--%>
+<%--                                    <h4>Email</h4>--%>
+<%--                                    <h4>Ngày đặt</h4>--%>
+<%--                                    <h4>Tình trạng</h4>--%>
+<%--                                </div>--%>
+<%--                                <c:forEach var="bill" items="${bills}" varStatus="index">--%>
+<%--                                    <div class="bill-item">--%>
+<%--                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                        <p class="id">${bill.getName()}</p>--%>
+<%--                                        <p class="email">${bill.getUser().getEmail()}</p>--%>
+<%--                                        <p class="date">--%>
+<%--                                            <fmt:parseDate value="${bill.getDate()}" pattern="y-M-dd'T'H:m" var="myParseDate"/>--%>
+<%--                                            <fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm"/>--%>
+<%--                                        </p>--%>
 
-                            </div>
+<%--                                        <p class="state">${bill.getStatus()}</p>--%>
+<%--                                        <a href="showBillDetailAdmin?id=${bill.getId()}">--%>
+<%--                                            <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                        </a>--%>
+<%--                                        <c:if test="${per > 1}">--%>
+<%--                                            <a href="deleteBillAdmin?id=${bill.getId()}">--%>
+<%--                                                <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                            </a>--%>
+<%--                                        </c:if>--%>
+<%--                                    </div>--%>
+<%--                                </c:forEach>--%>
+
+<%--                            </div>--%>
                         </div>
                     </div>
                 </c:if>
 
                 <c:if test="${productDetail != null}">
                     <div class="product_detail section">
+                        <input type="hidden" value="${product.getProductDetail().getProduct().getId()}" class="productID">
                         <div class="general">
                             <p class="name">Tên sản phẩm: ${product.getProductDetail().getProduct().getName()}</p>
                             <p class="price">
@@ -561,6 +636,7 @@
                                     </div>
                             </div>
                         </c:if>
+                        <input type="hidden" value="${image.size() < 5 ? image.size() : 5}" class="imgSize">
                         <c:if test="${images.size() == 5 && per > 1}">
                             <div class="add rightBtn addProduct">
                                 Thêm sản phẩm
@@ -572,37 +648,51 @@
                             </div>
                         </c:if>
                         <div class="product-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Màu sắc</h4>
-                                <h4>Size</h4>
-                                <h4>Giá gốc</h4>
-                                <h4>Giá giảm giá</h4>
-                                <h4>Số lượng</h4>
-                            </div>
-                            <c:if test="${productDetail.size() > 0}">
-                                <c:forEach var="product" varStatus="index" items="${productDetail}">
-                                    <div class="product-item">
-                                        <input type="hidden" class="id" value="${product.getProductDetail().getProduct().getId()}">
-                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                        <p class="color">${product.getProductDetail().getColor().getName()}</p>
-                                        <p class="size">${product.getProductDetail().getSize().getName()}</p>
-                                        <p class="price">
-                                            <fmt:formatNumber value="${product.getProductDetail().getPrice() / (1 - product.getProductDetail().getProduct().getSalePercent())}" type="currency"/>
-                                        </p>
-                                        <p class="priceSale">
-                                            <fmt:formatNumber value="${product.getProductDetail().getPrice()}" type="currency"/>
-                                        </p>
-                                        <p class="quantỉty">${product.getProductDetail().getQuantity()}</p>
-                                        <c:if test="${per > 1}">
-                                            <i class="fa-solid fa-clipboard detail"></i>
-                                            <a href="deleteProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}&size=${product.getProductDetail().getSize().getId()}&color=${product.getProductDetail().getColor().getId()}">
-                                                <i class="fa-solid fa-xmark del"></i>
-                                            </a>
-                                        </c:if>
-                                    </div>
-                                </c:forEach>
-                            </c:if>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Màu sắc</th>
+                                    <th>Size</th>
+                                    <th>Giá gốc</th>
+                                    <th>Giá giảm giá</th>
+                                    <th>Số lượng</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Màu sắc</h4>--%>
+<%--                                <h4>Size</h4>--%>
+<%--                                <h4>Giá gốc</h4>--%>
+<%--                                <h4>Giá giảm giá</h4>--%>
+<%--                                <h4>Số lượng</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:if test="${productDetail.size() > 0}">--%>
+<%--                                <c:forEach var="product" varStatus="index" items="${productDetail}">--%>
+<%--                                    <div class="product-item">--%>
+<%--                                        <input type="hidden" class="id" value="${product.getProductDetail().getProduct().getId()}">--%>
+<%--                                        <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                        <p class="color">${product.getProductDetail().getColor().getName()}</p>--%>
+<%--                                        <p class="size">${product.getProductDetail().getSize().getName()}</p>--%>
+<%--                                        <p class="price">--%>
+<%--                                            <fmt:formatNumber value="${product.getProductDetail().getPrice() / (1 - product.getProductDetail().getProduct().getSalePercent())}" type="currency"/>--%>
+<%--                                        </p>--%>
+<%--                                        <p class="priceSale">--%>
+<%--                                            <fmt:formatNumber value="${product.getProductDetail().getPrice()}" type="currency"/>--%>
+<%--                                        </p>--%>
+<%--                                        <p class="quantỉty">${product.getProductDetail().getQuantity()}</p>--%>
+<%--                                        <c:if test="${per > 1}">--%>
+<%--                                            <i class="fa-solid fa-clipboard detail"></i>--%>
+<%--                                            <a href="deleteProductDetailAdmin?id=${product.getProductDetail().getProduct().getId()}&size=${product.getProductDetail().getSize().getId()}&color=${product.getProductDetail().getColor().getId()}">--%>
+<%--                                                <i class="fa-solid fa-xmark del"></i>--%>
+<%--                                            </a>--%>
+<%--                                        </c:if>--%>
+<%--                                    </div>--%>
+<%--                                </c:forEach>--%>
+<%--                            </c:if>--%>
                         </div>
                     </div>
                 </c:if>
@@ -610,6 +700,7 @@
 
                 <c:if test="${billDetail != null}">
                     <div class="bill_detail section">
+                        <input type="hidden" value="${bill.getId()}" class="billID">
                         <div class="general">
                             <p class="name">Người mua hàng: ${bill.getUser().getFullName()} </p>
                             <p class="phone">Số điện thoại: ${bill.getUser().getPhone()} </p>
@@ -621,7 +712,7 @@
                                 Đơn hàng: ${bill.getName()}
                             </span>
                                 <span class="status">
-                                Tình trạng: ${bill.getStatus()}
+                                Tình trạng: ${bill.getStatus() == 0 ? "Đang xác nhận" : (bill.getStatus() == 1 ? "Đang xử lý" : (bill.getStatus() == 2 ? "Đang đóng gói" : (bill.getStatus() == 3 ? "Đang giao" : (bill.getStatus() == 4 ? "Đã giao" : "Huỷ đơn"))))}
                             </span>
                                 <span class="payment">
                                 Phương thức thanh toán: ${bill.getPayment()}
@@ -642,118 +733,130 @@
                         </div>
 
                         <div class="bill-list">
-                            <div class="title">
-                                <h4>STT</h4>
-                                <h4>Tên sản phẩm</h4>
-                                <h4>Màu sắc</h4>
-                                <h4>Size</h4>
-                                <h4>Giá</h4>
-                                <h4>Số lượng</h4>
-                            </div>
-                            <c:forEach var="b" items="${billDetail}" varStatus="index">
-                                <div class="bill-item">
-                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>
-                                    <p class="name">${b.getProduct().getProductDetail().getProduct().getName()}</p>
-                                    <p class="color">${b.getColor().getName()}</p>
-                                    <p class="size">${b.getSize().getName()}</p>
-                                    <p class="price">
-                                        <fmt:formatNumber value="${b.getPrice()}" type="currency"/>
-                                    </p>
-                                    <p class="quantỉty">${b.getQuantity()}</p>
-<%--                                    <i class="fa-solid fa-clipboard detail"></i>--%>
-<%--                                    <i class="fa-solid fa-xmark del"></i>--%>
-                                </div>
-                            </c:forEach>
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Size</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                                </thead>
+                            </table>
+<%--                            <div class="title">--%>
+<%--                                <h4>STT</h4>--%>
+<%--                                <h4>Tên sản phẩm</h4>--%>
+<%--                                <h4>Màu sắc</h4>--%>
+<%--                                <h4>Size</h4>--%>
+<%--                                <h4>Giá</h4>--%>
+<%--                                <h4>Số lượng</h4>--%>
+<%--                            </div>--%>
+<%--                            <c:forEach var="b" items="${billDetail}" varStatus="index">--%>
+<%--                                <div class="bill-item">--%>
+<%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+<%--                                    <p class="name">${b.getProduct().getProductDetail().getProduct().getName()}</p>--%>
+<%--                                    <p class="color">${b.getColor().getName()}</p>--%>
+<%--                                    <p class="size">${b.getSize().getName()}</p>--%>
+<%--                                    <p class="price">--%>
+<%--                                        <fmt:formatNumber value="${b.getPrice()}" type="currency"/>--%>
+<%--                                    </p>--%>
+<%--                                    <p class="quantỉty">${b.getQuantity()}</p>--%>
+<%--&lt;%&ndash;                                    <i class="fa-solid fa-clipboard detail"></i>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                                    <i class="fa-solid fa-xmark del"></i>&ndash;%&gt;--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
 
-                <div class="pagination">
-                    <ul>
-                        <c:if test="${currentPage == 1}">
-                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-left"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != 1}">
-                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=1"><i class="fa-solid fa-angles-left"></i></a></li>
-                        </c:if>
+<%--                <div class="pagination">--%>
+<%--                    <ul>--%>
+<%--                        <c:if test="${currentPage == 1}">--%>
+<%--                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-left"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != 1}">--%>
+<%--                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=1"><i class="fa-solid fa-angles-left"></i></a></li>--%>
+<%--                        </c:if>--%>
 
-                        <c:if test="${currentPage == 1}">
-                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-left"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != 1}">
-                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=${currentPage-1}"><i class="fa-solid fa-chevron-left"></i></a></li>
-                        </c:if>
-                        <ul id="number-page">
-                            <c:choose>
-                                <c:when test="${totalPage >= 3}">
-                                    <c:if test="${currentPage == 1}">
-                                        <li class="numb"> <a class="pageNumberActive">
-                                                ${currentPage}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">
-                                                ${currentPage + 1}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+2}">
-                                                ${currentPage + 2}
-                                        </a> </li>
-                                    </c:if>
-                                    <c:if test="${currentPage > 1 && currentPage < totalPage}">
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">
-                                                ${currentPage - 1}
-                                        </a> </li>
-                                        <li class="numb"> <a class="pageNumberActive">
-                                                ${currentPage}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">
-                                                ${currentPage + 1}
-                                        </a> </li>
-                                    </c:if>
-                                    <c:if test="${currentPage == totalPage}">
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-2}">
-                                                ${currentPage - 2}
-                                        </a> </li>
-                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">
-                                                ${currentPage - 1}
-                                        </a> </li>
-                                        <li class="numb"> <a class="pageNumberActive">
-                                                ${currentPage}
-                                        </a> </li>
-                                    </c:if>
+<%--                        <c:if test="${currentPage == 1}">--%>
+<%--                            <li id="previousPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-left"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != 1}">--%>
+<%--                            <li id="previousPage"><a class="arrowActive" href="${href}&currentPage=${currentPage-1}"><i class="fa-solid fa-chevron-left"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <ul id="number-page">--%>
+<%--                            <c:choose>--%>
+<%--                                <c:when test="${totalPage >= 3}">--%>
+<%--                                    <c:if test="${currentPage == 1}">--%>
+<%--                                        <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                ${currentPage}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">--%>
+<%--                                                ${currentPage + 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+2}">--%>
+<%--                                                ${currentPage + 2}--%>
+<%--                                        </a> </li>--%>
+<%--                                    </c:if>--%>
+<%--                                    <c:if test="${currentPage > 1 && currentPage < totalPage}">--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">--%>
+<%--                                                ${currentPage - 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                ${currentPage}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage+1}">--%>
+<%--                                                ${currentPage + 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                    </c:if>--%>
+<%--                                    <c:if test="${currentPage == totalPage}">--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-2}">--%>
+<%--                                                ${currentPage - 2}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a href="${href}&currentPage=${currentPage-1}">--%>
+<%--                                                ${currentPage - 1}--%>
+<%--                                        </a> </li>--%>
+<%--                                        <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                ${currentPage}--%>
+<%--                                        </a> </li>--%>
+<%--                                    </c:if>--%>
 
-                                </c:when>
-                                <c:when test="${totalPage < 3}">
-                                    <c:forEach begin="1" end="${totalPage}" varStatus="index">
-                                        <c:if test="${index.count == currentPage}">
-                                            <li class="numb"> <a class="pageNumberActive">
-                                                    ${index.count}
-                                            </a> </li>
-                                        </c:if>
-                                        <c:if test="${index.count != currentPage}">
-                                            <li class="numb"> <a href="${href}&currentPage=${index.count}">
-                                                    ${index.count}
-                                            </a> </li>
-                                        </c:if>
-                                    </c:forEach>
-                                </c:when>
-                            </c:choose>
+<%--                                </c:when>--%>
+<%--                                <c:when test="${totalPage < 3}">--%>
+<%--                                    <c:forEach begin="1" end="${totalPage}" varStatus="index">--%>
+<%--                                        <c:if test="${index.count == currentPage}">--%>
+<%--                                            <li class="numb"> <a class="pageNumberActive">--%>
+<%--                                                    ${index.count}--%>
+<%--                                            </a> </li>--%>
+<%--                                        </c:if>--%>
+<%--                                        <c:if test="${index.count != currentPage}">--%>
+<%--                                            <li class="numb"> <a href="${href}&currentPage=${index.count}">--%>
+<%--                                                    ${index.count}--%>
+<%--                                            </a> </li>--%>
+<%--                                        </c:if>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </c:when>--%>
+<%--                            </c:choose>--%>
 
-                        </ul>
+<%--                        </ul>--%>
 
-                        <c:if test="${currentPage == totalPage}">
-                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-right"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != totalPage}">
-                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${currentPage+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
-                        </c:if>
+<%--                        <c:if test="${currentPage == totalPage}">--%>
+<%--                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-chevron-right"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != totalPage}">--%>
+<%--                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${currentPage+1}"><i class="fa-solid fa-chevron-right"></i></a></li>--%>
+<%--                        </c:if>--%>
 
-                        <c:if test="${currentPage == totalPage}">
-                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-right"></i></a></li>
-                        </c:if>
-                        <c:if test="${currentPage != totalPage}">
-                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${totalPage}"><i class="fa-solid fa-angles-right"></i></a></li>
-                        </c:if>
-                    </ul>
-                </div>
+<%--                        <c:if test="${currentPage == totalPage}">--%>
+<%--                            <li id="nextPage" class="arrowPageLi"><a class="arrowPagea"><i class="fa-solid fa-angles-right"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${currentPage != totalPage}">--%>
+<%--                            <li id="nextPage"><a class="arrowActive" href="${href}&currentPage=${totalPage}"><i class="fa-solid fa-angles-right"></i></a></li>--%>
+<%--                        </c:if>--%>
+<%--                    </ul>--%>
+<%--                </div>--%>
 
 
 
@@ -1229,10 +1332,9 @@
                 <form action="updateBillAdmin" method="post">
                     <h3>Trạng thái</h3>
                     <input type="hidden" name="id" value="${bill.getId()}">
-                    <select name="status">
-                        <option value="0">Đang xử lý</option>
-                        <option value="1">Đang giao</option>
-                        <option value="2">Đã giao</option>
+                    <input type="hidden" value="${bill.getStatus()}" class="billStatus">
+                    <select class="status" name="status" ${bill.getStatus() == 5 ? "disabled" : ""}>
+
                     </select>
                     <input type="submit" class="add" value="Cập nhật">
                 </form>
@@ -1285,14 +1387,24 @@
         </div>
     </footer>
 
+
+    <script src="./assets/mdb/js/jquery.min.js"></script>
+    <script src="./assets/mdb/js/bootstrap.min.js"></script>
+    <script src="./assets/mdb/js/addons/datatables.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/showDanhMuc.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/search.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
-    <c:if test="${productDetail == null && billDetail == null}">
+    <c:if test="${users != null}">
+<%--        <script src="./assets/js/adminAccount.js"></script>--%>
+    </c:if>
+    <c:if test="${productDetail == null && billDetail == null && bills == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalImg.js"></script>
+    </c:if>
+    <c:if test="${bills != null}">
+        <script src="./assets/js/adminBill.js"></script>
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>

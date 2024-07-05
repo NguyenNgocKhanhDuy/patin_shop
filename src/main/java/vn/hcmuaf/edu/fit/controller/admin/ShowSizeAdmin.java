@@ -49,6 +49,7 @@ public class ShowSizeAdmin extends HttpServlet {
 
             List<Size> sizes = SizeDao.getInstance().getSizePerPage(currentPage, (int) productPerPage);
             request.setAttribute("sizes", sizes);
+            request.setAttribute("typeToShow", "size");
 
             request.setAttribute("type", request.getAttribute("type"));
             request.setAttribute("information", request.getAttribute("information"));

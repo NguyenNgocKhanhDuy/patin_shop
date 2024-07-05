@@ -38,17 +38,21 @@ public class ShowModalAdmin extends HttpServlet {
                     String size = request.getParameter("size");
                     String color = request.getParameter("color");
                     if (size == null || color == null){
-                        request.setAttribute("type", "error");
-                        request.setAttribute("information", "Lỗi");
-                        request.getRequestDispatcher("showAdmin").forward(request, response);
+//                        request.setAttribute("type", "error");
+//                        request.setAttribute("information", "Lỗi");
+//                        request.getRequestDispatcher("showAdmin").forward(request, response);
+                        response.getWriter().println("Lỗi NUll color, size");
                     }else {
-                        int idSize = SizeDao.getInstance().getIdByName(size);
-                        int idColor = ColorDao.getInstance().getIdByName(color);
+//                        int idSize = SizeDao.getInstance().getIdByName(size);
+//                        int idColor = ColorDao.getInstance().getIdByName(color);
+                        int idSize = Integer.parseInt(size);
+                        int idColor = Integer.parseInt(color);
+
 //                        Product product = ProductService.getInstance().getProductDetail(id, idSize, idColor);
                         ProductMain product = ProductService.getInstance().getProductDetail(id, idSize, idColor);
                         response.getWriter().println(gson.toJson(product));
                     }
-                } else if (select.equals("brand")) {
+                } else if (select.equals("category")) {
                     Category category = CategoryDao.getInstance().getCategory(id);
                     response.getWriter().println(gson.toJson(category));
                 } else if (select.equals("color")) {

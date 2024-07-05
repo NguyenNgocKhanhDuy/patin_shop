@@ -49,6 +49,7 @@ public class ShowBillAdmin extends HttpServlet {
 
             List<Bill> bills = BillService.getInstance().getBillPerPage(currentPage, (int) productPerPage);
             request.setAttribute("bills", bills);
+            request.setAttribute("typeToShow", "bill");
 
             request.setAttribute("type", request.getAttribute("type"));
             request.setAttribute("information", request.getAttribute("information"));

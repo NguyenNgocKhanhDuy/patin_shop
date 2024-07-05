@@ -19,6 +19,8 @@ showManage();
 
 
 function modalDetail(id, select) {
+    console.log("SELECT: "+select)
+    console.log("ID: "+id)
 
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "showModalAdmin?id="+id+"&select="+select, true)
@@ -39,7 +41,7 @@ function addInModal(c, select) {
         addInModalUser(c);
     }else if (select == "product"){
         addInModalProduct(c);
-    }else if(select == "brand"){
+    }else if(select == "category"){
         addInModalBrand(c);
     }else if (select == "color"){
         addInModalColor(c);
@@ -96,13 +98,13 @@ function initDoB(day, month, year) {
 initDoB(new Date().getDate(), new Date().getMonth()+1, new Date().getFullYear())
 
 
-var userDetails = document.querySelectorAll(".user-item .detail");
-
+var userDetails = document.querySelectorAll(".user-list .detail");
 
 function showDetailUser() {
     for (let i = 0; i < userDetails.length; i++) {
         userDetails[i].addEventListener("click", function () {
-            modalDetail(document.querySelectorAll(".user-item .id")[i].value, "user")
+            modalDetail(document.querySelectorAll(".user-list .id")[i].value, "user")
+            console.log("click: "+i)
             modalEdit.style.display = "flex";
 
         });
@@ -436,3 +438,206 @@ function addInSize(c) {
         sizes[i].innerHTML = html;
     }
 }
+
+
+var table;
+
+$(document).ready(function (){
+    var type = document.querySelector("#typeToShow").value
+    var urlDelete = ""
+    if (type == "user") {
+        dataTableForUser()
+        urlDelete = "deleteUserAdmin"
+    }else if (type == "product") {
+        dataTableForProduct()
+        urlDelete = "deleteProductAdmin"
+    }else if (type != "bill")  {
+        dataTableForColorCategorySize(type)
+        urlDelete = (type == "category") ? "deleteCategoryAdmin" : (type == "size" ? "deleteSizeAdmin" : "deleteColorAdmin")
+    }
+
+
+
+    $('#data tbody').on('click', 'td.edit', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = rowData.id;
+        modalDetail(id, type)
+        modalEdit.style.display = "flex";
+    })
+
+    $('#data tbody').on('click', 'td.delete', function () {
+        var rowIndex = table.cell($(this)).index().row;
+        var rowData = table.row(rowIndex).data();
+        var id = (type == "product") ? rowData.productDetail.product.id : rowData.id;
+        console.log(urlDelete)
+
+        $.ajax({
+            url: urlDelete,
+            type: 'POST',
+            data: { id: id },
+            success: function(response) {
+                table.row(rowIndex).remove().draw();
+                alert("SUCCES: "+response)
+            },
+            error: function(xhr, status, error) {
+                alert("Error status: " + status + "\nError: " + error + "\nResponse: " + xhr.responseText);
+            }
+        });
+    })
+});
+
+function dataTableForUser() {
+    table = $('#data').DataTable({
+        ajax:{
+            url:"getUser",
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+                data: "avatar",
+                className: "text-center align-middle",
+                render: function (data) {
+                    return `<img class="table-img" src="${data != null ? data : "./assets/images/logo.PNG"}">`
+                }
+            },
+            {
+                data: "fullName",
+                className: 'text-center align-middle'
+            },
+            {
+                data: "email",
+                className :'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center align-middle' ,
+                render: function (data){
+                    return data.phone == undefined ? "" : data.phone
+                }
+            },
+            {
+                data: null,
+                className :'text-center align-middle',
+                render: function (data) {
+                    return (data.role == 2 ? "Admin" : (data.role == 1 ? "Mod" : "Khách hàng"))
+                }
+            },
+            {
+                data: null,
+                className :'text-center edit align-middle',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+}
+
+function dataTableForColorCategorySize(typeToShow) {
+    var url = ""
+    if (typeToShow == "category") {
+        url = "getCategory"
+    }else if (typeToShow == "size") {
+        url = "getSize"
+    }else if (typeToShow == "color") {
+        url = "getColor"
+    }
+
+    table = $('#data').DataTable({
+        ajax:{
+            url: url,
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+              data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+                data: "name",
+                className: 'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center edit align-middle',
+                render: function (data) {
+                    return `<input type="hidden" value="${data.id}"/>
+                            <i class="fa-solid fa-clipboard detail"></i>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+}
+
+function dataTableForProduct() {
+    table = $('#data').DataTable({
+        ajax:{
+            url: "getProduct",
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+              data: null,
+              className: 'text-center align-middle',
+              render: function (data) {
+                  return `<img class="table-img" src="${data.img}"/>`
+              }
+            },
+            {
+                data: "productDetail.product.name",
+                className: 'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center align-middle',
+                render: function (data) {
+                    return `<a href="showProductDetailAdmin?id=${data.productDetail.product.id}"><i class="fa-solid fa-clipboard detail"></i></a>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+}
+

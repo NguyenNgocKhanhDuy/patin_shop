@@ -67,7 +67,7 @@ public class AddBill extends HttpServlet {
                 } else if (payment.equals("Bank")) {
                     payment = "Chuyển khoản ngân hàng";
                 }
-                Bill bill = new Bill(0, "", BillService.getInstance().getCurrentDate(), "Đang xử lý", payment, note, user);
+                Bill bill = new Bill(0, "", BillService.getInstance().getCurrentDate(), 0, payment, note, user);
                 List<BillDetail> listBill = new ArrayList<>();
                 String ip = request.getHeader("X-FORWARDED_FOR");
                 if(ip == null){

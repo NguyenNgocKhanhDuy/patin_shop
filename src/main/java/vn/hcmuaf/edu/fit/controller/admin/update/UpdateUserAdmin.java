@@ -103,19 +103,19 @@ public class UpdateUserAdmin extends HttpServlet {
                             ipAddress = request.getRemoteAddr();
                         }
                         if (UserService.getInstance().updateUser( user, ipAddress,  "info", "Update Infomation")){
-                            List<Integer> rsID = ResourcesService.getInstance().getAllID();
-                            boolean flag = true;
-                            for (int i = 1; i <= role; i++) {
-                                for (int j = 0; j < rsID.size(); j++) {
-                                    flag = PermissionsService.getPermissionsService().updatePer(id, role);
-                                    if (flag == false){
-                                        request.setAttribute("type", "error");
-                                        request.setAttribute("information", "Lỗi sql");
-                                        request.getRequestDispatcher("showUserAdmin").forward(request, response);
-                                        break;
-                                    }
-                                }
-                            }
+//                            List<Integer> rsID = ResourcesService.getInstance().getAllID();
+//                            boolean flag = true;
+//                            for (int i = 1; i <= role; i++) {
+//                                for (int j = 0; j < rsID.size(); j++) {
+//                                    flag = PermissionsService.getPermissionsService().updatePer(id, role);
+//                                    if (flag == false){
+//                                        request.setAttribute("type", "error");
+//                                        request.setAttribute("information", "Lỗi sql");
+//                                        request.getRequestDispatcher("showUserAdmin").forward(request, response);
+//                                        break;
+//                                    }
+//                                }
+//                            }
                             request.setAttribute("type", "success");
                             request.setAttribute("information", "Cập nhật thành công");
                             request.getRequestDispatcher("showUserAdmin").forward(request, response);
