@@ -640,4 +640,47 @@ function dataTableForProduct() {
         ]
     })
 }
+function dataTableForLog() {
+    table = $('#data').DataTable({
+        ajax:{
+            url: "getLog",
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+                data: null,
+                className: 'text-center align-middle',
+                render: function (data) {
+                    return `<img class="table-img" src="${data.img}"/>`
+                }
+            },
+            {
+                data: "productDetail.product.name",
+                className: 'text-center align-middle'
+            },
+            {
+                data: null,
+                className :'text-center align-middle',
+                render: function (data) {
+                    return `<a href="showProductDetailAdmin?id=${data.productDetail.product.id}"><i class="fa-solid fa-clipboard detail"></i></a>`
+                }
+            },
+            {
+                data: null,
+                className :'text-center delete align-middle',
+                render: function (data) {
+                    return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+}
 

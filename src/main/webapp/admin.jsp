@@ -177,6 +177,11 @@
                                             </a>
                                         </c:if>
                                     </li>
+                                    <li>
+                                        <a href="showLogAdmin">
+                                            Quản lý log
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </c:if>
@@ -208,6 +213,11 @@
                                     <li>
                                         <a href="showSizeAdmin">
                                             Quản lý kích thước
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="showLogAdmin">
+                                            Quản lý log
                                         </a>
                                     </li>
                                 </ul>
