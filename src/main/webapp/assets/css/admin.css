@@ -41,6 +41,7 @@
 }
 
 #content .left ul.sub_menu {
+    margin-bottom: 60px;
     padding-left: 24px;
     height: 0;
     /*overflow: hidden;*/

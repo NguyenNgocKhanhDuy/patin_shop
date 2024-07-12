@@ -531,6 +531,66 @@
                         </div>
                     </div>
                 </c:if>
+                <c:if test="${logs != null}">
+                    <div class="size section">
+                        <div class="title">
+                            <div class="total">
+                                <i class="fa-solid fa-rectangle-list"></i>
+                                <div class="text">
+                                    <h3>Tổng số kích thước</h3>
+                                    <p class="totalSize">${allLog.size()}</p>
+                                </div>
+                            </div>
+                           <%-- <div class="search">
+                                <c:if test="${per > 1}">
+                                    <div class="add">
+                                        Thêm kích thước
+                                    </div>
+                                </c:if>
+
+                                <c:if test="${per < 2}">
+                                    <div class="add disabled">
+                                        Thêm kích thước
+                                    </div>
+                                </c:if>
+                            </div>--%>
+                        </div>
+                        <div class="size-list">
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>IP</th>
+                                    <th>Level</th>
+                                    <th>Address</th>
+                                    <th>PreValue</th>
+                                    <th>Value</th>
+                                    <th>CreateAt</th>
+                                    <th>UpdateAt</th>
+
+                                </tr>
+                                </thead>
+                            </table>
+                                <%--                            <div class="size-title">--%>
+                                <%--                                <h4>STT</h4>--%>
+                                <%--                                <h4>Tên</h4>--%>
+                                <%--                            </div>--%>
+                                <%--                            <c:forEach items="${sizes}" var="size" varStatus="index">--%>
+                                <%--                                <div class="size-item">--%>
+                                <%--                                    <input type="hidden" class="id" value="${size.getId()}">--%>
+                                <%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+                                <%--                                    <p class="name">Size ${size.getName()}</p>--%>
+                                <%--                                    <c:if test="${per > 1}">--%>
+                                <%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+                                <%--                                        <a href="deleteSizeAdmin?id=${size.getId()}">--%>
+                                <%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+                                <%--                                        </a>--%>
+                                <%--                                    </c:if>--%>
+                                <%--                                </div>--%>
+                                <%--                            </c:forEach>--%>
+                        </div>
+                    </div>
+                </c:if>
 
                 <c:if test="${bills != null}">
                     <div class="report section">

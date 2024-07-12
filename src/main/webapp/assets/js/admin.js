@@ -609,7 +609,7 @@ function dataTableForProduct() {
             {
                 data: null,
                 render: function (data, type, row, meta) {
-                    return meta.row + 1;
+                    return meta.row + 1; //so thu tu
                 }
             },
             {
@@ -656,28 +656,52 @@ function dataTableForLog() {
                 }
             },
             {
-                data: null,
+                data: "ip", // Địa chỉ IP
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "level", // Mức độ log
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "address", // Địa chỉ
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "preValue", // Giá trị trước
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "value", // Giá trị sau
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "createAt", // Ngày tạo
                 className: 'text-center align-middle',
                 render: function (data) {
-                    return `<img class="table-img" src="${data.img}"/>`
+                    return data !== null ? new Date(data).toLocaleString() : "";
                 }
             },
             {
-                data: "productDetail.product.name",
-                className: 'text-center align-middle'
-            },
-            {
-                data: null,
-                className :'text-center align-middle',
+                data: "updateAt", // Ngày cập nhật
+                className: 'text-center align-middle',
                 render: function (data) {
-                    return `<a href="showProductDetailAdmin?id=${data.productDetail.product.id}"><i class="fa-solid fa-clipboard detail"></i></a>`
-                }
-            },
-            {
-                data: null,
-                className :'text-center delete align-middle',
-                render: function (data) {
-                    return `<i class="fa-solid fa-xmark del"></i>`
+                    return data !== null ? new Date(data).toLocaleString() : "";
                 }
             }
         ]
