@@ -227,6 +227,20 @@
                                 </a>
                             </c:if>
                         </li>
+                        <li id="manageReport">
+                            <c:if test="${statistic != null}">
+                                <a href="showStatistic" class="activeAccountNav">
+                                    <i class="fa-brands fa-wpforms"></i>
+                                    <span>Thống kê</span>
+                                </a>
+                            </c:if>
+                            <c:if test="${bills == null && billDetail == null}">
+                                <a href="showStatistic">
+                                    <i class="fa-brands fa-wpforms"></i>
+                                    <span>Thống kê</span>
+                                </a>
+                            </c:if>
+                        </li>
                     </ul>
                 </div>
             </div>
