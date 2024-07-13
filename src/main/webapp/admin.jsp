@@ -537,7 +537,7 @@
                             <div class="total">
                                 <i class="fa-solid fa-rectangle-list"></i>
                                 <div class="text">
-                                    <h3>Tổng số kích thước</h3>
+                                    <h3>Tổng số log</h3>
                                     <p class="totalSize">${allLog.size()}</p>
                                 </div>
                             </div>
@@ -1475,6 +1475,9 @@
     </c:if>
     <c:if test="${bills != null}">
         <script src="./assets/js/adminBill.js"></script>
+    </c:if>
+    <c:if test="${logs != null}">
+        <script src="./assets/js/admin.js"></script>
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
