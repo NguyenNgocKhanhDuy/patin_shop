@@ -99,4 +99,5 @@ public class Bill extends AbsModel implements Serializable {
                 ", user=" + user +
                 '}';
     }
+
 }

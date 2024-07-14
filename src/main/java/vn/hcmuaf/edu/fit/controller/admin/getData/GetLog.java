@@ -19,7 +19,6 @@ public class GetLog extends HttpServlet {
     private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,new LocalDateTimeAdapter()).create();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         List<Log> allLog= LogDao.getInstance().getAllLog();
         response.setContentType("application/json");
         response.getWriter().println(gson.toJson(allLog));

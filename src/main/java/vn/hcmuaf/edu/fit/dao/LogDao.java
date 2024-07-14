@@ -91,4 +91,8 @@ public class LogDao implements IDao{
         });
         return log;
     }
+
+    public static void main(String[] args) {
+        System.out.println(LogDao.getInstance().getAllLog());
+    }
 }

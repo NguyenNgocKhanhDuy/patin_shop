@@ -178,9 +178,16 @@
                                         </c:if>
                                     </li>
                                     <li>
-                                        <a href="showLogAdmin">
-                                            Quản lý log
-                                        </a>
+                                        <c:if test="${logs != null}">
+                                            <a href="showLogAdmin" class="activeAccountNav">
+                                                Quản lý log
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${logs == null}">
+                                            <a href="showLogAdmin">
+                                                Quản lý log
+                                            </a>
+                                        </c:if>
                                     </li>
                                 </ul>
                             </li>
@@ -547,30 +554,17 @@
                 </c:if>
                 <c:if test="${logs != null}">
                     <div class="size section">
-                        <div class="title">
-                            <div class="total">
-                                <i class="fa-solid fa-rectangle-list"></i>
-                                <div class="text">
-                                    <h3>Tổng số log</h3>
-                                    <p class="totalSize">${allLog.size()}</p>
-                                </div>
-                            </div>
-                           <%-- <div class="search">
-                                <c:if test="${per > 1}">
-                                    <div class="add">
-                                        Thêm kích thước
-                                    </div>
-                                </c:if>
-
-                                <c:if test="${per < 2}">
-                                    <div class="add disabled">
-                                        Thêm kích thước
-                                    </div>
-                                </c:if>
-                            </div>--%>
-                        </div>
+<%--                        <div class="title">--%>
+<%--                            <div class="total">--%>
+<%--                                <i class="fa-solid fa-rectangle-list"></i>--%>
+<%--                                <div class="text">--%>
+<%--                                    <h3>Tổng số log</h3>--%>
+<%--                                    <p class="totalSize">${allLog.size()}</p>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                         <div class="size-list">
-                            <table id="data" class="table table-striped table-bordered">
+                            <table id="data" class="table table-striped table-bordered" style="width: 100%;">
                                 <thead>
                                 <tr>
                                     <th>STT</th>
@@ -581,7 +575,6 @@
                                     <th>Value</th>
                                     <th>CreateAt</th>
                                     <th>UpdateAt</th>
-
                                 </tr>
                                 </thead>
                             </table>
@@ -1481,7 +1474,7 @@
     <c:if test="${users != null}">
 <%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
-    <c:if test="${productDetail == null && billDetail == null && bills == null}">
+    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">
@@ -1491,7 +1484,7 @@
         <script src="./assets/js/adminBill.js"></script>
     </c:if>
     <c:if test="${logs != null}">
-        <script src="./assets/js/admin.js"></script>
+        <script src="./assets/js/adminLog.js"></script>
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
