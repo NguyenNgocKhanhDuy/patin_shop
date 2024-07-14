@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.bean.Log;
+import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
@@ -72,4 +73,22 @@ public class LogDao implements IDao{
         return logs.size() == 1 ? logs.get(0).getCreateAt() : null;
     }
 
+    public List<Log> getAllLog() {
+        List<Log> logs = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("Select * from log").mapToBean(Log.class).stream().collect(Collectors.toList());
+        });
+        return  logs;
+    }
+    public List<Log> getLogPerPage(int currentPage, int productPerPage) {
+        int start;
+        if (currentPage > 1) {
+            start =  ((currentPage - 1) * productPerPage);
+        } else {
+            start = 0;
+        }
+        List<Log> log = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT * FROM log LIMIT :start, 5").bind("start", start).mapToBean(Log.class).stream().collect(Collectors.toList());
+        });
+        return log;
+    }
 }

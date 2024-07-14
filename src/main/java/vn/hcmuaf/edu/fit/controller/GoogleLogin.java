@@ -39,6 +39,7 @@ public class GoogleLogin extends HttpServlet {
         if (location == null) location = "home";
         request.setAttribute("type", "success");
         request.setAttribute("information", "Đăng nhập thành công");
+        UserDao.getInstance().addLoginGoogle(user, "", "alert", "login google");
         request.getRequestDispatcher(location).forward(request, response);
     }
     public static String getToken(String code) throws ClientProtocolException, IOException {

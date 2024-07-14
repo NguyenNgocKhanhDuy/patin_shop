@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class Log extends AbsModel implements Serializable {
     private int id;
-    private int ip;
+    private String ip;
     private String level;
     private String address;
     private String preValue;
@@ -19,7 +19,7 @@ public class Log extends AbsModel implements Serializable {
     public Log() {
     }
 
-    public Log(int id, int ip, String level, String address, String preValue, String value, LocalDateTime createAt, LocalDateTime updateAt) {
+    public Log(int id, String ip, String level, String address, String preValue, String value, LocalDateTime createAt, LocalDateTime updateAt) {
         this.id = id;
         this.ip = ip;
         this.level = level;
@@ -38,11 +38,11 @@ public class Log extends AbsModel implements Serializable {
         this.id = id;
     }
 
-    public int getIp() {
+    public String getIp() {
         return ip;
     }
 
-    public void setIp(int ip) {
+    public void setIp(String ip) {
         this.ip = ip;
     }
 

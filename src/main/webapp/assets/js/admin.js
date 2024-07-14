@@ -609,7 +609,7 @@ function dataTableForProduct() {
             {
                 data: null,
                 render: function (data, type, row, meta) {
-                    return meta.row + 1;
+                    return meta.row + 1; //so thu tu
                 }
             },
             {
@@ -635,6 +635,73 @@ function dataTableForProduct() {
                 className :'text-center delete align-middle',
                 render: function (data) {
                     return `<i class="fa-solid fa-xmark del"></i>`
+                }
+            }
+        ]
+    })
+}
+function dataTableForLog() {
+    table = $('#data').DataTable({
+        ajax:{
+            url: "getLog",
+            type:"get",
+            dataType:"json",
+            dataSrc:""
+        },
+        columns:[
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            {
+                data: "ip", // Địa chỉ IP
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "level", // Mức độ log
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "address", // Địa chỉ
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "preValue", // Giá trị trước
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "value", // Giá trị sau
+                className: 'text-center align-middle',
+                render: function(data) {
+                    return data !== null ? data : "";
+                }
+            },
+            {
+                data: "createAt", // Ngày tạo
+                className: 'text-center align-middle',
+                render: function (data) {
+                    return data !== null ? new Date(data).toLocaleString() : "";
+                }
+            },
+            {
+                data: "updateAt", // Ngày cập nhật
+                className: 'text-center align-middle',
+                render: function (data) {
+                    return data !== null ? new Date(data).toLocaleString() : "";
                 }
             }
         ]
