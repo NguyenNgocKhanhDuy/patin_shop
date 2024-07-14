@@ -1,11 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.admin.add;
 
-import vn.hcmuaf.edu.fit.bean.ImageRating;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.dao.UserDao;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
-import vn.hcmuaf.edu.fit.services.RatingService;
-import vn.hcmuaf.edu.fit.services.ResourcesService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
 import javax.servlet.*;
@@ -13,8 +9,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
 import java.sql.Date;
-import java.time.DateTimeException;
-import java.util.List;
 
 
 @WebServlet(name = "AddUserAdmin", value = "/addUserAdmin")

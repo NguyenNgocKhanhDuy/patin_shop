@@ -3,7 +3,6 @@ package vn.hcmuaf.edu.fit.controller.admin;
 import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.dao.SizeDao;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +22,8 @@ public class ShowSizeAdmin extends HttpServlet {
         User user = (User) request.getSession().getAttribute("auth");
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
-            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
-            request.setAttribute("per", per);
+//            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
+//            request.setAttribute("per", per);
 
             List<Size> allsize = SizeDao.getInstance().getAllsize();
             request.setAttribute("allSize", allsize);

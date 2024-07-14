@@ -114,8 +114,8 @@ public class BillService {
         return BillDao.getInstance().updateStatusBill(model, ip, level, address, status);
     }
 
-    public boolean deleteBill(AbsModel model,String ip, String level,String address) {
-        return BillDetailDao.getInstance().deleteAllBillDetail(model) && BillDao.getInstance().deleteBill(model,ip,level,address);
+    public boolean deleteBill(AbsModel model,String ip) {
+        return BillDetailDao.getInstance().deleteAllBillDetail(model) && BillDao.getInstance().deleteBill(model,ip);
     }
 
     public int getTotalBill(int id){

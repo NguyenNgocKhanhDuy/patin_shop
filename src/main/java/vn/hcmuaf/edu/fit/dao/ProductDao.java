@@ -623,6 +623,7 @@ public class ProductDao extends AbsDao<Product>{
         Product product = (Product) model;
         int id = product.getId();
         if(ImageProductDao.getInstance().deleteAllImageOfProduct(id) && deleteProductDetailAll(id) && deleteProduct(id)){
+            product.setBeforeData(product.logString());
             super.delete(product, ip, level, address);
             return true;
         }

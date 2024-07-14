@@ -72,10 +72,17 @@ public class CategoryDao extends AbsDao<Category>{
         });
         return category;
     }
-    public boolean deleteCategory(int id) {
+    public boolean deleteCategory(AbsModel model, String ip) {
+        Category category = (Category) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM category WHERE id = ?").bind(0, id).execute();
+            return handle.createUpdate("DELETE FROM category WHERE id = ?").bind(0, category.getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            category.setBeforeData(category.logString());
+            category.setAfterData(getCategory(category.getId()).logString());
+            super.update(category, ip, "danger", "delete category");
+            return true;
+        }
+        return false;
     }
 }

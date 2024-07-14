@@ -218,11 +218,16 @@ public class UserDao extends AbsDao<User>{
     }
 
 
-    public boolean deleteUser(int id) {
+    public boolean deleteUser(AbsModel model, String ip) {
+        User u = (User) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM user WHERE id = ?").bind(0, id).execute();
+            return handle.createUpdate("DELETE FROM user WHERE id = ?").bind(0, u.getId()).execute();
         });
-        if(i == 1) return true;
+        if(i == 1) {
+            u.setBeforeData(u.logString());
+            super.delete(u, ip, "danger", "delete user");
+            return true;
+        }
         return false;
     }
 
@@ -246,12 +251,12 @@ public class UserDao extends AbsDao<User>{
         return false;
     }
 
-    @Override
-    public boolean delete(AbsModel model, String ip, String level, String address) {
-        User user = (User) model;
-        super.delete(user,ip,level,address);
-        return deleteUser(user.getId());
-    }
+//    @Override
+//    public boolean delete(AbsModel model, String ip, String level, String address) {
+//        User user = (User) model;
+//        super.delete(user,ip,level,address);
+//        return deleteUser(user.getId());
+//    }
 
     @Override
     public void select(AbsModel model, String ip, String level, String address) {

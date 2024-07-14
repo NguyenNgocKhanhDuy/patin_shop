@@ -85,11 +85,18 @@ public class SizeDao extends AbsDao<Size>{
         return size;
     }
 
-    public boolean deleteSize(int id) {
+    public boolean deleteSize(AbsModel model, String ip) {
+        Size size = (Size) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM size WHERE id = ?").bind(0, id).execute();
+            return handle.createUpdate("DELETE FROM size WHERE id = ?").bind(0, size.getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            size.setBeforeData(size.logString());
+            size.setAfterData(getSizeById(size.getId()).logString());
+            super.update(size, ip, "danger", "delete size");
+            return true;
+        }
+        return false;
     }
 
     public int getIdByName(String name){

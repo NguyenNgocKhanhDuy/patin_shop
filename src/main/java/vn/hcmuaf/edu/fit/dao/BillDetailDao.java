@@ -22,6 +22,7 @@ public class BillDetailDao extends AbsDao<BillDetail> implements Serializable {
     @Override
     public boolean insert(AbsModel model, String ip, String level, String address) {
         BillDetail billDetail = (BillDetail) model;
+        billDetail.setAfterData(billDetail.logString());
         super.insert(billDetail,ip,level,address);
         return addBillDetail(billDetail) == 0;
     }

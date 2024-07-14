@@ -68,6 +68,19 @@ public class ColorDao extends AbsDao<Color>{
         return false;
     }
 
+    public boolean deleteColor(AbsModel model, String ip) {
+        Color color = (Color) model;
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("DELETE FROM color WHERE id = ?").bind(0, color.getId()).execute();
+        });
+        if (i == 1) {
+            color.setAfterData(color.logString());
+            super.insert(color, ip, "danger", "delete color");
+            return true;
+        }
+        return false;
+    }
+
     public List<Color> getColorPerPage(int currentPage, int productPerPage) {
         int start;
         if (currentPage > 1) {
@@ -81,12 +94,7 @@ public class ColorDao extends AbsDao<Color>{
         return color;
     }
 
-    public boolean deleteColor(int id) {
-        Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM color WHERE id = ?").bind(0, id).execute();
-        });
-        return i == 1 ? true : false;
-    }
+
 
     public int getIdByName(String name){
         Integer i = JDBIConnector.get().withHandle(handle -> {

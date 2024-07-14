@@ -273,13 +273,13 @@
                             </div>
                         </div>
                         <div class="search">
-                            <c:if test="${per > 1}">
+                            <c:if test="${sessionScope.auth.getRole() > 1}">
                                 <div class="add">
                                     Thêm người dùng
                                 </div>
                             </c:if>
 
-                            <c:if test="${per < 2}">
+                            <c:if test="${sessionScope.auth.getRole() <= 1}">
                                 <div class="add disabled">
                                     Thêm người dùng
                                 </div>
@@ -337,13 +337,13 @@
                             </div>
                         </div>
                         <div class="search">
-                            <c:if test="${per > 1}">
+                            <c:if test="${sessionScope.auth.getRole() > 1}">
                                 <div class="add">
                                     Thêm sản phẩm
                                 </div>
                             </c:if>
 
-                            <c:if test="${per < 2}">
+                            <c:if test="${sessionScope.auth.getRole() <= 1}">
                                 <div class="add disabled">
                                     Thêm sản phẩm
                                 </div>
@@ -397,12 +397,12 @@
                                 </div>
                             </div>
                             <div class="search">
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
                                         Thêm danh mục
                                     </div>
                                 </c:if>
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <div class="add disabled">
                                         Thêm danh mục
                                     </div>
@@ -452,13 +452,13 @@
                                 </div>
                             </div>
                             <div class="search">
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
                                         Thêm màu sắc
                                     </div>
                                 </c:if>
 
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <div class="add disabled">
                                         Thêm màu sắc
                                     </div>
@@ -508,13 +508,13 @@
                                 </div>
                             </div>
                             <div class="search">
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
                                         Thêm kích thước
                                     </div>
                                 </c:if>
 
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <div class="add disabled">
                                         Thêm kích thước
                                     </div>
@@ -675,12 +675,12 @@
                             <span>Thông tin:<br>-
                             ${product.getProductDetail().getProduct().getInformation()}
                             </span>
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <span>
                                         <i class="fa-solid fa-clipboard detail"></i>
                                     </span>
                                 </c:if>
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <span class="disabled">
                                         <i class="fa-solid fa-clipboard detail"></i>
                                     </span>
@@ -693,7 +693,7 @@
                                 <img src="${img.getUrl()}" alt="">
                             </c:forEach>
                         </div>
-                        <c:if test="${images.size() < 5 && per > 1}">
+                        <c:if test="${images.size() < 5 && sessionScope.auth.getRole() > 1}">
                             <div class="addBox">
                                     <div class="add addImg">
                                         Thêm ảnh
@@ -703,7 +703,7 @@
                                     </div>
                             </div>
                         </c:if>
-                        <c:if test="${images.size() < 5 && per < 2}">
+                        <c:if test="${images.size() < 5 && sessionScope.auth.getRole() <= 1}">
                             <div class="addBox">
                                     <div class="add addImg disabled">
                                         Thêm ảnh
@@ -714,12 +714,12 @@
                             </div>
                         </c:if>
                         <input type="hidden" value="${image.size() < 5 ? image.size() : 5}" class="imgSize">
-                        <c:if test="${images.size() == 5 && per > 1}">
+                        <c:if test="${images.size() == 5 && sessionScope.auth.getRole() > 1}">
                             <div class="add rightBtn addProduct">
                                 Thêm sản phẩm
                             </div>
                         </c:if>
-                        <c:if test="${images.size() == 5 && per < 2}">
+                        <c:if test="${images.size() == 5 && sessionScope.auth.getRole() <= 1}">
                             <div class="add rightBtn addProduct disabled">
                                 Thêm sản phẩm
                             </div>
@@ -1096,10 +1096,10 @@
 
                         </div>
                     </div>
-                    <c:if test="${per < 2}">
+                    <c:if test="${sessionScope.auth.getRole() <= 1}">
                         <button class="add disabled">Cập nhật</button>
                     </c:if>
-                    <c:if test="${per > 1}">
+                    <c:if test="${sessionScope.auth.getRole() > 1}">
                         <button type="submit" class="add">Cập nhật</button>
                     </c:if>
                 </form>
@@ -1290,10 +1290,10 @@
         <div class="modal-img">
             <div class="modal-img-container">
                 <form action="deleteImg" method="post">
-                    <c:if test="${per > 1}">
+                    <c:if test="${sessionScope.auth.getRole() > 1}">
                         <input type="submit" class="delImg" value="Xoá ảnh">
                     </c:if>
-                    <c:if test="${per < 2}">
+                    <c:if test="${sessionScope.auth.getRole() <= 1}">
                         <input type="hidden" class="delImg" value="Xoá ảnh">
                     </c:if>
                     <input type="hidden" name="id" value="${product.getProductDetail().getProduct().getId()}">

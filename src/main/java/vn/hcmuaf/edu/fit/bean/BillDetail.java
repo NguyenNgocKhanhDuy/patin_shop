@@ -97,4 +97,7 @@ public class BillDetail extends AbsModel implements Serializable {
                 '}';
     }
 
+    public String logString() {
+        return "name="+bill.getName()+", product="+product.getProductDetail().getProduct().getId()+", size="+size+", color="+color+", quantity="+quantity+", price="+price;
+    }
 }

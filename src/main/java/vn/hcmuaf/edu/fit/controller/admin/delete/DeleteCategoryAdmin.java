@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
+import vn.hcmuaf.edu.fit.bean.Category;
 import vn.hcmuaf.edu.fit.dao.CategoryDao;
 import vn.hcmuaf.edu.fit.services.UserService;
 
@@ -25,8 +26,13 @@ public class DeleteCategoryAdmin extends HttpServlet {
         try {
             id = Integer.parseInt(request.getParameter("id"));
 
-
-            if (CategoryDao.getInstance().deleteCategory(id)){
+            Category category = new Category();
+            category.setId(id);
+            String ip = request.getHeader("X-FORWARDED_FOR");
+            if(ip == null){
+                ip = request.getRemoteAddr();
+            }
+            if (CategoryDao.getInstance().deleteCategory(category, ip)){
                 response.getWriter().println("Xoá thành công");
 //                request.setAttribute("type", "success");
 //                request.setAttribute("information", "Xoá thành công");

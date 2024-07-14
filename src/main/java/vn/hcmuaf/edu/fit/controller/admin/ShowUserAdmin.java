@@ -1,7 +1,6 @@
 package vn.hcmuaf.edu.fit.controller.admin;
 
 import vn.hcmuaf.edu.fit.bean.*;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
 import javax.servlet.*;
@@ -20,8 +19,8 @@ public class ShowUserAdmin extends HttpServlet {
         User user = (User) request.getSession().getAttribute("auth");
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
-             int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
-             request.setAttribute("per", per);
+//             int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
+//             request.setAttribute("per", per);
 
             List<User> allUser = UserService.getInstance().getAllUser();
             request.setAttribute("allUser", allUser);

@@ -240,8 +240,8 @@ public class UserService {
         return UserDao.getInstance().getUserByID(id);
     }
 
-    public boolean deleteUser(int id) {
-        return UserDao.getInstance().deleteUser(id);
+    public boolean deleteUser(AbsModel model, String ip) {
+        return UserDao.getInstance().deleteUser(model, ip);
     }
 
     public String checkPassword(String password) {

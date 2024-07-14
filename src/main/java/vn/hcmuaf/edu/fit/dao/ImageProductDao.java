@@ -54,13 +54,17 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
 
     }
 
-    public boolean deleteImage(int id, int idProduct) {
+    public boolean deleteImage(AbsModel model, String ip) {
+        ImageProduct imageProduct = (ImageProduct) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM image_product WHERE id = :id AND id_product  = :product").bind("id", id)
-                    .bind("product", idProduct).execute();
+            return handle.createUpdate("DELETE FROM image_product WHERE id = :id AND id_product  = :product").bind("id", imageProduct.getId())
+                    .bind("product", imageProduct.getProduct().getId()).execute();
         });
-        return i == 1 ? true : false;
-
+        if (i == 1) {
+            imageProduct.setBeforeData(imageProduct.logString());
+            super.delete(imageProduct, ip, "danger", "delete image product");
+        }
+        return false;
     }
 
     @Override
@@ -75,10 +79,10 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
     public boolean update(AbsModel model, String ip, String level, String address) {
     return false;
     }
-    @Override
-    public boolean delete(AbsModel model, String ip, String level, String address) {
-        ImageProduct imgProduct = (ImageProduct) model;
-        super.delete(imgProduct,ip,level,address);
-        return deleteImage(imgProduct.getId(),imgProduct.getProduct().getId());
-    }
+//    @Override
+//    public boolean delete(AbsModel model, String ip, String level, String address) {
+//        ImageProduct imgProduct = (ImageProduct) model;
+//        super.delete(imgProduct,ip,level,address);
+//        return deleteImage(imgProduct.getId(),imgProduct.getProduct().getId());
+//    }
 }

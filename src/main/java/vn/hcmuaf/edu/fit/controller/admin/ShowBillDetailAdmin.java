@@ -2,7 +2,6 @@ package vn.hcmuaf.edu.fit.controller.admin;
 
 import vn.hcmuaf.edu.fit.bean.*;
 import vn.hcmuaf.edu.fit.services.BillService;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +20,8 @@ public class ShowBillDetailAdmin extends HttpServlet {
         User user = (User) request.getSession().getAttribute("auth");
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
-            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
-            request.setAttribute("per", per);
+//            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
+//            request.setAttribute("per", per);
             int id;
             try {
                 id = Integer.parseInt(request.getParameter("id"));

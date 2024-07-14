@@ -2,7 +2,6 @@ package vn.hcmuaf.edu.fit.controller.admin;
 
 import vn.hcmuaf.edu.fit.bean.*;
 import vn.hcmuaf.edu.fit.dao.ImageProductDao;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
 import vn.hcmuaf.edu.fit.services.ProductService;
 
 import javax.servlet.*;
@@ -20,8 +19,8 @@ public class ShowProductDetailAdmin extends HttpServlet {
         User user = (User) request.getSession().getAttribute("auth");
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
-            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
-            request.setAttribute("per", per);
+//            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
+//            request.setAttribute("per", per);
 
             int id;
             try {
