@@ -177,6 +177,18 @@
                                             </a>
                                         </c:if>
                                     </li>
+                                    <li>
+                                        <c:if test="${logs != null}">
+                                            <a href="showLogAdmin" class="activeAccountNav">
+                                                Quản lý log
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${logs == null}">
+                                            <a href="showLogAdmin">
+                                                Quản lý log
+                                            </a>
+                                        </c:if>
+                                    </li>
                                 </ul>
                             </li>
                         </c:if>
@@ -210,6 +222,11 @@
                                             Quản lý kích thước
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="showLogAdmin">
+                                            Quản lý log
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </c:if>
@@ -224,6 +241,20 @@
                                 <a href="showBillAdmin">
                                     <i class="fa-brands fa-wpforms"></i>
                                     <span>Đơn hàng</span>
+                                </a>
+                            </c:if>
+                        </li>
+                        <li id="manageReport">
+                            <c:if test="${statistic != null}">
+                                <a href="showStatistic" class="activeAccountNav">
+                                    <i class="fa-brands fa-wpforms"></i>
+                                    <span>Thống kê</span>
+                                </a>
+                            </c:if>
+                            <c:if test="${bills == null && billDetail == null}">
+                                <a href="showStatistic">
+                                    <i class="fa-brands fa-wpforms"></i>
+                                    <span>Thống kê</span>
                                 </a>
                             </c:if>
                         </li>
@@ -518,6 +549,52 @@
 <%--                                    </c:if>--%>
 <%--                                </div>--%>
 <%--                            </c:forEach>--%>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${logs != null}">
+                    <div class="size section">
+<%--                        <div class="title">--%>
+<%--                            <div class="total">--%>
+<%--                                <i class="fa-solid fa-rectangle-list"></i>--%>
+<%--                                <div class="text">--%>
+<%--                                    <h3>Tổng số log</h3>--%>
+<%--                                    <p class="totalSize">${allLog.size()}</p>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+                        <div class="size-list">
+                            <table id="data" class="table table-striped table-bordered" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>IP</th>
+                                    <th>Level</th>
+                                    <th>Address</th>
+                                    <th>PreValue</th>
+                                    <th>Value</th>
+                                    <th>CreateAt</th>
+                                    <th>UpdateAt</th>
+                                </tr>
+                                </thead>
+                            </table>
+                                <%--                            <div class="size-title">--%>
+                                <%--                                <h4>STT</h4>--%>
+                                <%--                                <h4>Tên</h4>--%>
+                                <%--                            </div>--%>
+                                <%--                            <c:forEach items="${sizes}" var="size" varStatus="index">--%>
+                                <%--                                <div class="size-item">--%>
+                                <%--                                    <input type="hidden" class="id" value="${size.getId()}">--%>
+                                <%--                                    <p class="index">${(currentPage - 1) * productPerPage + index.index + 1}</p>--%>
+                                <%--                                    <p class="name">Size ${size.getName()}</p>--%>
+                                <%--                                    <c:if test="${per > 1}">--%>
+                                <%--                                        <i class="fa-solid fa-clipboard detail"></i>--%>
+                                <%--                                        <a href="deleteSizeAdmin?id=${size.getId()}">--%>
+                                <%--                                            <i class="fa-solid fa-xmark del"></i>--%>
+                                <%--                                        </a>--%>
+                                <%--                                    </c:if>--%>
+                                <%--                                </div>--%>
+                                <%--                            </c:forEach>--%>
                         </div>
                     </div>
                 </c:if>
@@ -1397,7 +1474,7 @@
     <c:if test="${users != null}">
 <%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
-    <c:if test="${productDetail == null && billDetail == null && bills == null}">
+    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">
@@ -1405,6 +1482,9 @@
     </c:if>
     <c:if test="${bills != null}">
         <script src="./assets/js/adminBill.js"></script>
+    </c:if>
+    <c:if test="${logs != null}">
+        <script src="./assets/js/adminLog.js"></script>
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>

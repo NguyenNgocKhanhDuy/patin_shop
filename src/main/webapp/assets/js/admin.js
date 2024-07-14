@@ -503,10 +503,10 @@ function dataTableForUser() {
                 }
             },
             {
-                data: "avatar",
+                data: null,
                 className: "text-center align-middle",
                 render: function (data) {
-                    return `<img class="table-img" src="${data != null ? data : "./assets/images/logo.PNG"}">`
+                    return `<img class="table-img" src="${data.avatar != undefined ? data.avatar : "./assets/images/logo.PNG"}">`
                 }
             },
             {
@@ -609,7 +609,7 @@ function dataTableForProduct() {
             {
                 data: null,
                 render: function (data, type, row, meta) {
-                    return meta.row + 1;
+                    return meta.row + 1; //so thu tu
                 }
             },
             {
@@ -640,4 +640,5 @@ function dataTableForProduct() {
         ]
     })
 }
+
 

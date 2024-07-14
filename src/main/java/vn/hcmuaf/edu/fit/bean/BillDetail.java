@@ -96,4 +96,5 @@ public class BillDetail extends AbsModel implements Serializable {
                 ", price=" + price +
                 '}';
     }
+
 }

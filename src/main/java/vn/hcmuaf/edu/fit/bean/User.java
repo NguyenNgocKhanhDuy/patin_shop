@@ -156,4 +156,8 @@ public class User extends AbsModel implements Serializable{
                 '}';
     }
 
+    public String logString() {
+        return "email="+email+", fullName="+fullName + ", phone="+phone;
+    }
+
 }

@@ -84,5 +84,9 @@ public class ProductDetail extends AbsModel implements Serializable {
                 '}';
     }
 
+    public String logString() {
+        return "productName="+product.getName()+",Size="+size+", color="+color+", quantity="+quantity+", price="+price;
+    }
+
 
 }

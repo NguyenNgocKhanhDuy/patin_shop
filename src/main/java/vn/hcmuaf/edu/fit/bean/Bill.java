@@ -99,4 +99,9 @@ public class Bill extends AbsModel implements Serializable {
                 ", user=" + user +
                 '}';
     }
+
+
+    public String logString() {
+        return "name="+name+", date="+date+", status="+status+"\nuserName="+user.getFullName()+", userEmail="+user.getEmail()+", userPhone="+user.getPhone();
+    }
 }

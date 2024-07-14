@@ -73,4 +73,8 @@ public class Product extends AbsModel implements Serializable {
                 ", information='" + information + '\'' +
                 '}';
     }
+
+    public String logString() {
+        return "name="+name+", salePercent="+salePercent;
+    }
 }

@@ -37,4 +37,8 @@ public class Category implements Serializable {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public String logString() {
+        return "name="+name;
+    }
 }
