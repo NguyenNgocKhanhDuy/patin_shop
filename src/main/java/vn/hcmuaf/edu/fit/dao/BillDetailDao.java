@@ -2,6 +2,7 @@ package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.bean.Bill;
 import vn.hcmuaf.edu.fit.bean.BillDetail;
+import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 
@@ -63,6 +64,16 @@ public class BillDetailDao extends AbsDao<BillDetail> implements Serializable {
     @Override
     public void select(AbsModel model, String ip, String level, String address) {
 
+    }
+
+    public List<Integer> getBestProductSell() {
+        List<Integer> integers = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT product_id FROM bill_detail " +
+                            "GROUP BY product_id " +
+                            "HAVING COUNT(*) >= ALL (SELECT COUNT(*) FROM bill_detail GROUP BY product_id) ")
+                    .mapTo(Integer.class).stream().collect(Collectors.toList());
+        });
+        return integers;
     }
 
 }

@@ -251,7 +251,7 @@
                                     <span>Thống kê</span>
                                 </a>
                             </c:if>
-                            <c:if test="${bills == null && billDetail == null}">
+                            <c:if test="${statistic == null}">
                                 <a href="showStatistic">
                                     <i class="fa-brands fa-wpforms"></i>
                                     <span>Thống kê</span>
@@ -847,6 +847,37 @@
                         </div>
                     </div>
                 </c:if>
+
+                <c:if test="${statistic != null}">
+                    <div class="user section">
+                        <div class="total">
+                            <i class="fa-solid fa-users"></i>
+                            <div class="text">
+                                <h3>Tồn kho</h3>
+                                <p class="totalUser"></p>
+                            </div>
+                        </div>
+                        <div class="user-list">
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Mã kích thước</th>
+                                    <th>Mã màu</th>
+                                    <th>Người nhập</th>
+                                    <th>Số lượng</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Giá nhập</th>
+                                    <th>Giá bán</th>
+                                    <th>Giảm giá</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </c:if>
+
 
 <%--                <div class="pagination">--%>
 <%--                    <ul>--%>
@@ -1474,7 +1505,7 @@
     <c:if test="${users != null}">
 <%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
-    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null}">
+    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null && statistic == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">
@@ -1488,6 +1519,9 @@
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
+    </c:if>
+    <c:if test="${statistic != null}">
+        <script src="./assets/js/adminStore.js"></script>
     </c:if>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
 </body>
