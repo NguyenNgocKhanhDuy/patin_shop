@@ -3,11 +3,12 @@ package vn.hcmuaf.edu.fit.dao;
 import vn.hcmuaf.edu.fit.bean.Color;
 
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ColorDao {
+public class ColorDao extends AbsDao<Color>{
     private static ColorDao instance;
 
     public ColorDao() {
@@ -41,18 +42,30 @@ public class ColorDao {
         return colors;
     }
 
-    public boolean insertColor(Color color){
+    public boolean insertColor(AbsModel model, String ip){
+        Color color = (Color) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO color(name) VALUES (:name)").bind("name", color.getName()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            color.setAfterData(color.logString());
+            super.insert(color, ip, "alert", "insert color");
+            return true;
+        }
+        return false;
     }
 
-    public boolean updateColor(Color color){
+    public boolean updateColor(AbsModel model, String ip){
+        Color color = (Color) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE color SET name = :name WHERE id = :id").bind("name", color.getName()).bind("id", color.getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            color.setAfterData(color.logString());
+            super.insert(color, ip, "alert", "update color");
+            return true;
+        }
+        return false;
     }
 
     public List<Color> getColorPerPage(int currentPage, int productPerPage) {

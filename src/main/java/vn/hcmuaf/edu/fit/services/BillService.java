@@ -20,16 +20,16 @@ public class BillService {
         return instance;
     }
 
-    public boolean addBill(Bill bill) {
-        return BillDao.getInstance().addBill(bill) == 1 ? true : false;
+    public boolean addBill(AbsModel model, String ip, String level, String address) {
+        return BillDao.getInstance().addBill(model, ip, level, address);
     }
 
-    public String generateName(Bill bill, List<BillDetail> listBillDetail) {
-        String s = "";
-        for (BillDetail b: listBillDetail) {
-            s += "P"+b.getProduct().getProductDetail().getProduct().getId();
-        }
-        return "DH"+bill.getId()+s+"U"+bill.getUser().getId();
+    public String generateName(int id, LocalDateTime dateTime) {
+//        String s = "";
+//        for (BillDetail b: listBillDetail) {
+//            s += "P"+b.getProduct().getProductDetail().getProduct().getId();
+//        }
+        return "DH"+id+"D"+dateTime;
     }
 
     public boolean updateName(String name, int id){
@@ -110,8 +110,8 @@ public class BillService {
     }
 
 
-    public boolean updateStatusBill(int id, int status) {
-        return BillDao.getInstance().updateStatusBill(id, status);
+    public boolean updateStatusBill(AbsModel model, String ip, String level, String address, int status) {
+        return BillDao.getInstance().updateStatusBill(model, ip, level, address, status);
     }
 
     public boolean deleteBill(AbsModel model,String ip, String level,String address) {

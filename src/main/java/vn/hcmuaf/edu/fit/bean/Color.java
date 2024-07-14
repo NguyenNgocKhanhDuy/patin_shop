@@ -1,8 +1,10 @@
 package vn.hcmuaf.edu.fit.bean;
 
+import vn.hcmuaf.edu.fit.model.AbsModel;
+
 import java.io.Serializable;
 
-public class Color implements Serializable {
+public class Color extends AbsModel implements Serializable {
     private int id;
     private String name;
 

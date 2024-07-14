@@ -4,6 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
+import java.time.LocalDateTime;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -11,6 +12,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Form;
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.LogDao;
 import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.google_login.Constants;
 import vn.hcmuaf.edu.fit.google_login.UserGoogle;
@@ -30,8 +32,16 @@ public class GoogleLogin extends HttpServlet {
         user.setFullName(userGoogle.getName());
         user.setAvatar(userGoogle.getPicture());
 
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+
         if (!UserService.getInstance().isUserExists(user.getEmail())){
-            UserDao.getInstance().addLoginGoogle(user, "", "info", "login google");
+            UserDao.getInstance().addLoginGoogle(user, ipAddress, "info", "login google");
+        }else {
+            user.setAfterData(user.logString()+"\nStatus: Thành công");
+            LogDao.getInstance().insert(user, ipAddress, "info", "login google");
         }
         HttpSession session = request.getSession(true);
         session.setAttribute("auth", UserService.getInstance().getUserByEmail(user.getEmail()));
@@ -39,7 +49,7 @@ public class GoogleLogin extends HttpServlet {
         if (location == null) location = "home";
         request.setAttribute("type", "success");
         request.setAttribute("information", "Đăng nhập thành công");
-        UserDao.getInstance().addLoginGoogle(user, "", "alert", "login google");
+//        UserDao.getInstance().addLoginGoogle(user, "", "info", "login google");
         request.getRequestDispatcher(location).forward(request, response);
     }
     public static String getToken(String code) throws ClientProtocolException, IOException {

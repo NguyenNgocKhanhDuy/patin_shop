@@ -97,21 +97,21 @@ public class AddUserAdmin extends HttpServlet {
                             ipAddress = request.getRemoteAddr();
                         }
 
-                        if (UserDao.getInstance().insert(user, ipAddress,  "alert", "AdminAddUser")){
-                            int idNew = UserService.getInstance().getUserByEmail(email).getId();
-                            List<Integer> rsID = ResourcesService.getInstance().getAllID();
-                            boolean flag = true;
-                            for (int i = 1; i <= role; i++) {
-                                for (int j = 0; j < rsID.size(); j++) {
-                                    flag = PermissionsService.getPermissionsService().addPer(rsID.get(j), idNew, i);
-                                    if (flag == false){
-                                        request.setAttribute("type", "error");
-                                        request.setAttribute("information", "Lỗi sql");
-                                        request.getRequestDispatcher("showUserAdmin").forward(request, response);
-                                        break;
-                                    }
-                                }
-                            }
+                        if (UserDao.getInstance().addUser(user, ipAddress,  "alert", "AdminAddUser")){
+//                            int idNew = UserService.getInstance().getUserByEmail(email).getId();
+//                            List<Integer> rsID = ResourcesService.getInstance().getAllID();
+//                            boolean flag = true;
+//                            for (int i = 1; i <= role; i++) {
+//                                for (int j = 0; j < rsID.size(); j++) {
+//                                    flag = PermissionsService.getPermissionsService().addPer(rsID.get(j), idNew, i);
+//                                    if (flag == false){
+//                                        request.setAttribute("type", "error");
+//                                        request.setAttribute("information", "Lỗi sql");
+//                                        request.getRequestDispatcher("showUserAdmin").forward(request, response);
+//                                        break;
+//                                    }
+//                                }
+//                            }
                             request.setAttribute("type", "success");
                             request.setAttribute("information", "Thêm thành công");
                             request.getRequestDispatcher("showUserAdmin").forward(request, response);

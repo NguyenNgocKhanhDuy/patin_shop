@@ -30,8 +30,12 @@ public class UpdateColorAdmin extends HttpServlet {
 
                 Color color = ColorDao.getInstance().getColorById(id);
                 color.setName(name);
+                String ip = request.getHeader("X-FORWARDED_FOR");
+                if(ip == null){
+                    ip = request.getRemoteAddr();
+                }
 
-                if (ColorDao.getInstance().updateColor(color)){
+                if (ColorDao.getInstance().updateColor(color, ip)){
                     request.setAttribute("type", "success");
                     request.setAttribute("information", "Cập nhật thành công");
                     request.getRequestDispatcher("showColorAdmin").forward(request, response);

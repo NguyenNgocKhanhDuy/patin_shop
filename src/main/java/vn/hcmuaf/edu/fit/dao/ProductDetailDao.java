@@ -24,15 +24,15 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
 
     }
 
-    @Override
-    public boolean insert(AbsModel model, String ip, String level, String address) {
-        return false;
-    }
-
-    @Override
-    public boolean update(AbsModel model, String ip, String level, String address) {
-        return false;
-    }
+//    @Override
+//    public boolean insert(AbsModel model, String ip, String level, String address) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean update(AbsModel model, String ip, String level, String address) {
+//        return false;
+//    }
 
     @Override
     public boolean delete(AbsModel model, String ip, String level, String address) {
@@ -47,22 +47,33 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
         });
         return i == 1 ? true : false;
     }
-    public boolean updateProductDetail(ProductDetail product, int oldSize, int oldColor) {
+    public boolean updateProductDetail(AbsModel model, String ip, int oldSize, int oldColor) {
+        ProductDetail product = (ProductDetail) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE product_detail SET id_size = :size, id_color = :color, quantity = :quantity, price = :price WHERE id_product = :id AND id_size = :old_size AND id_color = :old_color")
                     .bind("size", product.getSize().getId()).bind("color", product.getColor().getId()).bind("quantity", product.getQuantity())
                     .bind("price", product.getPrice()).bind("id", product.getProduct().getId())
                     .bind("old_size", oldSize).bind("old_color", oldColor).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            product.setBeforeData("P="+product.getProduct().getId()+", S="+oldSize+", C="+oldColor);
+            product.setAfterData("P="+product.getProduct().getId()+", S="+product.getSize().getId()+", C="+product.getColor().getId());
+            super.insert(product, ip, "info", "update productDetail");
+        }
+        return false;
     }
 
-    public boolean addProductDetail(ProductDetail product) {
+    public boolean addProductDetail(AbsModel model, String ip) {
+        ProductDetail product = (ProductDetail) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO product_detail(id_product, id_size, id_color, quantity, price) VALUES (:product, :size, :color, :quantity, :price)")
                     .bind("product", product.getProduct().getId()).bind("size", product.getSize().getId()).bind("color", product.getColor().getId()).bind("quantity", product.getQuantity()).bind("price", product.getPrice()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            product.setAfterData(product.logString());
+            super.insert(product, ip, "info", "add productDetail");
+        }
+        return false;
     }
 
     public ProductMain getProductDetail(int id, int size, int color) {

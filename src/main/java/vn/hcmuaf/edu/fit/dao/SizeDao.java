@@ -4,11 +4,12 @@ package vn.hcmuaf.edu.fit.dao;
 import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SizeDao {
+public class SizeDao extends AbsDao<Size>{
     private static SizeDao instance;
 
     public SizeDao() {
@@ -44,18 +45,31 @@ public class SizeDao {
         return sizes;
     }
 
-    public boolean insertSize(Size size){
+    public boolean insertSize(AbsModel model, String ip){
+        Size size = (Size) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO size(name) VALUES (:name)").bind("name", size.getName()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            size.setAfterData(size.logString());
+            super.update(size, ip, "alert", "insert size");
+            return true;
+        }
+        return false;
     }
 
-    public boolean updateSize(Size size){
+    public boolean updateSize(AbsModel model, String ip){
+        Size size = (Size) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE size SET name = :name WHERE id = :id").bind("name", size.getName()).bind("id", size.getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            size.setBeforeData(size.logString());
+            size.setAfterData(getSizeById(size.getId()).logString());
+            super.update(size, ip, "alert", "update size");
+            return true;
+        }
+        return false;
     }
 
     public List<Size> getSizePerPage(int currentPage, int productPerPage) {

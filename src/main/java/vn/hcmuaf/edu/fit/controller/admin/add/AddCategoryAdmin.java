@@ -19,6 +19,10 @@ public class AddCategoryAdmin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
+        String ip = request.getHeader("X-FORWARDED_FOR");
+        if(ip == null){
+            ip = request.getRemoteAddr();
+        }
 
         if (name == null){
             request.setAttribute("type", "error");
@@ -27,7 +31,7 @@ public class AddCategoryAdmin extends HttpServlet {
         }else {
 
             Category category = new Category(0, name);
-            if (!CategoryDao.getInstance().insertCategory(category)){
+            if (!CategoryDao.getInstance().insertCategory(category, ip)){
                 request.setAttribute("type", "error");
                 request.setAttribute("information", "Lỗi sql");
                 request.getRequestDispatcher("showCategoryAdmin").forward(request, response);

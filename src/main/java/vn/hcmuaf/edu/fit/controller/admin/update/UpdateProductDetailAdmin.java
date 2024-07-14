@@ -44,6 +44,10 @@ public class UpdateProductDetailAdmin extends HttpServlet {
                 sizeOb.setId(size);
                 Color colorOb = new Color();
                 colorOb.setId(color);
+                String ip = request.getHeader("X-FORWARDED_FOR");
+                if(ip == null){
+                    ip = request.getRemoteAddr();
+                }
                 ProductDetail productDetail = new ProductDetail(product, sizeOb, colorOb, quantity, price);
                 if (oldColor != color || oldSize != size){
                     if (ProductService.getInstance().isExistProductDetail(id, size, color)){
@@ -51,7 +55,8 @@ public class UpdateProductDetailAdmin extends HttpServlet {
                         request.setAttribute("information", "Đã tồn tại sản phẩm");
                         request.getRequestDispatcher("showProductDetailAdmin?id="+id).forward(request, response);
                     }else {
-                        if (ProductService.getInstance().updateProductDetail(productDetail, oldSize, oldColor)){
+
+                        if (ProductService.getInstance().updateProductDetail(productDetail,ip, oldSize, oldColor)){
                             request.setAttribute("type", "success");
                             request.setAttribute("information", "Cập nhật thành công");
                             request.getRequestDispatcher("showProductDetailAdmin?id"+id).forward(request, response);
@@ -62,7 +67,7 @@ public class UpdateProductDetailAdmin extends HttpServlet {
                         }
                     }
                 }else {
-                    if (ProductService.getInstance().updateProductDetail(productDetail, oldSize, oldColor)){
+                    if (ProductService.getInstance().updateProductDetail(productDetail,ip, oldSize, oldColor)){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Cập nhật thành công");
                         request.getRequestDispatcher("showProductDetailAdmin?id"+id).forward(request, response);

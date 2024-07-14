@@ -18,6 +18,10 @@ public class ChangePass extends HttpServlet {
         String confirmPass = request.getParameter("confirmPass");
 
         User user = (User) request.getSession().getAttribute("auth");
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
 
         if (oldPass == null || newPass == null || confirmPass == null || user == null){
             request.setAttribute("type", "error");
@@ -31,7 +35,7 @@ public class ChangePass extends HttpServlet {
             request.getRequestDispatcher("account.jsp").forward(request, response);
         }else {
             if (UserService.getInstance().checkPass(user.getId(), oldPass)){
-                if (UserService.getInstance().changePass(user.getEmail(), newPass, confirmPass)){
+                if (UserService.getInstance().changePass(user, ipAddress, newPass, confirmPass)){
                     request.setAttribute("type", "success");
                     request.setAttribute("information", "Thay đổi thành oông");
                     request.getRequestDispatcher("account.jsp").forward(request, response);

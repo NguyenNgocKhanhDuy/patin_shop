@@ -1,5 +1,7 @@
 package vn.hcmuaf.edu.fit.controller;
 
+import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.LogDao;
 import vn.hcmuaf.edu.fit.services.MailService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
@@ -23,10 +25,18 @@ public class VerifyForgetPass extends HttpServlet {
         }
         int code = Integer.parseInt(s);
 
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+
         if (MailService.getInstance().isValidCode(timeStart, timeEnd)){
             if (UserService.getInstance().checkKey(code, email)) {
                 request.getSession().removeAttribute("timeStart");
                 request.setAttribute("type", "success");
+                User u = new User();
+                u.setEmail(email);
+                LogDao.getInstance().insert(u, ipAddress, "alert", "user forgot password");
                 request.setAttribute("information", "Xác thực thành công");
                 request.getRequestDispatcher("newPass.jsp").forward(request, response);
             }else {

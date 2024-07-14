@@ -33,12 +33,17 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
         });
         return i == 1 ? true : false;
     }
-    public boolean addImage(String url, int id) {
+    public boolean addImage(AbsModel model, String ip) {
+        ImageProduct imageProduct = (ImageProduct) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO image_product(url, id_product) VALUES (:url, :id)")
-                    .bind("url", url).bind("id", id).execute();
+                    .bind("url", imageProduct.getUrl()).bind("id", imageProduct.getProduct().getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            imageProduct.setAfterData(imageProduct.logString());
+            super.insert(imageProduct, ip, "info", "add image product");
+        }
+        return false;
     }
 
     public boolean deleteAllImageOfProduct(int id) {

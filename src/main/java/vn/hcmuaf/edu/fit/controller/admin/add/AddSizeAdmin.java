@@ -27,8 +27,12 @@ public class AddSizeAdmin extends HttpServlet {
             try {
                 int sizeName = Integer.valueOf(name);
                 Size size = new Size(0, name);
+                String ip = request.getHeader("X-FORWARDED_FOR");
+                if(ip == null){
+                    ip = request.getRemoteAddr();
+                }
 
-                if (!SizeDao.getInstance().insertSize(size)){
+                if (!SizeDao.getInstance().insertSize(size, ip)){
                     request.setAttribute("type", "error");
                     request.setAttribute("information", "Lỗi sql");
                     request.getRequestDispatcher("showSizeAdmin").forward(request, response);

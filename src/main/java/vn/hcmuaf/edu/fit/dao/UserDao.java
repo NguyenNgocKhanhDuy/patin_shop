@@ -43,18 +43,18 @@ public class UserDao extends AbsDao<User>{
         });
 
         if (users.size() != 1){
-            user.setAfterData(user.toString()+"\nStatus: Thất bại");
+            user.setAfterData(user.logString()+"\nStatus: Thất bại");
             super.insert(user, ip, "alert", address);
             return null;
         }
 
         User u = users.get(0);
         if (!u.getEmail().equals(email) || !u.getPassword().equals(hashPassword(password))){
-            user.setAfterData(user.toString()+"\nStatus: Thất bại");
+            user.setAfterData(user.logString()+"\nStatus: Thất bại");
             super.insert(user, ip, "alert", address);
             return null;
         }
-        user.setAfterData(user.toString()+"\nStatus: Thành công");
+        user.setAfterData(user.logString()+"\nStatus: Thành công");
         super.insert(user, ip,"info", address);
         return u;
     }
@@ -71,36 +71,36 @@ public class UserDao extends AbsDao<User>{
         return users;
     }
 
-    public boolean addUser(String email, String password, int verify, String fullName, String address, String phone, String sex, LocalDateTime dob, String avatar, int role) {
-        String hashPass = hashPassword(password);
-        Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname, address, phone, sex, dob, avatar, role) " +
-                            "VALUES (:email, :password, :verify, :fullname, :address, :phone, :sex, :dob, :avatar, :role)")
-                    .bind("email", email).bind("password", hashPass)
-                    .bind("verify", verify).bind("fullname", fullName).bind("phone", phone).bind("address", address)
-                    .bind("sex", sex).bind("dob", dob).bind("avatar", avatar)
-                    .bind("role", role).execute();
-        });
-        if (i == 1){
-            return true;
-        }
-        return false;
-    }
+//    public boolean addUser(String email, String password, int verify, String fullName, String address, String phone, String sex, LocalDateTime dob, String avatar, int role) {
+//        String hashPass = hashPassword(password);
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname, address, phone, sex, dob, avatar, role) " +
+//                            "VALUES (:email, :password, :verify, :fullname, :address, :phone, :sex, :dob, :avatar, :role)")
+//                    .bind("email", email).bind("password", hashPass)
+//                    .bind("verify", verify).bind("fullname", fullName).bind("phone", phone).bind("address", address)
+//                    .bind("sex", sex).bind("dob", dob).bind("avatar", avatar)
+//                    .bind("role", role).execute();
+//        });
+//        if (i == 1){
+//            return true;
+//        }
+//        return false;
+//    }
 
-    public boolean addUser(User user) {
-        String hashPass = hashPassword(user.getPassword());
-        Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role) " +
-                            "VALUES (:email, :password, :verify, :fullname, :phone, :address, :sex, :dob, :avatar,:role)")
-                    .bind("email", user.getEmail()).bind("password", hashPass)
-                    .bind("verify", user.getVerify()).bind("fullname", user.getFullName()).bind("phone", user.getPhone()).bind("address", user.getAddress())
-                    .bind("sex", user.getSex()).bind("dob", user.getDob()).bind("avatar", user.getAvatar())
-                    .bind("role", user.getRole()).execute();
-        });
-        if (i == 1)
-            return true;
-        return false;
-    }
+//    public boolean addUser(User user) {
+//        String hashPass = hashPassword(user.getPassword());
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role) " +
+//                            "VALUES (:email, :password, :verify, :fullname, :phone, :address, :sex, :dob, :avatar,:role)")
+//                    .bind("email", user.getEmail()).bind("password", hashPass)
+//                    .bind("verify", user.getVerify()).bind("fullname", user.getFullName()).bind("phone", user.getPhone()).bind("address", user.getAddress())
+//                    .bind("sex", user.getSex()).bind("dob", user.getDob()).bind("avatar", user.getAvatar())
+//                    .bind("role", user.getRole()).execute();
+//        });
+//        if (i == 1)
+//            return true;
+//        return false;
+//    }
 
     public boolean isExitsCode(int code) {
         List<User> users = JDBIConnector.get().withHandle(handle -> {
@@ -157,25 +157,30 @@ public class UserDao extends AbsDao<User>{
 
 
 
-    public boolean updateUser(User user) {
-        Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
-                    .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
-                    .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("role", user.getRole()).bind("verify", user.getVerify())
-                    .execute();
-        });
-        if(i == 1) return true;
-        return false;
-    }
+//    public boolean updateUser(User user) {
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
+//                    .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
+//                    .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("role", user.getRole()).bind("verify", user.getVerify())
+//                    .execute();
+//        });
+//        if(i == 1) return true;
+//        return false;
+//    }
 
-    public boolean updatePass(String email, String password) {
+    public boolean updatePass(AbsModel model, String ip, String password) {
+        User u = (User) model;
         String hashPass = hashPassword(password);
 
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE user SET password = ? WHERE email = ?")
-                    .bind(0, hashPass).bind(1, email).execute();
+                    .bind(0, hashPass).bind(1, u.getEmail()).execute();
         });
-        if(i == 1) return true;
+        if(i == 1){
+            u.setAfterData(u.logString());
+            super.insert(u, ip, "alert", "user change pass");
+            return true;
+        }
         return false;
     }
 
@@ -222,10 +227,10 @@ public class UserDao extends AbsDao<User>{
     }
 
 
-    @Override
-    public boolean update(AbsModel model, String ip, String level, String address) {
+
+    public boolean updateUser(AbsModel model, String ip, String level, String address) {
         User user = (User) model;
-        user.setBeforeData(UserDao.getInstance().getUserByEmail(user.getEmail()).get(0).toString());
+        user.setBeforeData(user.logStringForUpdateUser());
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
                     .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
@@ -233,9 +238,9 @@ public class UserDao extends AbsDao<User>{
                     .execute();
         });
 
-        user.setAfterData(UserDao.getInstance().getUserByEmail(user.getEmail()).get(0).toString());
-        super.update(user, ip, level, address);
         if(i == 1){
+            user.setAfterData(getUserByEmail(user.getEmail()).get(0).logStringForUpdateUser());
+            super.update(user, ip, level, address);
             return true;
         }
         return false;
@@ -253,8 +258,7 @@ public class UserDao extends AbsDao<User>{
 
     }
 
-    @Override
-    public boolean insert(AbsModel model, String ip, String level, String address) {
+    public boolean addUser(AbsModel model, String ip, String level, String address) {
         User user = (User) model;
         String hashPass = hashPassword(user.getPassword());
         Integer i = JDBIConnector.get().withHandle(handle -> {
@@ -268,12 +272,12 @@ public class UserDao extends AbsDao<User>{
 
 
         if (i == 1){
-            user.setAfterData(user.toString());
+            user.setAfterData(user.logString());
             super.insert(user, ip, level, address);
             return true;
+        }else {
+            return false;
         }
-        user.setAfterData(user.toString());
-        return false;
     }
 
     public boolean addLoginGoogle(AbsModel model, String ip, String level, String address) {
@@ -286,9 +290,12 @@ public class UserDao extends AbsDao<User>{
                     .bind("avatar", user.getAvatar()).bind("role", 0).execute();
         });
 
-        user.setAfterData("Email: "+user.getEmail()+" Status: Thành công");
-        super.insert(user, ip, level, address);
-
-        return i == 1 ? true : false;
+        if (i == 1) {
+            user.setAfterData(user.logString()+"\nStatus: Thành công");
+            super.insert(user, ip, level, address);
+            return true;
+        }else {
+            return false;
+        }
     }
 }

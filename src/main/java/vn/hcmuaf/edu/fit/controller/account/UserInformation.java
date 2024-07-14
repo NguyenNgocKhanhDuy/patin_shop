@@ -98,7 +98,6 @@ public class    UserInformation extends HttpServlet {
                         ipAddress = request.getRemoteAddr();
                     }
 
-                    String level="info";
                     if (UserService.getInstance().updateUser(user,ipAddress, "info", "UpdateInfomation")){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Cập nhật thành công");

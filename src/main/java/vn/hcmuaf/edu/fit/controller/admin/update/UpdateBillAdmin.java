@@ -1,5 +1,8 @@
 package vn.hcmuaf.edu.fit.controller.admin.update;
 
+import vn.hcmuaf.edu.fit.bean.Bill;
+import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.services.BillService;
 
 import javax.servlet.*;
@@ -19,6 +22,10 @@ public class UpdateBillAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
         int status;
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
         try {
             id = Integer.parseInt(request.getParameter("id"));
             status = Integer.parseInt(request.getParameter("status"));
@@ -36,7 +43,11 @@ public class UpdateBillAdmin extends HttpServlet {
                 request.setAttribute("information", "Đơn hàng đã bị huỷ");
                 request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
             }else  {
-                if (BillService.getInstance().updateStatusBill(id, status)){
+                Bill bill = new Bill();
+                bill.setId(id);
+                bill.setBeforeData(bill.logString());
+                String u = ((User) request.getSession().getAttribute("auth")).getEmail();
+                if (BillService.getInstance().updateStatusBill(bill, ipAddress, "alert", u+": change status bill", status)){
                     request.setAttribute("type", "success");
                     request.setAttribute("information", "Thay đổi trạng thái thành công");
                     request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);

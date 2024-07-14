@@ -14,6 +14,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,15 +68,16 @@ public class AddBill extends HttpServlet {
                 } else if (payment.equals("Bank")) {
                     payment = "Chuyển khoản ngân hàng";
                 }
-                Bill bill = new Bill(0, "", BillService.getInstance().getCurrentDate(), 0, payment, note, user);
+                LocalDateTime dateTime = BillService.getInstance().getCurrentDate();
+                String billName = BillService.getInstance().generateName(user.getId(), dateTime);
+                Bill bill = new Bill(0, billName, dateTime, 0, payment, note, user);
                 List<BillDetail> listBill = new ArrayList<>();
                 String ip = request.getHeader("X-FORWARDED_FOR");
                 if(ip == null){
                     ip = request.getRemoteAddr();
                 }
 //                BillService.getInstance().addBill(bill);
-                bill.setBeforeData("user:" +user.getEmail());
-                BillDao.getInstance().insert(bill, ip, "normal", "user mua hang");
+                BillService.getInstance().addBill(bill, ip, "info", "user mua hang");
 
                 Bill newBill = BillService.getInstance().getNewBill(user.getId());
 
@@ -102,7 +104,7 @@ public class AddBill extends HttpServlet {
 
               // BillService.getInstance().addBillDetail(listBill);
 
-                BillService.getInstance().updateName(BillService.getInstance().generateName(newBill, listBill), newBill.getId());
+//                BillService.getInstance().updateName(BillService.getInstance().generateName(newBill, listBill), newBill.getId());
                 request.getSession().removeAttribute("cart");
 
                 request.getRequestDispatcher("paymentDetail").forward(request, response);

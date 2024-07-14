@@ -3,11 +3,12 @@ package vn.hcmuaf.edu.fit.dao;
 import vn.hcmuaf.edu.fit.bean.Category;
 import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CategoryDao {
+public class CategoryDao extends AbsDao<Category>{
     private static CategoryDao instance;
 
     public CategoryDao() {
@@ -32,18 +33,31 @@ public class CategoryDao {
         return category;
     }
 
-    public boolean insertCategory(Category category){
+    public boolean insertCategory(AbsModel model, String ip){
+        Category category = (Category) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO category(name) VALUES (:name)").bind("name", category.getName()).execute();
         });
-        return i == 1 ? true :false;
+        if (i == 1) {
+            category.setAfterData(category.logString());
+            super.insert(category, ip, "alert", "insert category");
+            return true;
+        }
+        return false;
     }
 
-    public boolean updateCategory(Category category){
+    public boolean updateCategory(AbsModel model, String ip){
+        Category category = (Category) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE category SET name = :name WHERE id = :id").bind("name", category.getName()).bind("id", category.getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            category.setBeforeData(category.logString());
+            category.setAfterData(getCategory(category.getId()).logString());
+            super.update(category, ip, "alert", "update category");
+            return true;
+        }
+        return false;
     }
 
     public List<Category> getCategoryPerPage(int currentPage, int productPerPage) {

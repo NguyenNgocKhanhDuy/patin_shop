@@ -46,7 +46,11 @@ public class AddProductDetail extends HttpServlet {
                     request.setAttribute("information", "Đã tồn tại sản phẩm");
                     request.getRequestDispatcher("showProductDetailAdmin?id="+id).forward(request, response);
                 }else {
-                    if (ProductService.getInstance().addProductDetail(productDetail)){
+                    String ip = request.getHeader("X-FORWARDED_FOR");
+                    if(ip == null){
+                        ip = request.getRemoteAddr();
+                    }
+                    if (ProductService.getInstance().addProductDetail(productDetail, ip)){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Thêm thành công");
                         request.getRequestDispatcher("showProductDetailAdmin?id"+id).forward(request, response);

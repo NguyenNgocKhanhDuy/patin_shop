@@ -1,8 +1,10 @@
 package vn.hcmuaf.edu.fit.bean;
 
+import vn.hcmuaf.edu.fit.model.AbsModel;
+
 import java.io.Serializable;
 
-public class Size implements Serializable {
+public class Size extends AbsModel implements Serializable {
     private int id;
     private String name;
 
