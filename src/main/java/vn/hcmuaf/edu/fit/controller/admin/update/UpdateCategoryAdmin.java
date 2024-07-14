@@ -29,8 +29,12 @@ public class UpdateCategoryAdmin extends HttpServlet {
 
                 Category category = CategoryDao.getInstance().getCategory(id);
                 category.setName(name);
+                String ip = request.getHeader("X-FORWARDED_FOR");
+                if(ip == null){
+                    ip = request.getRemoteAddr();
+                }
 
-                if (CategoryDao.getInstance().updateCategory(category)){
+                if (CategoryDao.getInstance().updateCategory(category, ip)){
                     request.setAttribute("type", "success");
                     request.setAttribute("information", "Cập nhật thành công");
                     request.getRequestDispatcher("showCategoryAdmin").forward(request, response);

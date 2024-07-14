@@ -251,7 +251,7 @@
                                     <span>Thống kê</span>
                                 </a>
                             </c:if>
-                            <c:if test="${bills == null && billDetail == null}">
+                            <c:if test="${statistic == null}">
                                 <a href="showStatistic">
                                     <i class="fa-brands fa-wpforms"></i>
                                     <span>Thống kê</span>
@@ -273,13 +273,13 @@
                             </div>
                         </div>
                         <div class="search">
-                            <c:if test="${per > 1}">
+                            <c:if test="${sessionScope.auth.getRole() > 1}">
                                 <div class="add">
                                     Thêm người dùng
                                 </div>
                             </c:if>
 
-                            <c:if test="${per < 2}">
+                            <c:if test="${sessionScope.auth.getRole() <= 1}">
                                 <div class="add disabled">
                                     Thêm người dùng
                                 </div>
@@ -337,13 +337,13 @@
                             </div>
                         </div>
                         <div class="search">
-                            <c:if test="${per > 1}">
+                            <c:if test="${sessionScope.auth.getRole() > 1}">
                                 <div class="add">
                                     Thêm sản phẩm
                                 </div>
                             </c:if>
 
-                            <c:if test="${per < 2}">
+                            <c:if test="${sessionScope.auth.getRole() <= 1}">
                                 <div class="add disabled">
                                     Thêm sản phẩm
                                 </div>
@@ -397,12 +397,12 @@
                                 </div>
                             </div>
                             <div class="search">
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
                                         Thêm danh mục
                                     </div>
                                 </c:if>
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <div class="add disabled">
                                         Thêm danh mục
                                     </div>
@@ -452,13 +452,13 @@
                                 </div>
                             </div>
                             <div class="search">
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
                                         Thêm màu sắc
                                     </div>
                                 </c:if>
 
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <div class="add disabled">
                                         Thêm màu sắc
                                     </div>
@@ -508,13 +508,13 @@
                                 </div>
                             </div>
                             <div class="search">
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
                                         Thêm kích thước
                                     </div>
                                 </c:if>
 
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <div class="add disabled">
                                         Thêm kích thước
                                     </div>
@@ -675,12 +675,12 @@
                             <span>Thông tin:<br>-
                             ${product.getProductDetail().getProduct().getInformation()}
                             </span>
-                                <c:if test="${per > 1}">
+                                <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <span>
                                         <i class="fa-solid fa-clipboard detail"></i>
                                     </span>
                                 </c:if>
-                                <c:if test="${per < 2}">
+                                <c:if test="${sessionScope.auth.getRole() <= 1}">
                                     <span class="disabled">
                                         <i class="fa-solid fa-clipboard detail"></i>
                                     </span>
@@ -693,7 +693,7 @@
                                 <img src="${img.getUrl()}" alt="">
                             </c:forEach>
                         </div>
-                        <c:if test="${images.size() < 5 && per > 1}">
+                        <c:if test="${images.size() < 5 && sessionScope.auth.getRole() > 1}">
                             <div class="addBox">
                                     <div class="add addImg">
                                         Thêm ảnh
@@ -703,7 +703,7 @@
                                     </div>
                             </div>
                         </c:if>
-                        <c:if test="${images.size() < 5 && per < 2}">
+                        <c:if test="${images.size() < 5 && sessionScope.auth.getRole() <= 1}">
                             <div class="addBox">
                                     <div class="add addImg disabled">
                                         Thêm ảnh
@@ -714,12 +714,12 @@
                             </div>
                         </c:if>
                         <input type="hidden" value="${image.size() < 5 ? image.size() : 5}" class="imgSize">
-                        <c:if test="${images.size() == 5 && per > 1}">
+                        <c:if test="${images.size() == 5 && sessionScope.auth.getRole() > 1}">
                             <div class="add rightBtn addProduct">
                                 Thêm sản phẩm
                             </div>
                         </c:if>
-                        <c:if test="${images.size() == 5 && per < 2}">
+                        <c:if test="${images.size() == 5 && sessionScope.auth.getRole() <= 1}">
                             <div class="add rightBtn addProduct disabled">
                                 Thêm sản phẩm
                             </div>
@@ -847,6 +847,37 @@
                         </div>
                     </div>
                 </c:if>
+
+                <c:if test="${statistic != null}">
+                    <div class="user section">
+                        <div class="total">
+                            <i class="fa-solid fa-users"></i>
+                            <div class="text">
+                                <h3>Tồn kho</h3>
+                                <p class="totalUser"></p>
+                            </div>
+                        </div>
+                        <div class="user-list">
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Mã kích thước</th>
+                                    <th>Mã màu</th>
+                                    <th>Người nhập</th>
+                                    <th>Số lượng</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Giá nhập</th>
+                                    <th>Giá bán</th>
+                                    <th>Giảm giá</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </c:if>
+
 
 <%--                <div class="pagination">--%>
 <%--                    <ul>--%>
@@ -1096,10 +1127,10 @@
 
                         </div>
                     </div>
-                    <c:if test="${per < 2}">
+                    <c:if test="${sessionScope.auth.getRole() <= 1}">
                         <button class="add disabled">Cập nhật</button>
                     </c:if>
-                    <c:if test="${per > 1}">
+                    <c:if test="${sessionScope.auth.getRole() > 1}">
                         <button type="submit" class="add">Cập nhật</button>
                     </c:if>
                 </form>
@@ -1290,10 +1321,10 @@
         <div class="modal-img">
             <div class="modal-img-container">
                 <form action="deleteImg" method="post">
-                    <c:if test="${per > 1}">
+                    <c:if test="${sessionScope.auth.getRole() > 1}">
                         <input type="submit" class="delImg" value="Xoá ảnh">
                     </c:if>
-                    <c:if test="${per < 2}">
+                    <c:if test="${sessionScope.auth.getRole() <= 1}">
                         <input type="hidden" class="delImg" value="Xoá ảnh">
                     </c:if>
                     <input type="hidden" name="id" value="${product.getProductDetail().getProduct().getId()}">
@@ -1474,7 +1505,7 @@
     <c:if test="${users != null}">
 <%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
-    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null}">
+    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null && statistic == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">
@@ -1488,6 +1519,9 @@
     </c:if>
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
+    </c:if>
+    <c:if test="${statistic != null}">
+        <script src="./assets/js/adminStore.js"></script>
     </c:if>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
 </body>

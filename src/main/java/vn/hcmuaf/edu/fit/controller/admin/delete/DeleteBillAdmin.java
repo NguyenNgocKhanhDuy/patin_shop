@@ -29,7 +29,7 @@ public class DeleteBillAdmin extends HttpServlet {
             if(ipAddress == null){
                 ipAddress = request.getRemoteAddr();
             }
-            if (BillService.getInstance().deleteBill(bill,ipAddress,"danger","admin delete bill")){
+            if (BillService.getInstance().deleteBill(bill,ipAddress)){
                 request.setAttribute("type", "success");
                 request.setAttribute("information", "Xoá thành công");
                 request.getRequestDispatcher("showBillAdmin").forward(request, response);

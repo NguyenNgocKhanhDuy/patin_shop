@@ -18,21 +18,28 @@ public class BillDao extends AbsDao<Bill>{
         return instance;
     }
 
-    @Override
-    public boolean insert(AbsModel model, String ip, String level, String address) {
-        Bill bill = (Bill) model;
-        super.insert(bill,ip,level,address);
-        int i = addBill(bill);
-        return i == 0;
-    }
-    public int addBill(Bill bill) {
+//    @Override
+//    public boolean insert(AbsModel model, String ip, String level, String address) {
+//        Bill bill = (Bill) model;
+//        super.insert(bill,ip,level,address);
+//        int i = addBill(bill);
+//        return i == 0;
+//    }
+    public boolean addBill(AbsModel model, String ip, String level, String address) {
+        Bill bill =(Bill) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             System.out.println(bill.getId());
             return handle.createUpdate("INSERT INTO bill(name, date, status, payment, note, user_id) VALUES (:name, :date, :status, :payment, :note, :user)")
                     .bind("name", bill.getName()).bind("date", bill.getDate()).bind("status", bill.getStatus()).bind("payment", bill.getPayment())
                     .bind("note", bill.getNote()).bind("user", bill.getUser().getId()).execute();
         });
-        return i;
+        if (i == 1) {
+            bill.setAfterData(bill.logString());
+            super.insert(bill, ip, level, address);
+            return true;
+        }else {
+            return false;
+        }
     }
 
 
@@ -108,20 +115,30 @@ public class BillDao extends AbsDao<Bill>{
     }
 
 
-    public boolean updateStatusBill(int id, int status){
+    public boolean updateStatusBill(AbsModel model, String ip, String level, String address, int status){
+        Bill bill = (Bill) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("UPDATE bill SET status = :status WHERE id = :id").bind("status", status).bind("id", id).execute();
+            return handle.createUpdate("UPDATE bill SET status = :status WHERE id = :id").bind("status", status).bind("id", bill.getId()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            bill.setBeforeData(bill.logString());
+            bill.setAfterData(getBill(bill.getId()).logString());
+            super.update(bill, ip, level, address);
+            return true;
+        }else {
+            return false;
+        }
     }
-    public boolean deleteBill(AbsModel model, String ip, String level, String address){
+    public boolean deleteBill(AbsModel model, String ip){
         Bill bill = (Bill) model;
         bill.setBeforeData(getBill(bill.getId()).logString());
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("DELETE FROM bill WHERE id = :id").bind("id", bill.getId()).execute();
         });
-        super.delete(bill,ip,level,address);
-        return i == 1 ? true : false;
+        if (i == 1){
+            super.delete(bill,ip,"danger","delete bill");
+        }
+        return false;
     }
 
     public List<Integer> getBillIDByUser(int idUser) {

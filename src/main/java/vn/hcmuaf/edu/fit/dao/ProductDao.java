@@ -522,21 +522,26 @@ public class ProductDao extends AbsDao<Product>{
         return i;
     }
 
-    public boolean addProduct(Product product) {
+    public boolean addProduct(AbsModel model, String ip) {
+        Product product = (Product) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO product(name, hot, sale_percent, information) VALUES (:name, :hot, :sale, :information)")
                     .bind("name", product.getName()).bind("hot", product.getHot()).bind("sale", product.getSalePercent()).bind("information", product.getInformation()).execute();
         });
-        return i == 1 ? true : false;
+        if (i == 1) {
+            product.setAfterData(product.logString());
+            super.insert(product, ip, "info", "add product");
+        }
+        return false;
     }
 
-    public boolean addProduct(ProductDetail product) {
-        Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO product(name, hot, sale_percent, information) VALUES (:name, :hot, :sale, :information)")
-                    .bind("name", product.getProduct().getName()).bind("hot", product.getProduct().getHot()).bind("sale", product.getProduct().getSalePercent()).bind("information", product.getProduct().getInformation()).execute();
-        });
-        return i == 1 ? true : false;
-    }
+//    public boolean addProduct(ProductDetail product) {
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("INSERT INTO product(name, hot, sale_percent, information) VALUES (:name, :hot, :sale, :information)")
+//                    .bind("name", product.getProduct().getName()).bind("hot", product.getProduct().getHot()).bind("sale", product.getProduct().getSalePercent()).bind("information", product.getProduct().getInformation()).execute();
+//        });
+//        return i == 1 ? true : false;
+//    }
 
 //    public boolean addProductDetail(ProductDetail product) {
 //        Integer i = JDBIConnector.get().withHandle(handle -> {
@@ -618,6 +623,7 @@ public class ProductDao extends AbsDao<Product>{
         Product product = (Product) model;
         int id = product.getId();
         if(ImageProductDao.getInstance().deleteAllImageOfProduct(id) && deleteProductDetailAll(id) && deleteProduct(id)){
+            product.setBeforeData(product.logString());
             super.delete(product, ip, level, address);
             return true;
         }

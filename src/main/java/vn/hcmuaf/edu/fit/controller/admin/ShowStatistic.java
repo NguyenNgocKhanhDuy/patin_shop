@@ -1,13 +1,15 @@
 package vn.hcmuaf.edu.fit.controller.admin;
 
+import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.bean.User;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
-import vn.hcmuaf.edu.fit.services.UserService;
+import vn.hcmuaf.edu.fit.dao.BillDetailDao;
+import vn.hcmuaf.edu.fit.dao.ProductDao;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,8 +20,12 @@ public class ShowStatistic extends HttpServlet {
         User user = (User) request.getSession().getAttribute("auth");
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
-//            int per = PermissionsService.getPermissionsService().checkAccess(rsName, user.getId());
-//            request.setAttribute("per", per);
+            List<Integer> idProducts = BillDetailDao.getInstance().getBestProductSell();
+
+            List<ProductMain> productMains = new ArrayList<>();
+            for (int i = 0; i < idProducts.size(); i++) {
+                productMains.add(ProductDao.getInstance().getProduct(idProducts.get(i)));
+            }
 
             request.setAttribute("statistic", "statistic");
             request.getRequestDispatcher("admin.jsp").forward(request, response);

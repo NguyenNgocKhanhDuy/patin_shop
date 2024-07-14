@@ -41,12 +41,12 @@ public class UserService {
         return UserDao.getInstance().getUserByEmail(email).get(0);
     }
 
-    public boolean addUser(User user) {
-        return UserDao.getInstance().addUser(user);
-    }
+//    public boolean addUser(User user) {
+//        return UserDao.getInstance().addUser(user);
+//    }
 
     public boolean register(User user, String ip, String address) {
-        if (UserDao.getInstance().insert(user, ip, "info", address)) {
+        if (UserDao.getInstance().addUser(user, ip, "info", address)) {
             while (true) {
                 int code = Integer.parseInt(randomCodeVerify());
                 if (!UserDao.getInstance().isExitsCode(code)) {
@@ -92,9 +92,9 @@ public class UserService {
         return code == UserDao.getInstance().getKey(email);
     }
 
-    public boolean changePass(String email, String pass, String confirmPass) {
+    public boolean changePass(AbsModel model, String ip, String pass, String confirmPass) {
         if (pass.equals(confirmPass)) {
-            return UserDao.getInstance().updatePass(email, pass);
+            return UserDao.getInstance().updatePass(model, ip, pass);
         }
         return false;
     }
@@ -179,7 +179,7 @@ public class UserService {
     }
 
     public boolean updateUser(User user, String ip, String level, String address) {
-        return UserDao.getInstance().update(user, ip, level, address);
+        return UserDao.getInstance().updateUser(user, ip, level, address);
     }
 
     public boolean checkPass(int user, String pass) {
@@ -240,8 +240,8 @@ public class UserService {
         return UserDao.getInstance().getUserByID(id);
     }
 
-    public boolean deleteUser(int id) {
-        return UserDao.getInstance().deleteUser(id);
+    public boolean deleteUser(AbsModel model, String ip) {
+        return UserDao.getInstance().deleteUser(model, ip);
     }
 
     public String checkPassword(String password) {

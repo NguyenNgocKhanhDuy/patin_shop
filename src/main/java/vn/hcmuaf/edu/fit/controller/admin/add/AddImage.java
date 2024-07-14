@@ -1,5 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.admin.add;
 
+import vn.hcmuaf.edu.fit.bean.ImageProduct;
+import vn.hcmuaf.edu.fit.bean.Product;
 import vn.hcmuaf.edu.fit.dao.ImageProductDao;
 
 import javax.servlet.*;
@@ -39,8 +41,16 @@ public class AddImage extends HttpServlet {
                 for (Part part : request.getParts()) {
                     part.write(root.getAbsolutePath() + "/" + fileName);
                 }
-
-                if (ImageProductDao.getInstance().addImage(url, id)){
+                String ip = request.getHeader("X-FORWARDED_FOR");
+                if(ip == null){
+                    ip = request.getRemoteAddr();
+                }
+                ImageProduct imageProduct = new ImageProduct();
+                imageProduct.setUrl(url);
+                Product product = new Product();
+                product.setId(id);
+                imageProduct.setProduct(product);
+                if (ImageProductDao.getInstance().addImage(imageProduct, ip)){
                     request.setAttribute("type", "success");
                     request.setAttribute("information", "Thêm thành công");
                     request.getRequestDispatcher("showProductDetailAdmin?id="+id).forward(request, response);

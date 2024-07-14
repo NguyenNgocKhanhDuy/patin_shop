@@ -160,4 +160,8 @@ public class User extends AbsModel implements Serializable{
         return "email="+email+", fullName="+fullName + ", phone="+phone;
     }
 
+    public String logStringForUpdateUser() {
+        return "email="+email+", fullName="+fullName + ", phone="+phone+", address="+address+", sex="+sex+", dob="+dob;
+    }
+
 }

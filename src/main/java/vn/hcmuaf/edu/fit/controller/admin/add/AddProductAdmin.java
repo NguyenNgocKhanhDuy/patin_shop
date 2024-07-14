@@ -57,14 +57,18 @@ public class AddProductAdmin extends HttpServlet {
                 }else {
                     Size sizeOb = new Size(size, "");
                     Color colorOb = new Color(color, "");
+                    String ip = request.getHeader("X-FORWARDED_FOR");
+                    if(ip == null){
+                        ip = request.getRemoteAddr();
+                    }
 
                     Product product = new Product(0, name, hotNum, sale, information);
-                    boolean flag = ProductService.getInstance().addProduct(product);
+                    boolean flag = ProductService.getInstance().addProduct(product, ip);
                     product.setId(ProductService.getInstance().getIdNewProduct());
 
                     ProductDetail productDetail = new ProductDetail(product, sizeOb, colorOb, quantity, price);
 
-                    flag = ProductService.getInstance().addProductDetail(productDetail) && flag;
+                    flag = ProductService.getInstance().addProductDetail(productDetail, ip) && flag;
 
                     int id = ProductService.getInstance().getIdNewProduct();
                     String imgUrl = "";

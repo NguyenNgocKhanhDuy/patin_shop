@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.controller;
 
+import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.services.UserService;
 
 import javax.servlet.*;
@@ -15,7 +16,13 @@ public class NewPass extends HttpServlet {
         String email = (String) request.getSession().getAttribute("emailPass");
         String pass = request.getParameter("pass");
         String confirmPass = request.getParameter("confirmPass");
-        if (UserService.getInstance().changePass(email, pass, confirmPass)) {
+        User u = new User();
+        u.setEmail(email);
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+        if (UserService.getInstance().changePass(u,ipAddress, pass, confirmPass)) {
             request.getSession().removeAttribute("emailPass");
             request.setAttribute("type", "success");
             request.setAttribute("information", "Thay đổi mật khẩu thành công");

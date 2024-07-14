@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
+import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.dao.ColorDao;
 import vn.hcmuaf.edu.fit.dao.SizeDao;
 
@@ -24,8 +25,14 @@ public class DeleteSizeAdmin extends HttpServlet {
         response.setContentType("text/plain");
         try {
             id = Integer.parseInt(request.getParameter("id"));
+            String ip = request.getHeader("X-FORWARDED_FOR");
+            if(ip == null){
+                ip = request.getRemoteAddr();
+            }
+            Size size = new Size();
+            size.setId(id);
 
-            if (SizeDao.getInstance().deleteSize(id)){
+            if (SizeDao.getInstance().deleteSize(size, ip)){
                 response.getWriter().println("Xoá thành công");
 //                request.setAttribute("type", "success");
 //                request.setAttribute("information", "Xoá thành công");

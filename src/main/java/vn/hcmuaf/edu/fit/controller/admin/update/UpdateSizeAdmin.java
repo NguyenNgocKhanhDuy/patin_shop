@@ -31,8 +31,11 @@ public class UpdateSizeAdmin extends HttpServlet {
                     int sizeName = Integer.valueOf(name);
                     Size size = SizeDao.getInstance().getSizeById(id);
                     size.setName(name);
-
-                    if (SizeDao.getInstance().updateSize(size)){
+                    String ip = request.getHeader("X-FORWARDED_FOR");
+                    if(ip == null){
+                        ip = request.getRemoteAddr();
+                    }
+                    if (SizeDao.getInstance().updateSize(size, ip)){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Cập nhật thành công");
                         request.getRequestDispatcher("showSizeAdmin").forward(request, response);

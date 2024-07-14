@@ -1,5 +1,6 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
+import vn.hcmuaf.edu.fit.bean.Color;
 import vn.hcmuaf.edu.fit.dao.CategoryDao;
 import vn.hcmuaf.edu.fit.dao.ColorDao;
 
@@ -24,8 +25,14 @@ public class DeleteColorAdmin extends HttpServlet {
         response.setContentType("text/plain");
         try {
             id = Integer.parseInt(request.getParameter("id"));
+            Color color = new Color();
+            color.setId(id);
+            String ip = request.getHeader("X-FORWARDED_FOR");
+            if(ip == null){
+                ip = request.getRemoteAddr();
+            }
 
-            if (ColorDao.getInstance().deleteColor(id)){
+            if (ColorDao.getInstance().deleteColor(color, ip)){
                 response.getWriter().println("Xoá thành công");
 //                request.setAttribute("type", "success");
 //                request.setAttribute("information", "Xoá thành công");

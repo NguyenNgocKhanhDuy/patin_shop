@@ -26,8 +26,12 @@ public class AddColorAdmin extends HttpServlet {
         }else {
 
             Color color = new Color(0, name);
+            String ip = request.getHeader("X-FORWARDED_FOR");
+            if(ip == null){
+                ip = request.getRemoteAddr();
+            }
 
-            if (!ColorDao.getInstance().insertColor(color)){
+            if (!ColorDao.getInstance().insertColor(color, ip)){
                 request.setAttribute("type", "error");
                 request.setAttribute("information", "Lỗi sql");
                 request.getRequestDispatcher("showColorAdmin").forward(request, response);

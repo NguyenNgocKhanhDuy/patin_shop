@@ -1,16 +1,12 @@
 package vn.hcmuaf.edu.fit.controller.admin.delete;
 
 import vn.hcmuaf.edu.fit.bean.User;
-import vn.hcmuaf.edu.fit.dao.BillDao;
-import vn.hcmuaf.edu.fit.dao.UserDao;
-import vn.hcmuaf.edu.fit.services.PermissionsService;
 import vn.hcmuaf.edu.fit.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
-import java.util.List;
 
 
 @WebServlet(name = "DeleteUserAdmin", value = "/deleteUserAdmin")
@@ -35,7 +31,7 @@ public class DeleteUserAdmin extends HttpServlet {
             User user = new User();
             user.setId(id);
             user.setBeforeData("email:"+user.getEmail());
-            if (UserDao.getInstance().delete(user,ipAddress,"danger","admin delete user")){
+            if (UserService.getInstance().deleteUser(user, ipAddress)){
 //                PermissionsService.getPermissionsService().deletePer(id);
                 System.out.println("OK XONG");
                 response.getWriter().println("Xoá thành công");

@@ -5,6 +5,7 @@ import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.dao.ProductDao;
 import vn.hcmuaf.edu.fit.dao.ProductDetailDao;
+import vn.hcmuaf.edu.fit.model.AbsModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -222,16 +223,16 @@ public class ProductService {
         int newQuanity = getQuantity(id, size, color) - amount;
         return ProductDao.getInstance().reduceQuantity(id, size, color, newQuanity) != 1 ? false : true;
     }
-    public boolean addProduct(Product product) {
-        return ProductDao.getInstance().addProduct(product);
+    public boolean addProduct(AbsModel model, String ip) {
+        return ProductDao.getInstance().addProduct(model, ip);
     }
 
-    public boolean addProduct(ProductDetail product) {
-        return ProductDao.getInstance().addProduct(product);
-    }
+//    public boolean addProduct(ProductDetail product) {
+//        return ProductDao.getInstance().addProduct(product);
+//    }
 
-    public boolean addProductDetail(ProductDetail product) {
-        return ProductDetailDao.getInstance().addProductDetail(product);
+    public boolean addProductDetail(AbsModel model, String ip) {
+        return ProductDetailDao.getInstance().addProductDetail(model, ip);
     }
 
     public int getIdNewProduct() {
@@ -241,8 +242,8 @@ public class ProductService {
     public boolean updateProduct(Product product) {
         return ProductDao.getInstance().updateProduct(product);
     }
-    public boolean updateProductDetail(ProductDetail product, int oldSize, int oldColor) {
-        return ProductDetailDao.getInstance().updateProductDetail(product, oldSize, oldColor);
+    public boolean updateProductDetail(AbsModel model, String ip, int oldSize, int oldColor) {
+        return ProductDetailDao.getInstance().updateProductDetail(model, ip, oldSize, oldColor);
     }
 
     public boolean isExistProductDetail(int id, int size, int color) {
