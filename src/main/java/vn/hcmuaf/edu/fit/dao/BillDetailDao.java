@@ -45,6 +45,15 @@ public class BillDetailDao extends AbsDao<BillDetail> implements Serializable {
         return billDetails;
     }
 
+    public List<BillDetail> getAllBillDetailSuccess() {
+        List<BillDetail> billDetails = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT SUM(quantity) as quantity, price, size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id " +
+                    "FROM  bill_detail JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
+                    "GROUP BY bill_detail.product_id").mapToBean(BillDetail.class).stream().collect(Collectors.toList());
+        });
+        return billDetails;
+    }
+
     public boolean deleteAllBillDetail(AbsModel model){
         Bill bill = (Bill) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
@@ -75,5 +84,6 @@ public class BillDetailDao extends AbsDao<BillDetail> implements Serializable {
         });
         return integers;
     }
+
 
 }

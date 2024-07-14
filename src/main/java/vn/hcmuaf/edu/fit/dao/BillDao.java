@@ -154,4 +154,11 @@ public class BillDao extends AbsDao<Bill>{
     public void select(AbsModel model, String ip, String level, String address) {
 
     }
+
+    public List<Bill> getAllBillSuccess() {
+        List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT * FROM bill WHERE status = 4").mapToBean(Bill.class).stream().collect(Collectors.toList());
+        });
+        return bills;
+    }
 }

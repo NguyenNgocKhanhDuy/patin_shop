@@ -245,6 +245,20 @@
                             </c:if>
                         </li>
                         <li id="manageReport">
+                            <c:if test="${store != null}">
+                                <a href="showStore" class="activeAccountNav">
+                                    <i class="fa-brands fa-wpforms"></i>
+                                    <span>Nhập hàng</span>
+                                </a>
+                            </c:if>
+                            <c:if test="${store == null}">
+                                <a href="showStore">
+                                    <i class="fa-brands fa-wpforms"></i>
+                                    <span>Nhập hàng</span>
+                                </a>
+                            </c:if>
+                        </li>
+                        <li id="manageReport">
                             <c:if test="${statistic != null}">
                                 <a href="showStatistic" class="activeAccountNav">
                                     <i class="fa-brands fa-wpforms"></i>
@@ -848,7 +862,7 @@
                     </div>
                 </c:if>
 
-                <c:if test="${statistic != null}">
+                <c:if test="${store != null}">
                     <div class="user section">
                         <div class="total">
                             <i class="fa-solid fa-users"></i>
@@ -871,6 +885,31 @@
                                     <th>Giá nhập</th>
                                     <th>Giá bán</th>
                                     <th>Giảm giá</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </c:if>
+
+                <c:if test="${statistic != null}">
+                    <div class="user section">
+                        <div class="total">
+                            <i class="fa-solid fa-users"></i>
+                            <div class="text">
+                                <h3>Sản phẩm bán chạy</h3>
+                                <p class="totalUser"></p>
+                            </div>
+                        </div>
+                        <div class="user-list">
+                            <table id="data" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Mã kích thước</th>
+                                    <th>Mã màu</th>
+                                    <th>Số lượng còn lại</th>
                                 </tr>
                                 </thead>
                             </table>
