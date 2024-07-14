@@ -55,4 +55,8 @@ public class ImageProduct extends AbsModel implements Serializable {
                 '}';
     }
 
+    public String logString() {
+        return "productName="+product.getName();
+    }
+
 }

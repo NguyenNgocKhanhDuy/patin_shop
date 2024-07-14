@@ -37,4 +37,8 @@ public class Color implements Serializable {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public String logString() {
+        return "name="+name;
+    }
 }

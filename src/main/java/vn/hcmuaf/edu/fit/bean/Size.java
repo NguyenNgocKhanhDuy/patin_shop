@@ -37,4 +37,8 @@ public class Size implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String logString() {
+        return "name="+name;
+    }
 }
