@@ -24,7 +24,7 @@ public class UserDao extends AbsDao<User>{
 
     public List<User> getAllUser(){
         List<User> users = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM user").mapToBean(User.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT * FROM user WHERE isDeleted = 0").mapToBean(User.class).stream().collect(Collectors.toList());
         });
         return users;
     }
@@ -37,7 +37,7 @@ public class UserDao extends AbsDao<User>{
         List<User> users = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT * " +
                             "FROM user " +
-                            "WHERE email = ?")
+                            "WHERE email = ? AND isDeleted = 0")
                     .bind(0, email)
                     .mapToBean(User.class).stream().collect(Collectors.toList());
         });
@@ -63,7 +63,7 @@ public class UserDao extends AbsDao<User>{
         List<User> users = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT * " +
                             "FROM user " +
-                            "WHERE email = ?")
+                            "WHERE email = ? AND isDeleted = 0")
                     .bind(0, email)
                     .mapToBean(User.class).stream().collect(Collectors.toList());
         });
@@ -212,7 +212,7 @@ public class UserDao extends AbsDao<User>{
 
     public User getUserByID(int id) {
         User user = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM user WHERE id = ?").bind(0, id).mapToBean(User.class).one();
+            return handle.createQuery("SELECT * FROM user WHERE id = ? AND isDeleted = 0").bind(0, id).mapToBean(User.class).one();
         });
         return user;
     }
@@ -220,8 +220,11 @@ public class UserDao extends AbsDao<User>{
 
     public boolean deleteUser(AbsModel model, String ip) {
         User u = (User) model;
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM user WHERE id = ?").bind(0, u.getId()).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM user WHERE id = ?").bind(0, u.getId()).execute();
+            return handle.createUpdate("UPDATE user SET isDeleted = 1 WHERE id = ?").bind(0, u.getId()).execute();
         });
         if(i == 1) {
             u.setBeforeData(u.logString());
@@ -280,8 +283,8 @@ public class UserDao extends AbsDao<User>{
         User user = (User) model;
         String hashPass = hashPassword(user.getPassword());
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role) " +
-                            "VALUES (:email, :password, :verify, :fullname, :phone, :address, :sex, :dob, :avatar,:role)")
+            return handle.createUpdate("INSERT INTO user(email, password, verify, fullname,phone, address, sex, dob, avatar,role, isDeleted) " +
+                            "VALUES (:email, :password, :verify, :fullname, :phone, :address, :sex, :dob, :avatar,:role, 0)")
                     .bind("email", user.getEmail()).bind("password", hashPass)
                     .bind("verify", user.getVerify()).bind("fullname", user.getFullName()).bind("phone", user.getPhone()).bind("address", user.getAddress())
                     .bind("sex", user.getSex()).bind("dob", user.getDob()).bind("avatar", user.getAvatar())
@@ -301,8 +304,8 @@ public class UserDao extends AbsDao<User>{
     public boolean addLoginGoogle(AbsModel model, String ip, String level, String address) {
         User user = (User) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO user(email, verify, fullname, avatar, role) " +
-                            "VALUES (:email, :verify, :fullname, :avatar, :role)")
+            return handle.createUpdate("INSERT INTO user(email, verify, fullname, avatar, role, isDeleted) " +
+                            "VALUES (:email, :verify, :fullname, :avatar, :role, 0)")
                     .bind("email", user.getEmail())
                     .bind("verify", 1).bind("fullname", user.getFullName())
                     .bind("avatar", user.getAvatar()).bind("role", 0).execute();

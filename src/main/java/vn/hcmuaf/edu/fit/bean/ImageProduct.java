@@ -10,6 +10,7 @@ public class ImageProduct extends AbsModel implements Serializable {
     private String url;
     @Nested("product")
     private Product product;
+    private int isDeleted;
 
     public ImageProduct() {
     }
@@ -46,12 +47,22 @@ public class ImageProduct extends AbsModel implements Serializable {
         this.product = product;
     }
 
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "ImageProduct{" +
                 "id=" + id +
                 ", url='" + url + '\'' +
                 ", product=" + product +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 

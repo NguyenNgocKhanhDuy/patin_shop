@@ -29,7 +29,7 @@ public class BillDao extends AbsDao<Bill>{
         Bill bill =(Bill) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
             System.out.println(bill.getId());
-            return handle.createUpdate("INSERT INTO bill(name, date, status, payment, note, user_id) VALUES (:name, :date, :status, :payment, :note, :user)")
+            return handle.createUpdate("INSERT INTO bill(name, date, status, payment, note, user_id, isDeleted) VALUES (:name, :date, :status, :payment, :note, :user, 0)")
                     .bind("name", bill.getName()).bind("date", bill.getDate()).bind("status", bill.getStatus()).bind("payment", bill.getPayment())
                     .bind("note", bill.getNote()).bind("user", bill.getUser().getId()).execute();
         });
@@ -46,21 +46,21 @@ public class BillDao extends AbsDao<Bill>{
 
     public Bill getNewBill(int idUser) {
         Bill bill = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM bill WHERE user_id = :user ORDER BY date DESC LIMIT 1").bind("user", idUser).mapToBean(Bill.class).one();
+            return handle.createQuery("SELECT * FROM bill WHERE user_id = :user and isDeleted = 0 ORDER BY date DESC LIMIT 1").bind("user", idUser).mapToBean(Bill.class).one();
         });
         return bill;
     }
 
     public List<Bill> getAllBill(){
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM bill").mapToBean(Bill.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT * FROM bill WHERE isDeleted = 0").mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
         return bills;
     }
 
     public List<Bill> getAllBillByUser(int id){
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM bill WHERE user_id = :id")
+            return handle.createQuery("SELECT * FROM bill WHERE user_id = :id and isDeleted = 0")
                     .bind("id", id).mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
         return bills;
@@ -68,7 +68,7 @@ public class BillDao extends AbsDao<Bill>{
 
     public List<Bill> getAllBillByUserAndStatus(int id, String status){
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM bill WHERE user_id = :id AND status like :status ")
+            return handle.createQuery("SELECT * FROM bill WHERE user_id = :id AND status like :status AND isDeleted = 0")
                     .bind("id", id).bind("status", "%"+status+"%")
                     .mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
@@ -77,14 +77,14 @@ public class BillDao extends AbsDao<Bill>{
 
     public List<Bill> getBillPerPage(int start) {
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT bill.*, user.email as user_email FROM bill JOIN user ON bill.user_id = user.id LIMIT :start, 5").bind("start", start).mapToBean(Bill.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT bill.*, user.email as user_email FROM bill JOIN user ON bill.user_id = user.id WHERE bill.isDeleted = 0 LIMIT :start, 5").bind("start", start).mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
         return bills;
     }
 
     public List<Bill> getBillPerPageByUser(int start, int id) {
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT bill.*, user.email as user_email FROM bill JOIN user ON bill.user_id = user.id WHERE user_id = :id LIMIT :start, 5")
+            return handle.createQuery("SELECT bill.*, user.email as user_email FROM bill JOIN user ON bill.user_id = user.id WHERE user_id = :id AND bill.isDeleted = 0 LIMIT :start, 5")
                     .bind("id", id).bind("start", start).mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
         return bills;
@@ -92,7 +92,7 @@ public class BillDao extends AbsDao<Bill>{
 
     public List<Bill> getBillPerPageByUserAndStatus(int start, int id, String status) {
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT bill.*, user.email as user_email FROM bill JOIN user ON bill.user_id = user.id WHERE user_id = :id AND status like :status LIMIT :start, 5")
+            return handle.createQuery("SELECT bill.*, user.email as user_email FROM bill JOIN user ON bill.user_id = user.id WHERE user_id = :id AND status like :status AND isDeleted = 0 LIMIT :start, 5")
                     .bind("id", id).bind("start", start).bind("status", "%"+status+"%")
                     .mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
@@ -102,7 +102,7 @@ public class BillDao extends AbsDao<Bill>{
     public Bill getBill(int id) {
         Bill bill = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT bill.*, user.fullName as user_fullName, user.email as user_email, user.phone as user_phone, user.address as user_address " +
-                    "FROM bill JOIN user ON bill.user_id = user.id where bill.id = :id").bind("id", id).mapToBean(Bill.class).one();
+                    "FROM bill JOIN user ON bill.user_id = user.id where bill.id = :id AND bill.isDeleted = 0 ").bind("id", id).mapToBean(Bill.class).one();
         });
         return bill;
     }
@@ -132,8 +132,12 @@ public class BillDao extends AbsDao<Bill>{
     public boolean deleteBill(AbsModel model, String ip){
         Bill bill = (Bill) model;
         bill.setBeforeData(getBill(bill.getId()).logString());
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM bill WHERE id = :id").bind("id", bill.getId()).execute();
+//        });
+
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM bill WHERE id = :id").bind("id", bill.getId()).execute();
+            return handle.createUpdate("UPDATE bill SET isDeleted = 1 WHERE id = :id").bind("id", bill.getId()).execute();
         });
         if (i == 1){
             super.delete(bill,ip,"danger","delete bill");
@@ -157,7 +161,7 @@ public class BillDao extends AbsDao<Bill>{
 
     public List<Bill> getAllBillSuccess() {
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM bill WHERE status = 4").mapToBean(Bill.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT * FROM bill WHERE status = 4 AND isDeleted = 0 ").mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
         return bills;
     }

@@ -164,6 +164,7 @@ showDetailSize();
 
 
 function addInModalUser(user) {
+    var roleHost = document.querySelector(".modal-Edituser #perUser").value;
     var html = '';
     var date = new Date(user.dob)
     var per = document.querySelector("#perUser").value;
@@ -216,7 +217,7 @@ function addInModalUser(user) {
         <div class="role">
                                 <label>Vai trò:</label>`
                                 // <select name="role">
-        if (user.role == 2) {
+        if (roleHost == 2 && user.role != roleHost) {
             html +=` <select name="role">`
         }else {
             html +=` <select disabled name="role">`

@@ -29,6 +29,7 @@ public class    UserInformation extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fullName = request.getParameter("fullname");
         String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
         int sex;
         int day ;
         int month ;
@@ -66,6 +67,7 @@ public class    UserInformation extends HttpServlet {
                     user.setFullName(fullName);
                     user.setPhone(phone);
                     user.setSex(sex);
+                    user.setAddress(address);
                     String dob =year+"-"+month+"-"+day;
                     Date date = Date.valueOf(dob);
                     user.setDob(date);

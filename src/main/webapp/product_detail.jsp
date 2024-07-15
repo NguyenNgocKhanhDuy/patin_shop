@@ -141,6 +141,8 @@
                 </div>
                 <form action="cartController">
                     <input type="hidden" id="idProduct" name="productID" value="${productID}">
+                    <input type="hidden" id="colorSize" value="${colors.size()}">
+                    <input type="hidden" id="sizeSize" value="${sizes.size()}">
                     <div class="colors">
                         <span>Màu sắc</span>
                         <div class="container-checkColor">
@@ -228,29 +230,37 @@
                         </div>
                     </div>
                     <div class="quantityStore">
-                        <p id="quantityDetail">
-                            ${totalQuantity}
-                        </p>
-                        sản phẩm có sẵn
+                        <c:if test="${colors.size() == 0 || sizes.size() == 0}">
+                            Sản phẩm hiện không có sẵn
+                        </c:if>
+                        <c:if test="${colors.size() != 0 && sizes.size() != 0}">
+                            <p id="quantityDetail">
+                                    ${totalQuantity}
+                            </p>
+                            sản phẩm có sẵn
+                        </c:if>
                     </div>
                     <div class="deselect">
                         <span>Bỏ Chọn</span>
                     </div>
-                    <div class="buy">
-                        <div class="quantity">
-                            <i id="minus" class="fa-solid fa-minus"></i>
-                            <input type="number" value="1" name="quantity">
-                            <i id="plus" class="fa-solid fa-plus"></i>
-                        </div>
-                        <div class="addTocart">
-                            <input class="btnAdd" type="submit" value="Thêm vào giỏ hàng">
-                        </div>
-                        <a href="addWishList?productID=${productID}">
+
+                    <c:if test="${colors.size() != 0 && sizes.size() != 0}">
+                        <div class="buy">
+                            <div class="quantity">
+                                <i id="minus" class="fa-solid fa-minus"></i>
+                                <input type="number" value="1" name="quantity">
+                                <i id="plus" class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="addTocart">
+                                <input class="btnAdd" type="submit" value="Thêm vào giỏ hàng">
+                            </div>
+                            <a href="addWishList?productID=${productID}">
                                 <span id="addToLike">
                                     <i class="fa-regular fa-heart"></i>
                                 </span>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    </c:if>
                 </form>
                 <div class="moreInfo">
                     <c:if test="${products.get(0).getProductDetail().getProduct().getSalePercent() != 0}">

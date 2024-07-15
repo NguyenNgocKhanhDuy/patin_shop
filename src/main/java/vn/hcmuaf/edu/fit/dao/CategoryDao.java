@@ -21,7 +21,7 @@ public class CategoryDao extends AbsDao<Category>{
 
     public List<Category> getAllCategory() {
         List<Category> selectFromCategory = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM category").mapToBean(Category.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT * FROM category WHERE isDeleted = 0 ").mapToBean(Category.class).stream().collect(Collectors.toList());
         });
         return selectFromCategory;
     }
@@ -36,7 +36,7 @@ public class CategoryDao extends AbsDao<Category>{
     public boolean insertCategory(AbsModel model, String ip){
         Category category = (Category) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO category(name) VALUES (:name)").bind("name", category.getName()).execute();
+            return handle.createUpdate("INSERT INTO category(name, isDeleted) VALUES (:name, 0)").bind("name", category.getName()).execute();
         });
         if (i == 1) {
             category.setAfterData(category.logString());
@@ -74,8 +74,11 @@ public class CategoryDao extends AbsDao<Category>{
     }
     public boolean deleteCategory(AbsModel model, String ip) {
         Category category = (Category) model;
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM category WHERE id = ?").bind(0, category.getId()).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM category WHERE id = ?").bind(0, category.getId()).execute();
+            return handle.createUpdate("UPDATE category SET isDeleted = 1 WHERE id = ?").bind(0, category.getId()).execute();
         });
         if (i == 1) {
             category.setBeforeData(category.logString());

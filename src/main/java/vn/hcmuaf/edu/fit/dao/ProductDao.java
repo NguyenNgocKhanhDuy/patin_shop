@@ -25,7 +25,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                     "FROM product_detail JOIN product on product_detail.id_product = product.id JOIN image_product on product.id = image_product.id_product " +
-                    "WHERE image_product.id = 1 and product.hot = 1 " +
+                    "WHERE image_product.id = 1 and product.hot = 1 AND product.isDeleted = 0 " +
                     "GROUP BY product.id " +
                     "LIMIT 5 ").mapToBean(ProductMain.class).stream().collect(Collectors.toList());
         });
@@ -36,7 +36,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                     "FROM product_detail JOIN product on product_detail.id_product = product.id JOIN image_product on product.id = image_product.id_product " +
-                    "WHERE image_product.id = 1 " +
+                    "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                     "GROUP BY product.id ").mapToBean(ProductMain.class).stream().collect(Collectors.toList());
         });
         return products;
@@ -46,7 +46,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, image_product.url as img " +
                     "FROM product JOIN image_product on product.id = image_product.id_product " +
-                    "WHERE image_product.id = 1 and product.name like ? " +
+                    "WHERE image_product.id = 1 and product.name like ? AND product.isDeleted = 0 " +
                     "LIMIT 3")
                     .bind(0, find).mapToBean(ProductMain.class).stream().collect(Collectors.toList());
         });
@@ -57,7 +57,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "LIMIT ?, ?")
                     .bind(0, start).bind(1, quantityPerPage)
@@ -70,7 +70,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name product_detail_product_name, product.sale_percent product_detail_product_salePercent, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id  " +
-                            "WHERE image_product.id = 1 " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "LIMIT ?, ?")
                     .bind(0, start).bind(1, quantityPerPage)
@@ -83,7 +83,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id = product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 and category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 and category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "LIMIT :start, 15")
                     .bind("start", start).bind("category", category)
@@ -97,7 +97,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "ORDER BY minPrice " +type+" "+
                             "LIMIT :start, 15")
@@ -110,7 +110,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id = product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 and category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 and category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "ORDER BY minPrice " +type+" "+
                             "LIMIT :start, 15")
@@ -123,7 +123,7 @@ public class ProductDao extends AbsDao<Product>{
     public int countAll() {
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT COUNT(*) " +
-                    "FROM product ").mapTo(Integer.class).one();
+                    "FROM product WHERE isDeleted = 0 ").mapTo(Integer.class).one();
         });
         return i;
     }
@@ -132,7 +132,7 @@ public class ProductDao extends AbsDao<Product>{
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT COUNT(*) " +
                     "FROM product JOIN category_detail on product.id = category_detail.id_product " +
-                    "WHERE category_detail.id_category = :category ")
+                    "WHERE category_detail.id_category = :category AND product.isDeleted = 0 ")
                     .bind("category", category).mapTo(Integer.class).one();
         });
         return i;
@@ -142,7 +142,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min && maxPrice <= :max " +
                             "ORDER BY minPrice "+type+" "+
@@ -157,7 +157,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min && maxPrice <= :max " +
                             "ORDER BY minPrice "+type+" "+
@@ -172,7 +172,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max " +
                             "LIMIT :start, 15")
@@ -186,7 +186,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min && maxPrice <= :max " +
                             "LIMIT :start, 15")
@@ -200,7 +200,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id, MIN(product_detail.price) * (1-product.sale_percent) as minPrice, MAX(product_detail.price) * (1-product.sale_percent) as maxPrice " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max ")
                     .bind("min", min).bind("max", max)
@@ -213,7 +213,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id, MIN(product_detail.price) * (1-product.sale_percent) as minPrice, MAX(product_detail.price) * (1-product.sale_percent) as maxPrice " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max ")
                     .bind("min", min).bind("max", max).bind("category", category)
@@ -226,7 +226,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 AND product_detail.id_color in (<colors>) " +
                             "GROUP BY product.id " +
                             "ORDER BY minPrice " + type+" "+
                             "LIMIT :start, 15")
@@ -240,7 +240,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
                             "GROUP BY product.id " +
                             "ORDER BY minPrice " + type+" "+
                             "LIMIT :start, 15")
@@ -254,7 +254,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 AND product_detail.id_color in (<colors>) " +
                             "GROUP BY product.id " +
                             "LIMIT :start, 15")
                     .bindList("colors", colors).bind("start", start)
@@ -267,7 +267,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND product.isDeleted = 0 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
                             "GROUP BY product.id " +
                             "LIMIT :start, 15")
                     .bindList("colors", colors).bind("start", start).bind("category", category)
@@ -280,7 +280,7 @@ public class ProductDao extends AbsDao<Product>{
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT COUNT(DISTINCT product.id) " +
                             "FROM product JOIN product_detail on product.id = product_detail.id_product " +
-                            "WHERE product_detail.id_color in (<color>) ")
+                            "WHERE product_detail.id_color in (<color>) AND product.isDeleted = 0 ")
                     .bindList("color", colors).mapTo(Integer.class).one();
         });
         return i;
@@ -290,7 +290,7 @@ public class ProductDao extends AbsDao<Product>{
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT COUNT(DISTINCT product.id) " +
                             "FROM product JOIN product_detail on product.id = product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE product_detail.id_color in (<color>) AND category_detail.id_category = :category ")
+                            "WHERE product_detail.id_color in (<color>) AND category_detail.id_category = :category AND product.isDeleted = 0 ")
                     .bindList("color", colors).bind("category", category)
                     .mapTo(Integer.class).one();
         });
@@ -301,7 +301,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) " +
+                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max " +
                             "ORDER BY minPrice " + type+" "+
@@ -317,7 +317,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max " +
                             "ORDER BY minPrice " + type+" "+
@@ -333,7 +333,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>)" +
+                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max " +
                             "LIMIT :start, 15")
@@ -348,7 +348,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max " +
                             "LIMIT :start, 15")
@@ -363,7 +363,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id, MIN(product_detail.price) * (1-product.sale_percent) as minPrice, MAX(product_detail.price) * (1-product.sale_percent) as maxPrice " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) " +
+                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max")
                     .bindList("colors", colors)
@@ -377,7 +377,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id, MIN(product_detail.price) * (1-product.sale_percent) as minPrice, MAX(product_detail.price) * (1-product.sale_percent) as maxPrice " +
                             "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail ON product.id =product_detail.id_product JOIN category_detail on category_detail.id_product = product.id " +
-                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category " +
+                            "WHERE image_product.id = 1 AND product_detail.id_color in (<colors>) AND category_detail.id_category = :category AND product.isDeleted = 0 " +
                             "GROUP BY product.id " +
                             "HAVING minPrice >= :min AND maxPrice <= :max")
                     .bindList("colors", colors)
@@ -394,7 +394,7 @@ public class ProductDao extends AbsDao<Product>{
                             "product.information as product_detail_product_information, image_product.url as img, " +
                             "MIN(product_detail.price) * (1-product.sale_percent) as minPrice, MAX(product_detail.price) * (1-product.sale_percent) as maxPrice " +
                     "FROM image_product JOIN product on image_product.id_product = product.id JOIN product_detail on product.id = product_detail.id_product " +
-                    "WHERE image_product.id = 1 AND  product.id = ?")
+                    "WHERE image_product.id = 1 AND  product.id = ? AND product.isDeleted = 0 ")
                     .bind(0, id).mapToBean(ProductMain.class).one();
         });
         return product;
@@ -404,7 +404,7 @@ public class ProductDao extends AbsDao<Product>{
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT SUM(product_detail.quantity) " +
                             "FROM product_detail " +
-                            "WHERE product_detail.id_product = ? " +
+                            "WHERE product_detail.id_product = ? AND product.isDeleted = 0 " +
                             "GROUP BY product_detail.id_product")
                     .bind(0, id).mapTo(Integer.class).one();
         });
@@ -415,7 +415,7 @@ public class ProductDao extends AbsDao<Product>{
         List<Integer> i = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product_detail.price * (1-product.sale_percent) " +
                             "FROM product_detail JOIN product on product_detail.id_product = product.id " +
-                            "WHERE id_product = :id AND id_size = :size AND id_color = :color")
+                            "WHERE id_product = :id AND id_size = :size AND id_color = :color ")
                     .bind("id", id).bind("size", size).bind("color", color)
                     .mapTo(Integer.class).list();
         });
@@ -458,7 +458,7 @@ public class ProductDao extends AbsDao<Product>{
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product_detail.quantity as product_detail_quantity, image_product.url as img, product_detail.price * (1-product.sale_percent) as product_detail_price, product.sale_percent as product_detail_product_salePercent, product.information as product_detail_product_information, " +
                             "size.id as product_detail_size_id, size.name product_detail_size_name, color.id as product_detail_color_id, color.name as product_detail_color_name " +
                             "FROM  image_product JOIN product on product.id = image_product.id_product JOIN product_detail on product.id = product_detail.id_product JOIN color on color.id = product_detail.id_color JOIN size on size.id = product_detail.id_size " +
-                            "WHERE product_detail.id_product = :id AND image_product.id = 1 " +
+                            "WHERE product_detail.id_product = :id AND image_product.id = 1 AND product.isDeleted = 0 " +
                             "ORDER BY price asc " +
                             "LIMIT :start, 5").bind("start", start)
                     .bind("id", id).mapToBean(ProductMain.class).stream().collect(Collectors.toList());
@@ -484,7 +484,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                     "FROM product_detail JOIN product on product_detail.id_product = product.id JOIN image_product on product.id = image_product.id_product JOIN wish_list on product.id = wish_list.id_product " +
-                    "WHERE image_product.id = 1 AND wish_list.id_user = :user " +
+                    "WHERE image_product.id = 1 AND wish_list.id_user = :user AND product.isDeleted = 0 " +
                     "GROUP BY product.id ")
                     .bind("user", userID).mapToBean(ProductMain.class).stream().collect(Collectors.toList());
         });
@@ -495,7 +495,7 @@ public class ProductDao extends AbsDao<Product>{
         List<ProductMain> products = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product.sale_percent as product_detail_product_salePercent, MIN(product_detail.price)*(1 - product.sale_percent) as minPrice, MAX(product_detail.price)*(1 - product.sale_percent) as maxPrice, image_product.url as img " +
                     "FROM product_detail JOIN product on product_detail.id_product = product.id JOIN image_product on product.id = image_product.id_product JOIN wish_list on product.id = wish_list.id_product " +
-                    "WHERE image_product.id = 1 AND wish_list.id_user = :user " +
+                    "WHERE image_product.id = 1 AND wish_list.id_user = :user AND product.isDeleted = 0 " +
                     "GROUP BY product.id " +
                             "LIMIT :start, 15")
                     .bind("user", userID)
@@ -525,7 +525,7 @@ public class ProductDao extends AbsDao<Product>{
     public boolean addProduct(AbsModel model, String ip) {
         Product product = (Product) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO product(name, hot, sale_percent, information) VALUES (:name, :hot, :sale, :information)")
+            return handle.createUpdate("INSERT INTO product(name, hot, sale_percent, information, isDeleted) VALUES (:name, :hot, :sale, :information, 0)")
                     .bind("name", product.getName()).bind("hot", product.getHot()).bind("sale", product.getSalePercent()).bind("information", product.getInformation()).execute();
         });
         if (i == 1) {
@@ -578,17 +578,23 @@ public class ProductDao extends AbsDao<Product>{
 //    }
 
     public boolean deleteProduct(int id) {
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM product WHERE id = :id").bind("id", id).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM product WHERE id = :id").bind("id", id).execute();
+            return handle.createUpdate("UPDATE product SET isDeleted = 1 WHERE id = :id").bind("id", id).execute();
         });
         return i == 1 ? true : false;
     }
 
     public boolean deleteProductDetailAll(int id) {
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM product_detail WHERE id_product = :id").bind("id", id).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM product_detail WHERE id_product = :id").bind("id", id).execute();
+            return handle.createUpdate("UPDATE product_detail SET isDeleted = 1 WHERE id_product = :id").bind("id", id).execute();
         });
-        return i == 1 ? true : false;
+        return i > 0 ? true : false;
     }
 
 //    public boolean deleteProductDetail(int id, int size, int color) {

@@ -22,6 +22,7 @@ public class User extends AbsModel implements Serializable{
     private String avatar;
     private int keyPass;
     private int role;
+    private int isDeleted;
 
     public User() {
     }
@@ -138,8 +139,17 @@ public class User extends AbsModel implements Serializable{
         this.role = role;
     }
 
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
@@ -148,11 +158,12 @@ public class User extends AbsModel implements Serializable{
                 ", fullName='" + fullName + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
-                ", sex='" + sex + '\'' +
+                ", sex=" + sex +
                 ", dob=" + dob +
                 ", avatar='" + avatar + '\'' +
                 ", keyPass=" + keyPass +
                 ", role=" + role +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 

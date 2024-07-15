@@ -41,8 +41,12 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
         return deleteProductDetail(productDetail.getProduct().getId(),productDetail.getSize().getId(),productDetail.getColor().getId());
     }
     public boolean deleteProductDetail(int id, int size, int color) {
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM product_detail WHERE id_product = :id AND id_size = :size AND id_color = :color").bind("id", id)
+//                    .bind("size", size).bind("color", color).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM product_detail WHERE id_product = :id AND id_size = :size AND id_color = :color").bind("id", id)
+            return handle.createUpdate("UPDATE product_detail SET isDeleted = 1 WHERE id_product = :id AND id_size = :size AND id_color = :color").bind("id", id)
                     .bind("size", size).bind("color", color).execute();
         });
         return i == 1 ? true : false;
@@ -66,7 +70,7 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
     public boolean addProductDetail(AbsModel model, String ip) {
         ProductDetail product = (ProductDetail) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO product_detail(id_product, id_size, id_color, quantity, price) VALUES (:product, :size, :color, :quantity, :price)")
+            return handle.createUpdate("INSERT INTO product_detail(id_product, id_size, id_color, quantity, price, isDeleted) VALUES (:product, :size, :color, :quantity, :price, 0)")
                     .bind("product", product.getProduct().getId()).bind("size", product.getSize().getId()).bind("color", product.getColor().getId()).bind("quantity", product.getQuantity()).bind("price", product.getPrice()).execute();
         });
         if (i == 1) {
@@ -81,7 +85,7 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product_detail.quantity as product_detail_quantity, image_product.url as img, product_detail.price * (1-product.sale_percent) as product_detail_price, product.sale_percent as product_detail_product_salePercent, product.information as product_detail_product_information, " +
                             "size.id as product_detail_size_id, size.name product_detail_size_name, color.id as product_detail_color_id, color.name as product_detail_color_name " +
                             "FROM  image_product JOIN product on product.id = image_product.id_product JOIN product_detail on product.id = product_detail.id_product JOIN color on color.id = product_detail.id_color JOIN size on size.id = product_detail.id_size " +
-                            "WHERE product_detail.id_product = :id AND product_detail.id_size = :size AND product_detail.id_color = :color AND image_product.id = 1 ")
+                            "WHERE product_detail.id_product = :id AND product_detail.id_size = :size AND product_detail.id_color = :color AND image_product.id = 1 AND product_detail.isDeleted = 0 ")
                     .bind("id", id).bind("size", size).bind("color", color)
                     .mapToBean(ProductMain.class).stream().collect(Collectors.toList());
         });
@@ -94,7 +98,7 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
             return handle.createQuery("SELECT product.id as product_detail_product_id, product.name as product_detail_product_name, product_detail.quantity as product_detail_quantity, image_product.url as img, product_detail.price * (1-product.sale_percent) as product_detail_price, product.sale_percent as product_detail_product_salePercent, product.information as product_detail_product_information, " +
                             "size.id as product_detail_size_id, size.name product_detail_size_name, color.id as product_detail_color_id, color.name as product_detail_color_name " +
                             "FROM  image_product JOIN product on product.id = image_product.id_product JOIN product_detail on product.id = product_detail.id_product JOIN color on color.id = product_detail.id_color JOIN size on size.id = product_detail.id_size " +
-                            "WHERE product_detail.id_product = :id AND image_product.id = 1 " +
+                            "WHERE product_detail.id_product = :id AND image_product.id = 1 AND product_detail.isDeleted = 0 " +
                             "ORDER BY price asc")
                     .bind("id", id).mapToBean(ProductMain.class).stream().collect(Collectors.toList());
         });

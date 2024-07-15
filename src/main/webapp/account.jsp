@@ -190,7 +190,7 @@
                                 </div>
                                 <div class="part">
                                     <label>Địa chỉ: </label>
-                                    <input type="tel" name="text" value="${sessionScope.auth.getAddress()}">
+                                    <input type="tel" name="address" value="${sessionScope.auth.getAddress()}">
                                 </div>
                                 <div class="part gender">
                                     <label>Giới tính:</label>

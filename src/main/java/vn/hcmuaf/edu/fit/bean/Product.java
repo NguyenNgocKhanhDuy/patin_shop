@@ -10,7 +10,7 @@ public class Product extends AbsModel implements Serializable {
     private int hot;
     private double salePercent;
     private String information;
-
+    private int isDeleted;
     public Product() {
     }
 
@@ -62,6 +62,13 @@ public class Product extends AbsModel implements Serializable {
         this.information = information;
     }
 
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
     @Override
     public String toString() {
@@ -71,6 +78,7 @@ public class Product extends AbsModel implements Serializable {
                 ", hot=" + hot +
                 ", salePercent=" + salePercent +
                 ", information='" + information + '\'' +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 

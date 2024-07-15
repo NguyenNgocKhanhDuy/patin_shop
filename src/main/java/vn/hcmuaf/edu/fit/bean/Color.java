@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Color extends AbsModel implements Serializable {
     private int id;
     private String name;
+    private int isDeleted;
 
     public Color() {
     }
@@ -32,11 +33,20 @@ public class Color extends AbsModel implements Serializable {
         this.name = name;
     }
 
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         return "Color{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 
