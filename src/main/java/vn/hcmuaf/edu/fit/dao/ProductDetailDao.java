@@ -76,6 +76,7 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
         if (i == 1) {
             product.setAfterData(product.logString());
             super.insert(product, ip, "info", "add productDetail");
+            return true;
         }
         return false;
     }

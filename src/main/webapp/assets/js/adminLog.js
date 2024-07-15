@@ -2,14 +2,16 @@ $(document).ready(function () {
 
     $('#data').DataTable({
         dom: 'Bfrtip',
-        buttons: [ {
-            extend: 'excelHtml5',
-            customize: function( xlsx ) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-                $('row c[r^="C"]', sheet).attr( 's', '2' );
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
             }
-        } ],
+        ],
 
         ajax:{
             url: "getLog",
@@ -34,9 +36,9 @@ $(document).ready(function () {
             },
             {
                 data: null, // Mức độ log
-                className: `text-center align-middle bg-${data.level}` ,
-                render: function(data) {
-                    return data.level != undefined ? data.level : "";
+                className: `text-center align-middle`,
+                render: function (data) {
+                    return `<span class="d-block w-100 h-100 text-white bg-${data.level}">${data.level}</span>`
                 }
             },
             {

@@ -1,8 +1,19 @@
 $(document).ready(function (){
     console.log('Show Bill')
     var table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
-            url:"getBill",
+            url:"getBillAdmin",
             type:"get",
             dataType:"json",
             dataSrc:""

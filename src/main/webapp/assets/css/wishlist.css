@@ -129,13 +129,13 @@
     transform: rotate(360deg);
 }
 
-#content .right .pagination {
+#content .pagination {
     margin-top: 60px;
     margin-bottom: 80px;
     text-align: center;
 }
 
-#content .right .pagination ul li {
+#content .pagination ul li {
     list-style: none;
     display: inline-block;
     margin-right: 16px;

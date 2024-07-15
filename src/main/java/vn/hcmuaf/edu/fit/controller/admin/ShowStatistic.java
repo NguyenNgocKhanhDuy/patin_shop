@@ -23,12 +23,12 @@ public class ShowStatistic extends HttpServlet {
         User user = (User) request.getSession().getAttribute("auth");
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
-            List<Integer> idProducts = BillDetailDao.getInstance().getBestProductSell();
+//            List<Integer> idProducts = BillDetailDao.getInstance().getBestProductSell();
 //            List<Integer> idProducts = BillDetailDao.getInstance().getTopSellerProduct();
-            List<ProductMain> productMains = new ArrayList<>();
-            for (int i = 0; i < idProducts.size(); i++) {
-                productMains.add(ProductDao.getInstance().getProduct(idProducts.get(i)));
-            }
+//            List<ProductMain> productMains = new ArrayList<>();
+//            for (int i = 0; i < idProducts.size(); i++) {
+//                productMains.add(ProductDao.getInstance().getProduct(idProducts.get(i)));
+//            }
 /*            List<ProductMain> statistic = new ArrayList<>();
             for (ProductMain products: productMains) {
                 statistic.add(new ProductMain(
@@ -42,7 +42,7 @@ public class ShowStatistic extends HttpServlet {
             int i = BillDao.getInstance().getAllBillSuccess().size();
 
             request.setAttribute("allBill", i);
-            request.setAttribute("statistic", productMains);
+            request.setAttribute("statistic", "statistic");
             request.getRequestDispatcher("admin.jsp").forward(request, response);
         }
     }

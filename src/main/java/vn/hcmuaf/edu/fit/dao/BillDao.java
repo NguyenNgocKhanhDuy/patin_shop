@@ -60,7 +60,7 @@ public class BillDao extends AbsDao<Bill>{
 
     public List<Bill> getAllBillByUser(int id){
         List<Bill> bills = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM bill WHERE user_id = :id and isDeleted = 0")
+            return handle.createQuery("SELECT * FROM bill WHERE user_id = :id and isDeleted = 0 AND status != 5 ")
                     .bind("id", id).mapToBean(Bill.class).stream().collect(Collectors.toList());
         });
         return bills;
@@ -141,6 +141,20 @@ public class BillDao extends AbsDao<Bill>{
         });
         if (i == 1){
             super.delete(bill,ip,"danger","delete bill");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteBillUser(AbsModel model, String ip){
+        Bill bill = (Bill) model;
+        bill.setBeforeData(getBill(bill.getId()).logString());
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("UPDATE bill SET status = 5 WHERE id = :id").bind("id", bill.getId()).execute();
+        });
+        if (i == 1){
+            super.delete(bill,ip,"danger","user delete bill");
+            return true;
         }
         return false;
     }

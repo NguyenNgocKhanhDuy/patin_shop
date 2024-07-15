@@ -37,7 +37,7 @@ $(document).ready(
     });
         $('#data2').DataTable({
             ajax:{
-                url: "getStatistic",
+                url: "getBestSale",
                 type:"get",
                 dataType:"json",
                 dataSrc:""
@@ -51,11 +51,11 @@ $(document).ready(
                     }
                 },
                 {
-                    data: "product.id",
+                    data: "product.productDetail.product.id",
                     className: 'text-center align-middle'
                 },
                 {
-                    data: "nameProduct",
+                    data: "product.productDetail.product.name",
                     className: 'text-center align-middle'
                 },
                 {
@@ -74,5 +74,4 @@ $(document).ready(
 
             ]
         })
-}
-)
+})

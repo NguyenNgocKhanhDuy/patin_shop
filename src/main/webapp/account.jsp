@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="./assets/mdb/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/mdb/css/addons/datatables.min.css">
-<%--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">--%>
-<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/DataTables/datatables.min.css">--%>
-<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/account.css">
     <title>Tài khoản</title>
@@ -222,43 +219,43 @@
 
                 <c:if test="${bills != null}">
                     <div class="order">
-                        <div class="nav">
-                            <ul>
-                                <c:if test="${billStatus == 0}">
-                                    <li class="activeOrderNav">
-                                        <a href="orderAccount?billStatus=0">Tất cả</a>
-                                    </li>
-                                    <li>
-                                        <a href="orderAccount?billStatus=1">Vận chuyển</a>
-                                    </li>
-                                    <li>
-                                        <a href="orderAccount?billStatus=2">Hoàn thành</a>
-                                    </li>
-                                </c:if>
-                                <c:if test="${billStatus == 1}">
-                                    <li>
-                                        <a href="orderAccount?billStatus=0">Tất cả</a>
-                                    </li>
-                                    <li class="activeOrderNav">
-                                        <a href="orderAccount?billStatus=1">Vận chuyển</a>
-                                    </li>
-                                    <li>
-                                        <a href="orderAccount?billStatus=2">Hoàn thành</a>
-                                    </li>
-                                </c:if>
-                                <c:if test="${billStatus == 2}">
-                                    <li>
-                                        <a href="orderAccount?billStatus=0">Tất cả</a>
-                                    </li>
-                                    <li>
-                                        <a href="orderAccount?billStatus=1">Vận chuyển</a>
-                                    </li>
-                                    <li class="activeOrderNav">
-                                        <a href="orderAccount?billStatus=2">Hoàn thành</a>
-                                    </li>
-                                </c:if>
-                            </ul>
-                        </div>
+<%--                        <div class="nav">--%>
+<%--                            <ul>--%>
+<%--                                <c:if test="${billStatus == 0}">--%>
+<%--                                    <li class="activeOrderNav">--%>
+<%--                                        <a href="orderAccount?billStatus=0">Tất cả</a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="orderAccount?billStatus=1">Vận chuyển</a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="orderAccount?billStatus=2">Hoàn thành</a>--%>
+<%--                                    </li>--%>
+<%--                                </c:if>--%>
+<%--                                <c:if test="${billStatus == 1}">--%>
+<%--                                    <li>--%>
+<%--                                        <a href="orderAccount?billStatus=0">Tất cả</a>--%>
+<%--                                    </li>--%>
+<%--                                    <li class="activeOrderNav">--%>
+<%--                                        <a href="orderAccount?billStatus=1">Vận chuyển</a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="orderAccount?billStatus=2">Hoàn thành</a>--%>
+<%--                                    </li>--%>
+<%--                                </c:if>--%>
+<%--                                <c:if test="${billStatus == 2}">--%>
+<%--                                    <li>--%>
+<%--                                        <a href="orderAccount?billStatus=0">Tất cả</a>--%>
+<%--                                    </li>--%>
+<%--                                    <li>--%>
+<%--                                        <a href="orderAccount?billStatus=1">Vận chuyển</a>--%>
+<%--                                    </li>--%>
+<%--                                    <li class="activeOrderNav">--%>
+<%--                                        <a href="orderAccount?billStatus=2">Hoàn thành</a>--%>
+<%--                                    </li>--%>
+<%--                                </c:if>--%>
+<%--                            </ul>--%>
+<%--                        </div>--%>
                         <div class="all-order orderShow">
                             <c:if test="${bills.size() == 0}">
                                 <p>Bạn chưa có đơn hàng</p>

@@ -118,6 +118,7 @@ public class BillService {
         return BillDetailDao.getInstance().deleteAllBillDetail(model) && BillDao.getInstance().deleteBill(model,ip);
     }
 
+
     public int getTotalBill(int id){
         return BillDetailDao.getInstance().getToTalPrice(id);
     }

@@ -495,6 +495,17 @@ $(document).ready(function (){
 
 function dataTableForUser() {
     table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
             url:"getUser",
             type:"get",
@@ -504,6 +515,7 @@ function dataTableForUser() {
         columns:[
             {
                 data: null,
+                className: 'text-center align-middle',
                 render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
@@ -567,6 +579,17 @@ function dataTableForColorCategorySize(typeToShow) {
     }
 
     table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
             url: url,
             type:"get",
@@ -576,6 +599,7 @@ function dataTableForColorCategorySize(typeToShow) {
         columns:[
             {
               data: null,
+                className: 'text-center align-middle',
                 render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
@@ -605,6 +629,17 @@ function dataTableForColorCategorySize(typeToShow) {
 
 function dataTableForProduct() {
     table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
             url: "getProduct",
             type:"get",
@@ -614,6 +649,7 @@ function dataTableForProduct() {
         columns:[
             {
                 data: null,
+                className: 'text-center align-middle',
                 render: function (data, type, row, meta) {
                     return meta.row + 1; //so thu tu
                 }

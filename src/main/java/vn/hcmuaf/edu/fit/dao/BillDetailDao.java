@@ -80,30 +80,20 @@ public class BillDetailDao extends AbsDao<BillDetail> {
 
     }
 
-    public List<Integer> getBestProductSell() {
-        List<Integer> integers = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id, SUM(quantity) as quantity " +
+    public List<BillDetail> getBestProductSell() {
+        List<BillDetail> integers = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id, product.name as product_product_detail_product_name, SUM(quantity) as quantity " +
                             "FROM bill JOIN bill_detail on bill.id = bill_detail.bill_id JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
                             "GROUP BY product_id, color_id, size_id " +
                             "HAVING SUM(bill_detail.quantity) >= ALL (SELECT SUM(bill_detail.quantity) FROM bill_detail GROUP BY product_id, color_id, size_id) ")
-                    .mapTo(Integer.class).stream().collect(Collectors.toList());
+                    .mapToBean(BillDetail.class).stream().collect(Collectors.toList());
         });
         return integers;
     }
-    /*public List<ProductDetail> getTopSellerProduct(){
-        List<ProductDetail> productDetails = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id, SUM(quantity) as quantity " +
-                            "FROM bill JOIN bill_detail on bill.id = bill_detail.bill_id JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
-                            "GROUP BY product_id, color_id, size_id " +
-                            "HAVING SUM(bill_detail.quantity) >= ALL (SELECT SUM(bill_detail.quantity) FROM bill_detail GROUP BY product_id, color_id, size_id) ")
-                    .mapTo(ProductDetail.class).stream().collect(Collectors.toList());
-        });
-        return productDetails;
-    }
+
 
     public static void main(String[] args) {
-        BillDetailDao billDetail = new BillDetailDao();
-        System.out.println(billDetail.getTopSellerProduct());
-    }*/
+        System.out.println(BillDetailDao.getInstance().getBestProductSell());
+    }
 
 }
