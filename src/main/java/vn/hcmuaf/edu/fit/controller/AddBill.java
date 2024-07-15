@@ -99,7 +99,8 @@ public class AddBill extends HttpServlet {
                     ProductService.getInstance().reduceQuantity(ck.getId(), ck.getSize(), ck.getColor(), cart.getData().get(ck).getQuantity());
                     listBill.add(billDetail);
 //                    billDetail.setBeforeData("quantity:"+ billDetail.getQuantity());
-                    BillDetailDao.getInstance().insert(billDetail,ip,"info","add bill detail");
+//                    BillDetailDao.getInstance().insert(billDetail,ip,"info","add bill detail");
+                    BillDetailDao.getInstance().addBillDetail(billDetail);
                 }
 
               // BillService.getInstance().addBillDetail(listBill);

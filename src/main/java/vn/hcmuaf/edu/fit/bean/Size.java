@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Size extends AbsModel implements Serializable {
     private int id;
     private String name;
+    private int isDeleted;
 
     public Size() {
     }
@@ -28,16 +29,26 @@ public class Size extends AbsModel implements Serializable {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "Size{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String
+    toString() {
+        return "Size{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 
     public String logString() {

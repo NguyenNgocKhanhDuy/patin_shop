@@ -98,7 +98,8 @@ public class UpdateUserAdmin extends HttpServlet {
                         if (ipAddress == null) {
                             ipAddress = request.getRemoteAddr();
                         }
-                        if (UserService.getInstance().updateUser( user, ipAddress,  "info", "Update Infomation")){
+                        boolean isAdmin = ((User)request.getSession().getAttribute("auth")).getRole() == 2 ? true : false;
+                        if (UserService.getInstance().updateUser( user, ipAddress,  "info", "Update Infomation", isAdmin)){
 //                            List<Integer> rsID = ResourcesService.getInstance().getAllID();
 //                            boolean flag = true;
 //                            for (int i = 1; i <= role; i++) {

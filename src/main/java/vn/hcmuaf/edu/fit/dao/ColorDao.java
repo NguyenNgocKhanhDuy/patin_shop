@@ -23,7 +23,7 @@ public class ColorDao extends AbsDao<Color>{
         List<Color> colors = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT DISTINCT color.id, color.name " +
                     "FROM product_detail JOIN color on product_detail.id_color = color.id " +
-                    "WHERE product_detail.id_product = ?").bind(0, productId).mapToBean(Color.class).stream().collect(Collectors.toList());
+                    "WHERE product_detail.id_product = ? AND color.isDeleted = 0 ").bind(0, productId).mapToBean(Color.class).stream().collect(Collectors.toList());
         });
         return colors;
     }
@@ -37,7 +37,7 @@ public class ColorDao extends AbsDao<Color>{
 
     public List<Color> getAllColor() {
         List<Color> colors = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM color").mapToBean(Color.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT * FROM color WHERE isDeleted = 0").mapToBean(Color.class).stream().collect(Collectors.toList());
         });
         return colors;
     }
@@ -45,7 +45,7 @@ public class ColorDao extends AbsDao<Color>{
     public boolean insertColor(AbsModel model, String ip){
         Color color = (Color) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO color(name) VALUES (:name)").bind("name", color.getName()).execute();
+            return handle.createUpdate("INSERT INTO color(name,isDeleted) VALUES (:name ,0)").bind("name", color.getName()).execute();
         });
         if (i == 1) {
             color.setAfterData(color.logString());
@@ -70,8 +70,11 @@ public class ColorDao extends AbsDao<Color>{
 
     public boolean deleteColor(AbsModel model, String ip) {
         Color color = (Color) model;
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM color WHERE id = ?").bind(0, color.getId()).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM color WHERE id = ?").bind(0, color.getId()).execute();
+            return handle.createUpdate("UPDATE color SET isDeleted = 1 WHERE id = ?").bind(0, color.getId()).execute();
         });
         if (i == 1) {
             color.setAfterData(color.logString());

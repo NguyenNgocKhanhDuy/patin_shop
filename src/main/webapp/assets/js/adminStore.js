@@ -1,5 +1,16 @@
 $(document).ready(function () {
-    $('#data').DataTable({
+   var table =  $('#data').DataTable({
+       dom: 'Bfrtip',
+       buttons: [
+           {
+               extend: 'excelHtml5',
+               text: 'Export to Excel'
+           },
+           {
+               extend: 'print',
+               text: 'Print'
+           }
+       ],
         ajax:{
             url: "getStore",
             type:"get",
@@ -44,13 +55,11 @@ $(document).ready(function () {
                 className: 'text-center align-middle'
             },
             {
-                data: "priceSell",
-                className: 'text-center align-middle'
-            },
-            {
                 data: "salePercent",
                 className: 'text-center align-middle'
             }
-        ]
+        ],
+
     })
+
 })

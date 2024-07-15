@@ -20,7 +20,7 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
 
     public List<ImageProduct> getAllImage(int productId) {
         List<ImageProduct> imageProducts = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT id, url FROM image_product WHERE id_product = ?")
+            return handle.createQuery("SELECT id, url FROM image_product WHERE id_product = ? AND isDeleted = 0")
                     .bind(0, productId).mapToBean(ImageProduct.class).stream().collect(Collectors.toList());
         });
         return imageProducts;
@@ -28,7 +28,7 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
 
     public boolean addFirstImage(String url, int id) {
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO image_product(id, url, id_product) VALUES (1, :url, :id)")
+            return handle.createUpdate("INSERT INTO image_product(id, url, id_product, isDeleted) VALUES (1, :url, :id, 0)")
                     .bind("url", url).bind("id", id).execute();
         });
         return i == 1 ? true : false;
@@ -36,7 +36,7 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
     public boolean addImage(AbsModel model, String ip) {
         ImageProduct imageProduct = (ImageProduct) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO image_product(url, id_product) VALUES (:url, :id)")
+            return handle.createUpdate("INSERT INTO image_product(url, id_product, isDeleted) VALUES (:url, :id, 0)")
                     .bind("url", imageProduct.getUrl()).bind("id", imageProduct.getProduct().getId()).execute();
         });
         if (i == 1) {
@@ -47,8 +47,11 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
     }
 
     public boolean deleteAllImageOfProduct(int id) {
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM image_product WHERE id_product = :id").bind("id", id).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM image_product WHERE id_product = :id").bind("id", id).execute();
+            return handle.createUpdate("UPDATE image_product SET isDeleted = 1 WHERE id_product = :id").bind("id", id).execute();
         });
         return i > 0 ? true : false;
 
@@ -56,8 +59,12 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
 
     public boolean deleteImage(AbsModel model, String ip) {
         ImageProduct imageProduct = (ImageProduct) model;
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM image_product WHERE id = :id AND id_product  = :product").bind("id", imageProduct.getId())
+//                    .bind("product", imageProduct.getProduct().getId()).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM image_product WHERE id = :id AND id_product  = :product").bind("id", imageProduct.getId())
+            return handle.createUpdate("UPDATE image_product SET isDeleted = 1 WHERE id = :id AND id_product  = :product").bind("id", imageProduct.getId())
                     .bind("product", imageProduct.getProduct().getId()).execute();
         });
         if (i == 1) {
@@ -67,18 +74,7 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
         return false;
     }
 
-    @Override
-    public void select(AbsModel model, String ip, String level, String address) {
 
-    }
-    @Override
-    public boolean insert(AbsModel model, String ip, String level, String address) {
-        return false;
-    }
-    @Override
-    public boolean update(AbsModel model, String ip, String level, String address) {
-    return false;
-    }
 //    @Override
 //    public boolean delete(AbsModel model, String ip, String level, String address) {
 //        ImageProduct imgProduct = (ImageProduct) model;

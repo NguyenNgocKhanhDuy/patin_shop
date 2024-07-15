@@ -8,7 +8,22 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./assets/mdb/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/mdb/css/addons/datatables.min.css">
+<%--    <link rel="stylesheet" href="./assets/mdb/css/addons/datatables.min.css">--%>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include DataTables CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <!-- Include DataTables Buttons CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
@@ -112,7 +127,7 @@
             <div class="left">
                 <div class="account">
                     <ul class="menu">
-                        <c:if test="${bills == null && billDetail == null}">
+                        <c:if test="${bills == null && billDetail == null && store == null && statistic == null}">
                             <li class="activeAccountNav">
                                 <i class="fa-solid fa-bars-progress"></i>
                                 <span>Quản lý</span>
@@ -192,7 +207,7 @@
                                 </ul>
                             </li>
                         </c:if>
-                        <c:if test="${bills != null || billDetail != null}">
+                        <c:if test="${bills != null || billDetail != null || store != null || statistic!= null}">
                             <li>
                                 <i class="fa-solid fa-bars-progress"></i>
                                 <span>Quản lý</span>
@@ -262,13 +277,13 @@
                             <c:if test="${statistic != null}">
                                 <a href="showStatistic" class="activeAccountNav">
                                     <i class="fa-brands fa-wpforms"></i>
-                                    <span>Thống kê</span>
+                                    <span>Tồn kho</span>
                                 </a>
                             </c:if>
                             <c:if test="${statistic == null}">
                                 <a href="showStatistic">
                                     <i class="fa-brands fa-wpforms"></i>
-                                    <span>Thống kê</span>
+                                    <span>Tồn kho</span>
                                 </a>
                             </c:if>
                         </li>
@@ -279,13 +294,13 @@
             <div class="right">
                 <c:if test="${users != null}">
                     <div class="user section">
-                        <div class="total">
-                            <i class="fa-solid fa-users"></i>
-                            <div class="text">
-                                <h3>Tổng số tài khoản</h3>
-                                <p class="totalUser">${allUser.size()}</p>
-                            </div>
-                        </div>
+<%--                        <div class="total">--%>
+<%--                            <i class="fa-solid fa-users"></i>--%>
+<%--                            <div class="text">--%>
+<%--                                <h3>Tổng số tài khoản</h3>--%>
+<%--                                <p class="totalUser">${allUser.size()}</p>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                         <div class="search">
                             <c:if test="${sessionScope.auth.getRole() > 1}">
                                 <div class="add">
@@ -343,13 +358,13 @@
 
                 <c:if test="${products != null}">
                     <div class="product section">
-                        <div class="total">
-                            <i class="fa-solid fa-shop"></i>
-                            <div class="text">
-                                <h3>Tổng số sản phẩm</h3>
-                                <p class="totalProduct">${allProduct}</p>
-                            </div>
-                        </div>
+<%--                        <div class="total">--%>
+<%--                            <i class="fa-solid fa-shop"></i>--%>
+<%--                            <div class="text">--%>
+<%--                                <h3>Tổng số sản phẩm</h3>--%>
+<%--                                <p class="totalProduct">${allProduct}</p>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                         <div class="search">
                             <c:if test="${sessionScope.auth.getRole() > 1}">
                                 <div class="add">
@@ -403,13 +418,13 @@
                 <c:if test="${categories != null}">
                     <div class="brand section">
                         <div class="title">
-                            <div class="total">
-                                <i class="fa-solid fa-layer-group"></i>
-                                <div class="text">
-                                    <h3>Tổng số danh mục</h3>
-                                    <p class="totalBrand">${allCategory.size()}</p>
-                                </div>
-                            </div>
+<%--                            <div class="total">--%>
+<%--                                <i class="fa-solid fa-layer-group"></i>--%>
+<%--                                <div class="text">--%>
+<%--                                    <h3>Tổng số danh mục</h3>--%>
+<%--                                    <p class="totalBrand">${allCategory.size()}</p>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                             <div class="search">
                                 <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
@@ -458,13 +473,13 @@
                 <c:if test="${colors != null}">
                     <div class="color section">
                         <div class="title">
-                            <div class="total">
-                                <i class="fa-solid fa-palette"></i>
-                                <div class="text">
-                                    <h3>Tổng số màu sắc</h3>
-                                    <p class="totalColor">${allColor.size()}</p>
-                                </div>
-                            </div>
+<%--                            <div class="total">--%>
+<%--                                <i class="fa-solid fa-palette"></i>--%>
+<%--                                <div class="text">--%>
+<%--                                    <h3>Tổng số màu sắc</h3>--%>
+<%--                                    <p class="totalColor">${allColor.size()}</p>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                             <div class="search">
                                 <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
@@ -514,13 +529,13 @@
                 <c:if test="${sizes != null}">
                     <div class="size section">
                         <div class="title">
-                            <div class="total">
-                                <i class="fa-solid fa-rectangle-list"></i>
-                                <div class="text">
-                                    <h3>Tổng số kích thước</h3>
-                                    <p class="totalSize">${allSize.size()}</p>
-                                </div>
-                            </div>
+<%--                            <div class="total">--%>
+<%--                                <i class="fa-solid fa-rectangle-list"></i>--%>
+<%--                                <div class="text">--%>
+<%--                                    <h3>Tổng số kích thước</h3>--%>
+<%--                                    <p class="totalSize">${allSize.size()}</p>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                             <div class="search">
                                 <c:if test="${sessionScope.auth.getRole() > 1}">
                                     <div class="add">
@@ -577,6 +592,7 @@
 <%--                                </div>--%>
 <%--                            </div>--%>
 <%--                        </div>--%>
+<%--                        <button class="buttons-excel">Xuất file excel</button>--%>
                         <div class="size-list">
                             <table id="data" class="table table-striped table-bordered" style="width: 100%;">
                                 <thead>
@@ -864,13 +880,6 @@
 
                 <c:if test="${store != null}">
                     <div class="user section">
-                        <div class="total">
-                            <i class="fa-solid fa-users"></i>
-                            <div class="text">
-                                <h3>Tồn kho</h3>
-                                <p class="totalUser"></p>
-                            </div>
-                        </div>
                         <div class="user-list">
                             <table id="data" class="table table-striped table-bordered">
                                 <thead>
@@ -883,7 +892,6 @@
                                     <th>Số lượng</th>
                                     <th>Ngày nhập</th>
                                     <th>Giá nhập</th>
-                                    <th>Giá bán</th>
                                     <th>Giảm giá</th>
                                 </tr>
                                 </thead>
@@ -893,14 +901,24 @@
                 </c:if>
 
                 <c:if test="${statistic != null}">
+
                     <div class="user section">
-                        <div class="total">
-                            <i class="fa-solid fa-users"></i>
-                            <div class="text">
-                                <h3>Sản phẩm bán chạy</h3>
-                                <p class="totalUser"></p>
-                            </div>
+                       <h3>Sản phẩm bán chạy</h3>
+                        <div class="user-list">
+                            <table id="data2" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Mã kích thước</th>
+                                    <th>Mã màu</th>
+                                    <th>Số lượng đã bán</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
+                        <h3>Tồn kho</h3>
                         <div class="user-list">
                             <table id="data" class="table table-striped table-bordered">
                                 <thead>
@@ -1095,7 +1113,7 @@
             <div class="modal-container modalConUser modal-containerEditUser">
                 <i class="fa-solid fa-xmark del"></i>
                 <h3>Chi tiết</h3>
-                <input type="hidden" id="perUser" value="${per}">
+                <input type="hidden" id="perUser" value="${sessionScope.auth.getRole()}">
                 <form action="updateUserAdmin" method="post" enctype="multipart/form-data">
                     <div class="wrapper">
                         <div class="main">
@@ -1535,16 +1553,17 @@
     </footer>
 
 
-    <script src="./assets/mdb/js/jquery.min.js"></script>
-    <script src="./assets/mdb/js/bootstrap.min.js"></script>
-    <script src="./assets/mdb/js/addons/datatables.min.js"></script>
+
+<%--    <script src="./assets/mdb/js/jquery.min.js"></script>--%>
+<%--    <script src="./assets/mdb/js/bootstrap.min.js"></script>--%>
+<%--    <script src="./assets/mdb/js/addons/datatables.min.js"></script>--%>
     <script src="${pageContext.request.contextPath}/assets/js/showDanhMuc.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/search.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/category.js"></script>
     <c:if test="${users != null}">
 <%--        <script src="./assets/js/adminAccount.js"></script>--%>
     </c:if>
-    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null && statistic == null}">
+    <c:if test="${productDetail == null && billDetail == null && bills == null && logs == null && statistic == null && store == null}">
         <script src="${pageContext.request.contextPath}/assets/js/admin.js"></script>
     </c:if>
     <c:if test="${productDetail != null}">
@@ -1559,8 +1578,11 @@
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
     </c:if>
-    <c:if test="${statistic != null}">
+    <c:if test="${store != null}">
         <script src="./assets/js/adminStore.js"></script>
+    </c:if>
+    <c:if test="${statistic != null}">
+        <script src="./assets/js/adminStatistic.js"></script>
     </c:if>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
 </body>

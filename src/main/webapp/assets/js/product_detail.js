@@ -76,6 +76,10 @@ var countSize = 0;
 var colorIndex = 0;
 var sizeIndex = 0;
 
+var addToCart = document.querySelector(".addTocart");
+var addToCartHover = document.querySelector(".addTocart .btnAdd");
+
+
 
 
 function setInputColor() {
@@ -195,8 +199,7 @@ plus.addEventListener("click", function () {
     inputQuantity.value = value;
 });
 
-var addToCart = document.querySelector(".addTocart");
-var addToCartHover = document.querySelector(".addTocart .btnAdd");
+
 
 function disabled() {
     addToCart.classList.add("disabled");

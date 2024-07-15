@@ -15,6 +15,7 @@ public class ProductDetail extends AbsModel implements Serializable {
     private Color color;
     private int quantity;
     private int price;
+    private int isDeleted;
 
     public ProductDetail() {
     }
@@ -81,7 +82,16 @@ public class ProductDetail extends AbsModel implements Serializable {
                 ", color=" + color +
                 ", quantity=" + quantity +
                 ", price=" + price +
+                ", isDeleted=" + isDeleted +
                 '}';
+    }
+
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String logString() {

@@ -29,6 +29,7 @@ public class    UserInformation extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fullName = request.getParameter("fullname");
         String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
         int sex;
         int day ;
         int month ;
@@ -66,6 +67,7 @@ public class    UserInformation extends HttpServlet {
                     user.setFullName(fullName);
                     user.setPhone(phone);
                     user.setSex(sex);
+                    user.setAddress(address);
                     String dob =year+"-"+month+"-"+day;
                     Date date = Date.valueOf(dob);
                     user.setDob(date);
@@ -98,7 +100,7 @@ public class    UserInformation extends HttpServlet {
                         ipAddress = request.getRemoteAddr();
                     }
 
-                    if (UserService.getInstance().updateUser(user,ipAddress, "info", "UpdateInfomation")){
+                    if (UserService.getInstance().updateUser(user,ipAddress, "info", "UpdateInfomation", false)){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Cập nhật thành công");
                         request.getRequestDispatcher("account.jsp").forward(request, response);

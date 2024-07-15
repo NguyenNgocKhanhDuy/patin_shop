@@ -1,5 +1,18 @@
 $(document).ready(function () {
+
     $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
+
         ajax:{
             url: "getLog",
             type:"get",
@@ -23,9 +36,9 @@ $(document).ready(function () {
             },
             {
                 data: null, // Mức độ log
-                className: 'text-center align-middle',
-                render: function(data) {
-                    return data.level != undefined ? data.level : "";
+                className: `text-center align-middle`,
+                render: function (data) {
+                    return `<span class="d-block w-100 h-100 text-white bg-${data.level}">${data.level}</span>`
                 }
             },
             {
@@ -65,4 +78,6 @@ $(document).ready(function () {
             }
         ]
     })
+
+
 })

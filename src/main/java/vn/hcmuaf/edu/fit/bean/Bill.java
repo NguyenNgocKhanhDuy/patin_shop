@@ -16,6 +16,7 @@ public class Bill extends AbsModel implements Serializable {
     private String note;
     @Nested("user")
     private User user;
+    private int isDeleted;
 
     public Bill() {
     }
@@ -88,18 +89,27 @@ public class Bill extends AbsModel implements Serializable {
         this.user = user;
     }
 
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", date=" + date +
-                ", status='" + status + '\'' +
+                ", status=" + status +
+                ", payment='" + payment + '\'' +
                 ", note='" + note + '\'' +
                 ", user=" + user +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
-
 
     public String logString() {
         return "name="+name+", date="+date+", status="+status+"\nuserName="+user.getFullName()+", userEmail="+user.getEmail()+", userPhone="+user.getPhone();

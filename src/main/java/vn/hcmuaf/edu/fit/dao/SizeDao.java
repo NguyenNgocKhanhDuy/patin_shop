@@ -24,7 +24,7 @@ public class SizeDao extends AbsDao<Size>{
         List<Size> sizes = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT DISTINCT size.id, size.name " +
                     "FROM product_detail JOIN size on product_detail.id_size = size.id " +
-                    "WHERE product_detail.id_product = ?").bind(0, productId).mapToBean(Size.class).stream().collect(Collectors.toList());
+                    "WHERE product_detail.id_product = ? AND size.isDeleted = 0").bind(0, productId).mapToBean(Size.class).stream().collect(Collectors.toList());
         });
         return sizes;
     }
@@ -40,7 +40,7 @@ public class SizeDao extends AbsDao<Size>{
 
     public List<Size> getAllsize() {
         List<Size> sizes = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM size").mapToBean(Size.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT * FROM size WHERE isDeleted = 0").mapToBean(Size.class).stream().collect(Collectors.toList());
         });
         return sizes;
     }
@@ -48,7 +48,7 @@ public class SizeDao extends AbsDao<Size>{
     public boolean insertSize(AbsModel model, String ip){
         Size size = (Size) model;
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO size(name) VALUES (:name)").bind("name", size.getName()).execute();
+            return handle.createUpdate("INSERT INTO size(name, isDeleted) VALUES (:name, 0)").bind("name", size.getName()).execute();
         });
         if (i == 1) {
             size.setAfterData(size.logString());
@@ -87,8 +87,11 @@ public class SizeDao extends AbsDao<Size>{
 
     public boolean deleteSize(AbsModel model, String ip) {
         Size size = (Size) model;
+//        Integer i = JDBIConnector.get().withHandle(handle -> {
+//            return handle.createUpdate("DELETE FROM size WHERE id = ?").bind(0, size.getId()).execute();
+//        });
         Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM size WHERE id = ?").bind(0, size.getId()).execute();
+            return handle.createUpdate("UPDATE FROM size SET isDeleted = 1 WHERE id = ?").bind(0, size.getId()).execute();
         });
         if (i == 1) {
             size.setBeforeData(size.logString());

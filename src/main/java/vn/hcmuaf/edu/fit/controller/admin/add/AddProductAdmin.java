@@ -2,12 +2,15 @@ package vn.hcmuaf.edu.fit.controller.admin.add;
 
 import vn.hcmuaf.edu.fit.bean.*;
 import vn.hcmuaf.edu.fit.dao.ImageProductDao;
+import vn.hcmuaf.edu.fit.dao.ProductDao;
+import vn.hcmuaf.edu.fit.dao.StoreDao;
 import vn.hcmuaf.edu.fit.services.ProductService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
+import java.time.LocalDateTime;
 
 
 @WebServlet(name = "AddProductAdmin", value = "/addProductAdmin")
@@ -90,8 +93,10 @@ public class AddProductAdmin extends HttpServlet {
                             part.write(root.getAbsolutePath() + "/" + fileName);
                         }
 
+                        String uName = ((User)request.getSession().getAttribute("auth")).getFullName();
                         if (ImageProductDao.getInstance().addFirstImage(imgUrl, id) && flag){
                             request.setAttribute("type", "success");
+                            StoreDao.getInstance().insertStore(id, size, color, uName, quantity, LocalDateTime.now(), price, sale_percent);
                             request.setAttribute("information", "Thêm thành công");
                             request.getRequestDispatcher("showProductAdmin").forward(request, response);
                         }else {
@@ -109,7 +114,7 @@ public class AddProductAdmin extends HttpServlet {
 
             }catch (NumberFormatException e){
                 request.setAttribute("type", "error");
-                request.setAttribute("information", "Lỗi giảm giá phải là số");
+                request.setAttribute("information", "Lỗi giá phải là số");
                 request.getRequestDispatcher("showProductAdmin").forward(request, response);
             }
         }

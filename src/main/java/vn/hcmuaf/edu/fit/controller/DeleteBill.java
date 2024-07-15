@@ -29,8 +29,8 @@ public class DeleteBill extends HttpServlet {
             int billId= Integer.parseInt(request.getParameter("id"));
             Bill bill = new Bill();
             bill.setId(billId);
-            bill.setBeforeData(bill.getName());
-            BillService.getInstance().deleteBill(bill,ipAddress);
+//            bill.setBeforeData(bill.getName());
+            BillDao.getInstance().deleteBillUser(bill,ipAddress);
             response.getWriter().println("Bill deleted.");
         } catch (Exception e) {
             response.getWriter().println("Bill deleted fail.");

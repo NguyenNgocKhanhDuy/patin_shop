@@ -164,6 +164,7 @@ showDetailSize();
 
 
 function addInModalUser(user) {
+    var roleHost = document.querySelector(".modal-Edituser #perUser").value;
     var html = '';
     var date = new Date(user.dob)
     var per = document.querySelector("#perUser").value;
@@ -214,8 +215,13 @@ function addInModalUser(user) {
         `</div>
         </div>
         <div class="role">
-                                <label>Vai trò:</label>
-                                <select name="role">`
+                                <label>Vai trò:</label>`
+                                // <select name="role">
+        if (roleHost == 2 && user.role != roleHost) {
+            html +=` <select name="role">`
+        }else {
+            html +=` <select disabled name="role">`
+        }
         if(user.role == 0){
             html += ` <option value="0" selected>Khách hàng</option>
                       <option value="1">Mod</option>
@@ -489,6 +495,17 @@ $(document).ready(function (){
 
 function dataTableForUser() {
     table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
             url:"getUser",
             type:"get",
@@ -498,6 +515,7 @@ function dataTableForUser() {
         columns:[
             {
                 data: null,
+                className: 'text-center align-middle',
                 render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
@@ -561,6 +579,17 @@ function dataTableForColorCategorySize(typeToShow) {
     }
 
     table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
             url: url,
             type:"get",
@@ -570,6 +599,7 @@ function dataTableForColorCategorySize(typeToShow) {
         columns:[
             {
               data: null,
+                className: 'text-center align-middle',
                 render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
@@ -599,6 +629,17 @@ function dataTableForColorCategorySize(typeToShow) {
 
 function dataTableForProduct() {
     table = $('#data').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export to Excel'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ],
         ajax:{
             url: "getProduct",
             type:"get",
@@ -608,6 +649,7 @@ function dataTableForProduct() {
         columns:[
             {
                 data: null,
+                className: 'text-center align-middle',
                 render: function (data, type, row, meta) {
                     return meta.row + 1; //so thu tu
                 }
