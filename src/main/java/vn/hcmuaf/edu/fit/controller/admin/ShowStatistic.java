@@ -24,7 +24,7 @@ public class ShowStatistic extends HttpServlet {
         if (user == null) request.getRequestDispatcher("login.jsp").forward(request, response);
         else {
             List<Integer> idProducts = BillDetailDao.getInstance().getBestProductSell();
-
+//            List<Integer> idProducts = BillDetailDao.getInstance().getTopSellerProduct();
             List<ProductMain> productMains = new ArrayList<>();
             for (int i = 0; i < idProducts.size(); i++) {
                 productMains.add(ProductDao.getInstance().getProduct(idProducts.get(i)));

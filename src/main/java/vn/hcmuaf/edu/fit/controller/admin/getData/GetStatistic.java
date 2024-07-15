@@ -27,6 +27,7 @@ public class GetStatistic extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Store> stores = StoreDao.getInstance().getAllStore();
         List<BillDetail> billDetails = BillDetailDao.getInstance().getAllBillDetailSuccess();
+//        List<BillDetail> billDetails = BillDetailDao.getInstance().getTopSellerProduct();
         for (int i = 0; i < stores.size(); i++) {
             int idProduct = stores.get(i).getProduct().getId();
             int quantity = stores.get(i).getQuantity();

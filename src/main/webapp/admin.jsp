@@ -577,6 +577,7 @@
 <%--                                </div>--%>
 <%--                            </div>--%>
 <%--                        </div>--%>
+<%--                        <button class="buttons-excel">Xuất file excel</button>--%>
                         <div class="size-list">
                             <table id="data" class="table table-striped table-bordered" style="width: 100%;">
                                 <thead>
@@ -893,6 +894,7 @@
                 </c:if>
 
                 <c:if test="${statistic != null}">
+
                     <div class="user section">
                         <div class="total">
                             <i class="fa-solid fa-users"></i>
@@ -901,6 +903,20 @@
                                 <p class="totalUser">${allBill}</p>
 
                             </div>
+                        </div>
+                        <div class="user-list">
+                            <table id="data2" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Mã kích thước</th>
+                                    <th>Mã màu</th>
+                                    <th>Số lượng đã bán</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                         <div class="user-list">
                             <table id="data" class="table table-striped table-bordered">
@@ -1534,6 +1550,7 @@
             </div>
         </div>
     </footer>
+
 
 
     <script src="./assets/mdb/js/jquery.min.js"></script>

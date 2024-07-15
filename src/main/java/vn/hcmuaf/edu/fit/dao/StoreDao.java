@@ -16,7 +16,7 @@ public class StoreDao {
 
     public List<Store> getAllStore() {
         List<Store> stores = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT * FROM store").mapToBean(Store.class).stream().collect(Collectors.toList());
+            return handle.createQuery("SELECT store.*, product.name as nameProduct FROM store join product on product.id = store.productID").mapToBean(Store.class).stream().collect(Collectors.toList());
         });
         return stores;
     }
