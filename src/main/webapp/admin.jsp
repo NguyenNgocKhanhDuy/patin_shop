@@ -577,6 +577,7 @@
 <%--                                </div>--%>
 <%--                            </div>--%>
 <%--                        </div>--%>
+<%--                        <button class="buttons-excel">Xuất file excel</button>--%>
                         <div class="size-list">
                             <table id="data" class="table table-striped table-bordered" style="width: 100%;">
                                 <thead>
@@ -893,13 +894,29 @@
                 </c:if>
 
                 <c:if test="${statistic != null}">
+
                     <div class="user section">
                         <div class="total">
                             <i class="fa-solid fa-users"></i>
                             <div class="text">
                                 <h3>Sản phẩm bán chạy</h3>
-                                <p class="totalUser"></p>
+                                <p class="totalUser">${allBill}</p>
+
                             </div>
+                        </div>
+                        <div class="user-list">
+                            <table id="data2" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Mã kích thước</th>
+                                    <th>Mã màu</th>
+                                    <th>Số lượng đã bán</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                         <div class="user-list">
                             <table id="data" class="table table-striped table-bordered">
@@ -1535,6 +1552,7 @@
     </footer>
 
 
+
     <script src="./assets/mdb/js/jquery.min.js"></script>
     <script src="./assets/mdb/js/bootstrap.min.js"></script>
     <script src="./assets/mdb/js/addons/datatables.min.js"></script>
@@ -1559,8 +1577,11 @@
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
     </c:if>
-    <c:if test="${statistic != null}">
+    <c:if test="${store != null}">
         <script src="./assets/js/adminStore.js"></script>
+    </c:if>
+    <c:if test="${statistic != null}">
+        <script src="./assets/js/adminStatistic.js"></script>
     </c:if>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
 </body>

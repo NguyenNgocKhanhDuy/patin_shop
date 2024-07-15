@@ -21,6 +21,9 @@ public class ProductMain implements Serializable {
         this.productDetail = productDetail;
     }
 
+    public ProductMain(int id, Size size, Color color, int quantity) {
+    }
+
     public int getMinPrice() {
         return minPrice;
     }
