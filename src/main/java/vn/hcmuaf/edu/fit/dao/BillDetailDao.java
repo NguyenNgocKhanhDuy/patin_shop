@@ -81,10 +81,10 @@ public class BillDetailDao extends AbsDao<BillDetail> {
 
     public List<Integer> getBestProductSell() {
         List<Integer> integers = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("SELECT product_id FROM bill_detail JOIN bill ON bill_detail.bill_id = bill.id " +
-                            "WHERE bill.status = 4 " +
-                            "GROUP BY product_id " +
-                            "HAVING COUNT(*) >= ALL (SELECT COUNT(*) FROM bill_detail GROUP BY product_id) ")
+            return handle.createQuery("SELECT size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id, SUM(quantity) as quantity " +
+                            "FROM bill JOIN bill_detail on bill.id = bill_detail.bill_id JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
+                            "GROUP BY product_id, color_id, size_id " +
+                            "HAVING SUM(bill_detail.quantity) >= ALL (SELECT SUM(bill_detail.quantity) FROM bill_detail GROUP BY product_id, color_id, size_id) ")
                     .mapTo(Integer.class).stream().collect(Collectors.toList());
         });
         return integers;

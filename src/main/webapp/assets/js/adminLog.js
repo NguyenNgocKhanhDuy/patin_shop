@@ -23,7 +23,7 @@ $(document).ready(function () {
             },
             {
                 data: null, // Mức độ log
-                className: 'text-center align-middle',
+                className: `text-center align-middle bg-${data.level}` ,
                 render: function(data) {
                     return data.level != undefined ? data.level : "";
                 }
