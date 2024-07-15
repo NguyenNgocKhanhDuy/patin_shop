@@ -214,8 +214,13 @@ function addInModalUser(user) {
         `</div>
         </div>
         <div class="role">
-                                <label>Vai trò:</label>
-                                <select name="role">`
+                                <label>Vai trò:</label>`
+                                // <select name="role">
+        if (user.role == 2) {
+            html +=` <select name="role">`
+        }else {
+            html +=` <select disabled name="role">`
+        }
         if(user.role == 0){
             html += ` <option value="0" selected>Khách hàng</option>
                       <option value="1">Mod</option>

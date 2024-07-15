@@ -98,7 +98,7 @@ public class    UserInformation extends HttpServlet {
                         ipAddress = request.getRemoteAddr();
                     }
 
-                    if (UserService.getInstance().updateUser(user,ipAddress, "info", "UpdateInfomation")){
+                    if (UserService.getInstance().updateUser(user,ipAddress, "info", "UpdateInfomation", false)){
                         request.setAttribute("type", "success");
                         request.setAttribute("information", "Cập nhật thành công");
                         request.getRequestDispatcher("account.jsp").forward(request, response);

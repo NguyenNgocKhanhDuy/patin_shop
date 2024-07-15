@@ -1095,7 +1095,7 @@
             <div class="modal-container modalConUser modal-containerEditUser">
                 <i class="fa-solid fa-xmark del"></i>
                 <h3>Chi tiết</h3>
-                <input type="hidden" id="perUser" value="${per}">
+                <input type="hidden" id="perUser" value="${sessionScope.auth.getRole()}">
                 <form action="updateUserAdmin" method="post" enctype="multipart/form-data">
                     <div class="wrapper">
                         <div class="main">

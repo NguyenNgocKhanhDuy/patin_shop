@@ -178,8 +178,8 @@ public class UserService {
         return "";
     }
 
-    public boolean updateUser(User user, String ip, String level, String address) {
-        return UserDao.getInstance().updateUser(user, ip, level, address);
+    public boolean updateUser(User user, String ip, String level, String address, boolean isAdmin) {
+        return UserDao.getInstance().updateUser(user, ip, level, address, isAdmin);
     }
 
     public boolean checkPass(int user, String pass) {

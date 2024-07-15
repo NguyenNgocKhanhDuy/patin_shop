@@ -233,20 +233,33 @@ public class UserDao extends AbsDao<User>{
 
 
 
-    public boolean updateUser(AbsModel model, String ip, String level, String address) {
+    public boolean updateUser(AbsModel model, String ip, String level, String address, boolean isAdmin) {
         User user = (User) model;
         user.setBeforeData(user.logStringForUpdateUser());
-        Integer i = JDBIConnector.get().withHandle(handle -> {
-            return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
-                    .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
-                    .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("role", user.getRole()).bind("verify", user.getVerify())
-                    .execute();
-        });
-
-        if(i == 1){
-            user.setAfterData(getUserByEmail(user.getEmail()).get(0).logStringForUpdateUser());
-            super.update(user, ip, level, address);
-            return true;
+        if (isAdmin) {
+            Integer i = JDBIConnector.get().withHandle(handle -> {
+                return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, role = :role, verify = :verify WHERE id = :id")
+                        .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
+                        .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("role", user.getRole()).bind("verify", user.getVerify())
+                        .execute();
+            });
+            if(i == 1){
+                user.setAfterData(getUserByEmail(user.getEmail()).get(0).logStringForUpdateUser());
+                super.update(user, ip, level, address);
+                return true;
+            }
+        }else {
+            Integer i = JDBIConnector.get().withHandle(handle -> {
+                return handle.createUpdate("UPDATE user SET fullname = :fullname, address = :address, phone = :phone, sex = :sex, dob = :dob, avatar = :avatar, verify = :verify WHERE id = :id")
+                        .bind("id", user.getId()).bind("fullname", user.getFullName()).bind("address", user.getAddress()).bind("phone", user.getPhone())
+                        .bind("avatar", user.getAvatar()).bind("sex", user.getSex()).bind("dob", user.getDob()).bind("verify", user.getVerify())
+                        .execute();
+            });
+            if(i == 1){
+                user.setAfterData(getUserByEmail(user.getEmail()).get(0).logStringForUpdateUser());
+                super.update(user, ip, level, address);
+                return true;
+            }
         }
         return false;
     }
