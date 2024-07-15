@@ -898,7 +898,8 @@
                             <i class="fa-solid fa-users"></i>
                             <div class="text">
                                 <h3>Sản phẩm bán chạy</h3>
-                                <p class="totalUser"></p>
+                                <p class="totalUser">${allBill}</p>
+
                             </div>
                         </div>
                         <div class="user-list">
@@ -1559,8 +1560,11 @@
     <c:if test="${billDetail != null}">
         <script src="${pageContext.request.contextPath}/assets/js/adminModalBill.js"></script>
     </c:if>
-    <c:if test="${statistic != null}">
+    <c:if test="${store != null}">
         <script src="./assets/js/adminStore.js"></script>
+    </c:if>
+    <c:if test="${statistic != null}">
+        <script src="./assets/js/adminStatistic.js"></script>
     </c:if>
     <script src="${pageContext.request.contextPath}/assets/js/popupNotice.js"></script>
 </body>

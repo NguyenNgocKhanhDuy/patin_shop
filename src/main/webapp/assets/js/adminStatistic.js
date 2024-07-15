@@ -28,29 +28,10 @@ $(document).ready(function () {
                 className: 'text-center align-middle'
             },
             {
-                data: "name",
-                className: 'text-center align-middle'
-            },
-            {
                 data: "quantity",
                 className: 'text-center align-middle',
             },
-            {
-                data: "date",
-                className: 'text-center align-middle'
-            },
-            {
-                data: "price",
-                className: 'text-center align-middle'
-            },
-            {
-                data: "priceSell",
-                className: 'text-center align-middle'
-            },
-            {
-                data: "salePercent",
-                className: 'text-center align-middle'
-            }
+
         ]
     })
 })

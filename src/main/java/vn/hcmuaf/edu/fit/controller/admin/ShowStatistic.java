@@ -1,6 +1,7 @@
 package vn.hcmuaf.edu.fit.controller.admin;
 
 import vn.hcmuaf.edu.fit.bean.Bill;
+import vn.hcmuaf.edu.fit.bean.Product;
 import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.dao.BillDao;
@@ -28,11 +29,20 @@ public class ShowStatistic extends HttpServlet {
             for (int i = 0; i < idProducts.size(); i++) {
                 productMains.add(ProductDao.getInstance().getProduct(idProducts.get(i)));
             }
+/*            List<ProductMain> statistic = new ArrayList<>();
+            for (ProductMain products: productMains) {
+                statistic.add(new ProductMain(
+                        products.getProductDetail().getProduct().getId(),
+                        products.getProductDetail().getSize(),
+                        products.getProductDetail().getColor(),
+                        products.getProductDetail().getQuantity()
+                ));
+            }*/
 
             int i = BillDao.getInstance().getAllBillSuccess().size();
 
             request.setAttribute("allBill", i);
-            request.setAttribute("statistic", "statistic");
+            request.setAttribute("statistic", productMains);
             request.getRequestDispatcher("admin.jsp").forward(request, response);
         }
     }
