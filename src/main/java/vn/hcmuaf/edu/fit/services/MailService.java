@@ -1,5 +1,7 @@
 package vn.hcmuaf.edu.fit.services;
 
+import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.UserDao;
 import vn.hcmuaf.edu.fit.mail.Mail;
 import vn.hcmuaf.edu.fit.mail.MailProperties;
 
@@ -13,6 +15,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 public class MailService {
     private static MailService instance;
@@ -63,6 +66,32 @@ public class MailService {
             message.setSubject("Tin nhắn từ khách hàng patin", "utf-8");
             message.setText(mes, "utf-8");
             Transport.send(message);
+            return true;
+        } catch (MessagingException e) {
+            return false;
+        }
+    }
+
+    public boolean sendMailToAdmin(String mess) {
+        Session session = Session.getInstance(Mail.getProp(),
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(MailProperties.getUsername(), MailProperties.getPassword());
+                    }
+                });
+
+        try {
+            List<User> users = UserDao.getInstance().getAdmin();
+            for (User u: users) {
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(MailProperties.getUsername()));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(u.getEmail()));
+                message.setSubject("Tin nhắn đến cho Quản trị viên của website Patin", "utf-8");
+                message.setText(mess, "utf-8");
+                Transport.send(message);
+            }
+
             return true;
         } catch (MessagingException e) {
             return false;

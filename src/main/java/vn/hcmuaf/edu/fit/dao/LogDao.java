@@ -5,6 +5,7 @@ import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public class LogDao implements IDao{
                     .bind("value", model.getAfterData())
                     .execute();
         });
+        MailService.getInstance().sendMailToAdmin("Cảnh báo danger: "+address+"\n"+date);
         return i == 1 ? true : false;
     }
 

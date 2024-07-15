@@ -319,4 +319,11 @@ public class UserDao extends AbsDao<User>{
             return false;
         }
     }
+
+    public List<User> getAdmin() {
+        List<User> users = JDBIConnector.get().withHandle(handle -> {
+            return handle.createQuery("SELECT email FROM user WHERE role = 2 AND isDeleted = 0").mapToBean(User.class).stream().collect(Collectors.toList());
+        });
+        return users;
+    }
 }
