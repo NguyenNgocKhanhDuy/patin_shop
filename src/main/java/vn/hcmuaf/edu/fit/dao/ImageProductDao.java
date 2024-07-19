@@ -70,6 +70,7 @@ public class ImageProductDao extends AbsDao<ImageProduct> {
         if (i == 1) {
             imageProduct.setBeforeData(imageProduct.logString());
             super.delete(imageProduct, ip, "danger", "delete image product");
+            return true;
         }
         return false;
     }

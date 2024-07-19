@@ -25,7 +25,7 @@ public class DeleteColorAdmin extends HttpServlet {
         response.setContentType("text/plain");
         try {
             id = Integer.parseInt(request.getParameter("id"));
-            Color color = new Color();
+            Color color = ColorDao.getInstance().getColorById(id);
             color.setId(id);
             String ip = request.getHeader("X-FORWARDED_FOR");
             if(ip == null){

@@ -3,6 +3,7 @@ package vn.hcmuaf.edu.fit.dao;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -229,6 +230,8 @@ public class UserDao extends AbsDao<User>{
         if(i == 1) {
             u.setBeforeData(u.logString());
             super.delete(u, ip, "danger", "delete user");
+            System.out.println("SEND");
+            MailService.getInstance().sendMailToAdmin("Cảnh báo danger: delete user "+"\n"+ LocalDateTime.now());
             return true;
         }
         return false;

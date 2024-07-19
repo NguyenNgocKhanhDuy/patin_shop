@@ -51,15 +51,28 @@ $(document).ready(function () {
                 className: 'text-center align-middle'
             },
             {
-                data: "price",
-                className: 'text-center align-middle'
+                data: null,
+                className: 'text-center align-middle',
+                render: function(data)  {
+                    return changeCurrency(data.price)
+                }
             },
             {
-                data: "salePercent",
-                className: 'text-center align-middle'
+                data: null,
+                className: 'text-center align-middle',
+                render: function (data) {
+                    return (data.salePercent * 100) +"%"
+                }
             }
         ],
 
     })
 
 })
+
+function changeCurrency(text) {
+    return parseFloat(text).toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+}

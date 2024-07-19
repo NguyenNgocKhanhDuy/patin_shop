@@ -5,7 +5,9 @@ import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.bean.User;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,6 +99,8 @@ public class SizeDao extends AbsDao<Size>{
             size.setBeforeData(size.logString());
             size.setAfterData(getSizeById(size.getId()).logString());
             super.update(size, ip, "danger", "delete size");
+            System.out.println("SEND");
+            MailService.getInstance().sendMailToAdmin("Cảnh báo danger: delete size "+"\n"+ LocalDateTime.now());
             return true;
         }
         return false;

@@ -3,6 +3,9 @@ package vn.hcmuaf.edu.fit.dao;
 import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.model.IModel;
+import vn.hcmuaf.edu.fit.services.MailService;
+
+import java.time.LocalDateTime;
 
 public abstract class AbsDao<T extends IModel> implements IDao {
     @Override

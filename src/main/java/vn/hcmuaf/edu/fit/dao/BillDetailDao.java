@@ -6,8 +6,10 @@ import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,8 +51,8 @@ public class BillDetailDao extends AbsDao<BillDetail> {
     public List<BillDetail> getAllBillDetailSuccess() {
         List<BillDetail> billDetails = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT SUM(quantity) as quantity, price, size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id " +
-                    "FROM  bill_detail JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
-                    "WHERE bill_detail.isDeleted = 0 " +
+                    "FROM bill JOIN bill_detail on bill.id = bill_detail.bill_id JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
+                    "WHERE bill_detail.isDeleted = 0 AND bill.status = 4 " +
                     "GROUP BY bill_detail.product_id").mapToBean(BillDetail.class).stream().collect(Collectors.toList());
         });
         return billDetails;
@@ -64,6 +66,8 @@ public class BillDetailDao extends AbsDao<BillDetail> {
         Integer i = JDBIConnector.get().withHandle(handle -> {
             return handle.createUpdate("UPDATE bill_detail SET isDeleted = 1 WHERE bill_id = :id").bind("id", bill.getId()).execute();
         });
+            System.out.println("SEND");
+            MailService.getInstance().sendMailToAdmin("Cảnh báo danger: delete bill "+"\n"+ LocalDateTime.now());
         return i > 0 ? true : false;
     }
 
@@ -84,6 +88,7 @@ public class BillDetailDao extends AbsDao<BillDetail> {
         List<BillDetail> integers = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("SELECT size.id as size_id, color.id as color_id, product.id as product_product_detail_product_id, product.name as product_product_detail_product_name, SUM(quantity) as quantity " +
                             "FROM bill JOIN bill_detail on bill.id = bill_detail.bill_id JOIN product on product.id = bill_detail.product_id JOIN size ON bill_detail.size_id = size.id JOIN color ON bill_detail.color_id = color.id " +
+                            "WHERE bill.status = 4 " +
                             "GROUP BY product_id, color_id, size_id " +
                             "HAVING SUM(bill_detail.quantity) >= ALL (SELECT SUM(bill_detail.quantity) FROM bill_detail GROUP BY product_id, color_id, size_id) ")
                     .mapToBean(BillDetail.class).stream().collect(Collectors.toList());
@@ -93,7 +98,7 @@ public class BillDetailDao extends AbsDao<BillDetail> {
 
 
     public static void main(String[] args) {
-        System.out.println(BillDetailDao.getInstance().getBestProductSell());
+        System.out.println(BillDetailDao.getInstance().getAllBillDetail(30));
     }
 
 }

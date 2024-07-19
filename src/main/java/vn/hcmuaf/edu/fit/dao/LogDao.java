@@ -38,9 +38,6 @@ public class LogDao implements IDao{
                     .bind("value", model.getAfterData())
                     .execute();
         });
-        if (address.equals("danger")) {
-            MailService.getInstance().sendMailToAdmin("Cảnh báo danger: "+address+"\n"+date);
-        }
         return i == 1 ? true : false;
     }
 

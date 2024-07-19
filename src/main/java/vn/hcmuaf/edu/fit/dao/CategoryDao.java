@@ -4,7 +4,9 @@ import vn.hcmuaf.edu.fit.bean.Category;
 import vn.hcmuaf.edu.fit.bean.Size;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +86,8 @@ public class CategoryDao extends AbsDao<Category>{
             category.setBeforeData(category.logString());
             category.setAfterData(getCategory(category.getId()).logString());
             super.update(category, ip, "danger", "delete category");
+            System.out.println("SEND");
+            MailService.getInstance().sendMailToAdmin("Cảnh báo danger: delete category "+"\n"+ LocalDateTime.now());
             return true;
         }
         return false;
