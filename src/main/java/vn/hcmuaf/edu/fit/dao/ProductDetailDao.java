@@ -2,6 +2,7 @@ package vn.hcmuaf.edu.fit.dao;
 
 import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.bean.ProductMain;
+import vn.hcmuaf.edu.fit.controller.account.ChangePass;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 
@@ -63,6 +64,7 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
             product.setBeforeData("P="+product.getProduct().getId()+", S="+oldSize+", C="+oldColor);
             product.setAfterData("P="+product.getProduct().getId()+", S="+product.getSize().getId()+", C="+product.getColor().getId());
             super.insert(product, ip, "info", "update productDetail");
+            return true;
         }
         return false;
     }
@@ -105,4 +107,16 @@ public class ProductDetailDao extends AbsDao<ProductDetail> {
         });
         return product;
     }
+
+    public boolean updateQuantity(int id, int size, int color, int quantity) {
+        int quantityUpdate = getProductDetail(id, size, color).getProductDetail().getQuantity()  + quantity;
+        Integer i = JDBIConnector.get().withHandle(handle -> {
+            return handle.createUpdate("UPDATE product_detail SET quantity = :quantity WHERE id_product = :id AND id_size = :size AND id_color=:color")
+                    .bind("quantity", quantityUpdate).bind("id", id)
+                    .bind("size", size).bind("color", color).execute();
+        });
+        return i == 1 ? true : false;
+    }
+
+
 }

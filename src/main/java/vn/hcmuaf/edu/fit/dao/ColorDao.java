@@ -4,7 +4,9 @@ import vn.hcmuaf.edu.fit.bean.Color;
 
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,8 @@ public class ColorDao extends AbsDao<Color>{
         if (i == 1) {
             color.setAfterData(color.logString());
             super.insert(color, ip, "danger", "delete color");
+            System.out.println("SEND");
+            MailService.getInstance().sendMailToAdmin("Cảnh báo danger: delete color "+"\n"+ LocalDateTime.now());
             return true;
         }
         return false;

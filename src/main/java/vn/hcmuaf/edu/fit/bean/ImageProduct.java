@@ -67,7 +67,7 @@ public class ImageProduct extends AbsModel implements Serializable {
     }
 
     public String logString() {
-        return "productName="+product.getName();
+        return "productName="+product.getName()+", productID="+product.getId()+"id="+id;
     }
 
 }

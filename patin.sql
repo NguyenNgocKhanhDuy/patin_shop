@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 14/07/2024 21:14:08
+ Date: 19/07/2024 16:23:13
 */
 
 SET NAMES utf8mb4;
@@ -33,12 +33,13 @@ CREATE TABLE `bill`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `b_u`(`user_id` ASC) USING BTREE,
   CONSTRAINT `b_u` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of bill
 -- ----------------------------
-INSERT INTO `bill` VALUES (26, 'DH26P1U28', '2024-07-03 14:17:36', 0, 'Trả tiền khi nhận', '', 28, 0);
+INSERT INTO `bill` VALUES (34, 'DH28D2024-07-16T14:25:02.109209900', '2024-07-16 14:25:02', 2, 'Trả tiền khi nhận', '', 28, 0);
+INSERT INTO `bill` VALUES (35, 'DH28D2024-07-16T14:26:26.557484300', '2024-07-16 14:26:26', 0, 'Trả tiền khi nhận', '', 28, 0);
 
 -- ----------------------------
 -- Table structure for bill_detail
@@ -51,6 +52,7 @@ CREATE TABLE `bill_detail`  (
   `color_id` int NOT NULL,
   `quantity` int NULL DEFAULT NULL,
   `price` int NULL DEFAULT NULL,
+  `isDeleted` int NULL DEFAULT NULL,
   PRIMARY KEY (`bill_id`, `product_id`, `size_id`, `color_id`) USING BTREE,
   INDEX `b_c`(`color_id` ASC) USING BTREE,
   INDEX `b_p`(`product_id` ASC) USING BTREE,
@@ -64,11 +66,9 @@ CREATE TABLE `bill_detail`  (
 -- ----------------------------
 -- Records of bill_detail
 -- ----------------------------
-INSERT INTO `bill_detail` VALUES (26, 1, 1, 3, 1, 800000);
-INSERT INTO `bill_detail` VALUES (26, 1, 1, 4, 1, 800000);
-INSERT INTO `bill_detail` VALUES (26, 2, 1, 1, 1, 800000);
-INSERT INTO `bill_detail` VALUES (26, 3, 1, 1, 1, 800000);
-INSERT INTO `bill_detail` VALUES (26, 3, 1, 2, 3, 800000);
+INSERT INTO `bill_detail` VALUES (34, 26, 2, 2, 1, 1260000, 0);
+INSERT INTO `bill_detail` VALUES (35, 25, 2, 4, 1, 2000000, 0);
+INSERT INTO `bill_detail` VALUES (35, 26, 2, 4, 1, 1260000, 0);
 
 -- ----------------------------
 -- Table structure for category
@@ -377,6 +377,7 @@ INSERT INTO `image_product` VALUES (1, 'https://xpatin.com/wp-content/uploads/20
 INSERT INTO `image_product` VALUES (1, 'https://xpatin.com/wp-content/uploads/2019/12/giay-patin-flying-eagle-f3.jpg', 76, 0);
 INSERT INTO `image_product` VALUES (1, 'https://xpatin.com/wp-content/uploads/2019/12/giay-patin-flying-eagle-f2.jpg', 77, 0);
 INSERT INTO `image_product` VALUES (1, 'https://xpatin.com/wp-content/uploads/2019/12/giay-patin-flying-eagle-f1-anh-2-380x380.jpg', 78, 0);
+INSERT INTO `image_product` VALUES (1, 'data/product/id110/mercury-sky-night-background-asset-game-2d-futuristic-generative-ai.jpg', 110, 0);
 INSERT INTO `image_product` VALUES (2, 'https://xpatin.com/wp-content/uploads/2023/05/cau-tao-anh-1-380x380.jpg', 1, 0);
 INSERT INTO `image_product` VALUES (2, 'https://xpatin.com/wp-content/uploads/2022/01/525e5cf1ed-380x380.jpg', 2, 0);
 INSERT INTO `image_product` VALUES (2, 'https://xpatin.com/wp-content/uploads/2021/12/delta-junior-la-mau-giay-truot-rat-nhay-380x380.jpg', 3, 0);
@@ -492,7 +493,7 @@ INSERT INTO `image_product` VALUES (4, 'https://xpatin.com/wp-content/uploads/20
 INSERT INTO `image_product` VALUES (4, 'https://xpatin.com/wp-content/uploads/2019/12/giay-patin-toc-do-speed-flying-eagle-leader-anh-3-380x380.jpg', 49, 0);
 INSERT INTO `image_product` VALUES (4, 'https://xpatin.com/wp-content/uploads/2022/01/13664b915b.jpg', 52, 0);
 INSERT INTO `image_product` VALUES (4, 'https://xpatin.com/wp-content/uploads/2020/09/giay-patin-iskate-ranger-mau-xanh-anh-2-380x380.jpg', 72, 0);
-INSERT INTO `image_product` VALUES (5, 'https://xpatin.com/wp-content/uploads/2023/05/giay-patin-micro-delta-x-2023-mau-xanh-anh-2-380x380.jpg', 1, 0);
+INSERT INTO `image_product` VALUES (5, 'https://xpatin.com/wp-content/uploads/2023/05/giay-patin-micro-delta-x-2023-mau-xanh-anh-2-380x380.jpg', 1, 1);
 INSERT INTO `image_product` VALUES (5, 'https://xpatin.com/wp-content/uploads/2022/01/giay-patin-micro-delta-liberty-thuong-hieu-thuy-si-380x380.jpg', 2, 0);
 INSERT INTO `image_product` VALUES (5, 'https://xpatin.com/wp-content/uploads/2021/12/duoc-tao-thanh-boi-cong-nghe-tot-nhat-380x380.jpg', 3, 0);
 INSERT INTO `image_product` VALUES (5, 'https://xpatin.com/wp-content/uploads/2022/07/giay-patin-toc-do-micro-dynamic-speed-junior-3-banh-mau-xanh-anh-2-380x380.jpg', 5, 0);
@@ -537,185 +538,21 @@ CREATE TABLE `log`  (
   `createAt` datetime NULL DEFAULT NULL,
   `updateAt` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 242 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 384 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of log
 -- ----------------------------
-INSERT INTO `log` VALUES (68, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-21 16:20:56', NULL);
-INSERT INTO `log` VALUES (69, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-21 16:24:56', NULL);
-INSERT INTO `log` VALUES (70, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-21 16:27:41', NULL);
-INSERT INTO `log` VALUES (71, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-21 16:29:37', NULL);
-INSERT INTO `log` VALUES (72, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 19:35:37', NULL);
-INSERT INTO `log` VALUES (73, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 19:36:04', NULL);
-INSERT INTO `log` VALUES (74, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 19:41:17', NULL);
-INSERT INTO `log` VALUES (75, '0:0:0:0:0:0:0:1', 'danger', 'user delete bill', 'Bill{id=1, name=\'ínq\', date=2024-05-21T16:22:19, status=\'ok\', note=\'none\', user=User{id=28, email=\'21130035@st.hcmuaf.edu.vn\', password=\'null\', verify=0, fullName=\'Nguyễn Ngọc Khánh Duy\', address=\'863/10\', phone=\'0839151003\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}}', NULL, NULL, '2024-05-31 19:42:15');
-INSERT INTO `log` VALUES (76, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 20:55:33', NULL);
-INSERT INTO `log` VALUES (77, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 20:59:58', NULL);
-INSERT INTO `log` VALUES (78, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-05-31 21:02:05');
-INSERT INTO `log` VALUES (79, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 21:08:09', NULL);
-INSERT INTO `log` VALUES (80, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 21:20:15', NULL);
-INSERT INTO `log` VALUES (81, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 21:20:26', NULL);
-INSERT INTO `log` VALUES (82, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 21:24:05', NULL);
-INSERT INTO `log` VALUES (83, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-05-31 21:30:39', NULL);
-INSERT INTO `log` VALUES (84, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-05-31 21:31:22');
-INSERT INTO `log` VALUES (85, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-05-31 21:31:22');
-INSERT INTO `log` VALUES (86, '', 'info', 'login google', NULL, NULL, '2024-06-01 18:37:33', NULL);
-INSERT INTO `log` VALUES (87, '0:0:0:0:0:0:0:1', 'normal', 'user mua hang', 'user:lomninkon@gmail.com', NULL, '2024-06-01 18:37:58', NULL);
-INSERT INTO `log` VALUES (88, '0:0:0:0:0:0:0:1', 'normal', 'user mua hang', 'user:lomninkon@gmail.com', NULL, '2024-06-01 18:43:38', NULL);
-INSERT INTO `log` VALUES (89, '0:0:0:0:0:0:0:1', 'normal', 'user mua hang', 'user:lomninkon@gmail.com', NULL, '2024-06-01 18:45:58', NULL);
-INSERT INTO `log` VALUES (90, '0:0:0:0:0:0:0:1', 'normal', 'user mua hang', 'user:lomninkon@gmail.com', NULL, '2024-06-01 18:46:13', NULL);
-INSERT INTO `log` VALUES (91, '0:0:0:0:0:0:0:1', 'normal', 'user mua hang', 'user:lomninkon@gmail.com', NULL, '2024-06-01 18:50:01', NULL);
-INSERT INTO `log` VALUES (92, '0:0:0:0:0:0:0:1', 'normal', 'add bill detail', 'quantity:1', NULL, '2024-06-01 18:50:01', NULL);
-INSERT INTO `log` VALUES (93, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:27:15', NULL);
-INSERT INTO `log` VALUES (94, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:30:38', NULL);
-INSERT INTO `log` VALUES (95, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:39:53', NULL);
-INSERT INTO `log` VALUES (96, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:44:55', NULL);
-INSERT INTO `log` VALUES (97, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:49:58', NULL);
-INSERT INTO `log` VALUES (98, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:51:24', NULL);
-INSERT INTO `log` VALUES (99, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:52:21', NULL);
-INSERT INTO `log` VALUES (100, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:53:20', NULL);
-INSERT INTO `log` VALUES (101, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:53:57', NULL);
-INSERT INTO `log` VALUES (102, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:54:06', NULL);
-INSERT INTO `log` VALUES (103, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 13:58:06', NULL);
-INSERT INTO `log` VALUES (104, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:01:19', NULL);
-INSERT INTO `log` VALUES (105, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:03:01', NULL);
-INSERT INTO `log` VALUES (106, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:05:09', NULL);
-INSERT INTO `log` VALUES (107, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:06:46', NULL);
-INSERT INTO `log` VALUES (108, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:08:53', NULL);
-INSERT INTO `log` VALUES (109, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:10:47', NULL);
-INSERT INTO `log` VALUES (110, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:12:24', NULL);
-INSERT INTO `log` VALUES (111, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:14:34', NULL);
-INSERT INTO `log` VALUES (112, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:16:03', NULL);
-INSERT INTO `log` VALUES (113, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:17:16', NULL);
-INSERT INTO `log` VALUES (114, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:19:35', NULL);
-INSERT INTO `log` VALUES (115, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:21:38', NULL);
-INSERT INTO `log` VALUES (116, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:23:27', NULL);
-INSERT INTO `log` VALUES (117, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:24:10', NULL);
-INSERT INTO `log` VALUES (118, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:25:53', NULL);
-INSERT INTO `log` VALUES (119, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:27:57', NULL);
-INSERT INTO `log` VALUES (120, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:29:08', NULL);
-INSERT INTO `log` VALUES (121, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:29:08', NULL);
-INSERT INTO `log` VALUES (122, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:30:17', NULL);
-INSERT INTO `log` VALUES (123, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:32:15', NULL);
-INSERT INTO `log` VALUES (124, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:34:38', NULL);
-INSERT INTO `log` VALUES (125, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:36:58', NULL);
-INSERT INTO `log` VALUES (126, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:41:13', NULL);
-INSERT INTO `log` VALUES (127, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:47:07', NULL);
-INSERT INTO `log` VALUES (128, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:48:34', NULL);
-INSERT INTO `log` VALUES (129, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:50:50', NULL);
-INSERT INTO `log` VALUES (130, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:53:23', NULL);
-INSERT INTO `log` VALUES (131, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:54:22', NULL);
-INSERT INTO `log` VALUES (132, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:56:25', NULL);
-INSERT INTO `log` VALUES (133, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:57:14', NULL);
-INSERT INTO `log` VALUES (134, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:58:36', NULL);
-INSERT INTO `log` VALUES (135, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 14:59:52', NULL);
-INSERT INTO `log` VALUES (136, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:00:56', NULL);
-INSERT INTO `log` VALUES (137, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', NULL, '2024-07-02 15:01:19');
-INSERT INTO `log` VALUES (138, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', NULL, '2024-07-02 15:01:25');
-INSERT INTO `log` VALUES (139, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', NULL, '2024-07-02 15:01:52');
-INSERT INTO `log` VALUES (140, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', NULL, '2024-07-02 15:02:02');
-INSERT INTO `log` VALUES (141, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', NULL, '2024-07-02 15:02:16');
-INSERT INTO `log` VALUES (142, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:02:19');
-INSERT INTO `log` VALUES (143, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', NULL, '2024-07-02 15:02:23');
-INSERT INTO `log` VALUES (144, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:05:11', NULL);
-INSERT INTO `log` VALUES (145, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=0}', 'User{id=46, email=\'lomninkon@gmail.com\', password=\'null\', verify=1, fullName=\'Lom Nin\', address=\'undefined\', phone=\'0123456780\', sex=\'0\', dob=1920-01-01, avatar=\'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c\', keyPass=0, role=1}', NULL, '2024-07-02 15:05:19');
-INSERT INTO `log` VALUES (146, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:05:21');
-INSERT INTO `log` VALUES (147, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:07:03', NULL);
-INSERT INTO `log` VALUES (148, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:07:11');
-INSERT INTO `log` VALUES (149, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:12:11', NULL);
-INSERT INTO `log` VALUES (150, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:12:17');
-INSERT INTO `log` VALUES (151, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:14:59', NULL);
-INSERT INTO `log` VALUES (152, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:15:07');
-INSERT INTO `log` VALUES (153, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:17:28', NULL);
-INSERT INTO `log` VALUES (154, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:17:36');
-INSERT INTO `log` VALUES (155, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:20:30', NULL);
-INSERT INTO `log` VALUES (156, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:20:40');
-INSERT INTO `log` VALUES (157, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:24:04', NULL);
-INSERT INTO `log` VALUES (158, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:24:15');
-INSERT INTO `log` VALUES (159, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:25:06', NULL);
-INSERT INTO `log` VALUES (160, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:25:12');
-INSERT INTO `log` VALUES (161, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-02 15:39:42', NULL);
-INSERT INTO `log` VALUES (162, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:39:47');
-INSERT INTO `log` VALUES (163, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:40:00');
-INSERT INTO `log` VALUES (164, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-02 15:40:57');
-INSERT INTO `log` VALUES (165, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:22:25', NULL);
-INSERT INTO `log` VALUES (166, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:24:31', NULL);
-INSERT INTO `log` VALUES (167, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:25:49', NULL);
-INSERT INTO `log` VALUES (168, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:30:27', NULL);
-INSERT INTO `log` VALUES (169, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:31:35', NULL);
-INSERT INTO `log` VALUES (170, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:33:07', NULL);
-INSERT INTO `log` VALUES (171, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:34:41', NULL);
-INSERT INTO `log` VALUES (172, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:35:27', NULL);
-INSERT INTO `log` VALUES (173, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:36:49', NULL);
-INSERT INTO `log` VALUES (174, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:40:37', NULL);
-INSERT INTO `log` VALUES (175, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:44:08', NULL);
-INSERT INTO `log` VALUES (176, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:46:23', NULL);
-INSERT INTO `log` VALUES (177, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:49:23', NULL);
-INSERT INTO `log` VALUES (178, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:51:32', NULL);
-INSERT INTO `log` VALUES (179, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:51:32', NULL);
-INSERT INTO `log` VALUES (180, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:52:59', NULL);
-INSERT INTO `log` VALUES (181, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:54:57', NULL);
-INSERT INTO `log` VALUES (182, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 13:57:06', NULL);
-INSERT INTO `log` VALUES (183, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:02:33', NULL);
-INSERT INTO `log` VALUES (184, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:05:35', NULL);
-INSERT INTO `log` VALUES (185, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:16:58', NULL);
-INSERT INTO `log` VALUES (186, '0:0:0:0:0:0:0:1', 'normal', 'user mua hang', 'user:21130035@st.hcmuaf.edu.vn', NULL, '2024-07-03 14:17:36', NULL);
-INSERT INTO `log` VALUES (187, '0:0:0:0:0:0:0:1', 'normal', 'add bill detail', 'quantity:1', NULL, '2024-07-03 14:17:36', NULL);
-INSERT INTO `log` VALUES (188, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:22:35', NULL);
-INSERT INTO `log` VALUES (189, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:26:38', NULL);
-INSERT INTO `log` VALUES (190, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:30:50', NULL);
-INSERT INTO `log` VALUES (191, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:33:17', NULL);
-INSERT INTO `log` VALUES (192, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:49:06', NULL);
-INSERT INTO `log` VALUES (193, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:50:57', NULL);
-INSERT INTO `log` VALUES (194, '0:0:0:0:0:0:0:1', 'alert', 'login', NULL, 'User{id=0, email=\'duynguyenngockhanh@gmail.com\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thất bại', '2024-07-03 14:52:39', NULL);
-INSERT INTO `log` VALUES (195, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:52:47', NULL);
-INSERT INTO `log` VALUES (196, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 14:56:07', NULL);
-INSERT INTO `log` VALUES (197, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 15:01:54', NULL);
-INSERT INTO `log` VALUES (198, '0:0:0:0:0:0:0:1', 'alert', 'AdminAddUser', NULL, 'User{id=0, email=\'lomninkon@gmail.com\', password=\'123\', verify=1, fullName=\'Lom Nin\', address=\'ok\', phone=\'0123456780\', sex=\'0\', dob=2003-10-01, avatar=\'http://localhost:8080/patin_shop/assets/images/logo.PNG\', keyPass=0, role=1}', '2024-07-03 15:02:21', NULL);
-INSERT INTO `log` VALUES (199, '0:0:0:0:0:0:0:1', 'info', 'Update Infomation', 'User{id=47, email=\'lomninkon@gmail.com\', password=\'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3\', verify=1, fullName=\'Lom Nin\', address=\'ok\', phone=\'0123456780\', sex=\'0\', dob=2003-10-01, avatar=\'http://localhost:8080/patin_shop/assets/images/logo.PNG\', keyPass=0, role=1}', 'User{id=47, email=\'lomninkon@gmail.com\', password=\'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3\', verify=1, fullName=\'Lom Nin\', address=\'ok\', phone=\'0123456780\', sex=\'0\', dob=2003-10-01, avatar=\'http://localhost:8080/patin_shop/assets/images/logo.PNG\', keyPass=0, role=0}', NULL, '2024-07-03 15:02:37');
-INSERT INTO `log` VALUES (200, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-03 15:02:39');
-INSERT INTO `log` VALUES (201, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-03 15:02:43');
-INSERT INTO `log` VALUES (202, '0:0:0:0:0:0:0:1', 'danger', 'admin delete user', 'email:null', NULL, NULL, '2024-07-03 15:03:35');
-INSERT INTO `log` VALUES (203, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 15:05:35', NULL);
-INSERT INTO `log` VALUES (204, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 15:09:24', NULL);
-INSERT INTO `log` VALUES (205, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 15:13:25', NULL);
-INSERT INTO `log` VALUES (206, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 15:19:50', NULL);
-INSERT INTO `log` VALUES (207, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-03 15:21:08', NULL);
-INSERT INTO `log` VALUES (208, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:06:29', NULL);
-INSERT INTO `log` VALUES (209, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:11:23', NULL);
-INSERT INTO `log` VALUES (210, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:11:24', NULL);
-INSERT INTO `log` VALUES (211, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:13:58', NULL);
-INSERT INTO `log` VALUES (212, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:15:45', NULL);
-INSERT INTO `log` VALUES (213, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:19:52', NULL);
-INSERT INTO `log` VALUES (214, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:21:16', NULL);
-INSERT INTO `log` VALUES (215, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:27:13', NULL);
-INSERT INTO `log` VALUES (216, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 10:33:19', NULL);
-INSERT INTO `log` VALUES (217, '0:0:0:0:0:0:0:1', 'danger', 'admin delete detail product', 'id:1quantity:0', NULL, NULL, '2024-07-04 10:33:35');
-INSERT INTO `log` VALUES (218, '0:0:0:0:0:0:0:1', 'danger', 'admin delete prod', 'id:107name:null', NULL, NULL, '2024-07-04 10:33:44');
-INSERT INTO `log` VALUES (219, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 13:28:12', NULL);
-INSERT INTO `log` VALUES (220, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 13:47:39', NULL);
-INSERT INTO `log` VALUES (221, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 13:50:56', NULL);
-INSERT INTO `log` VALUES (222, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:14:06', NULL);
-INSERT INTO `log` VALUES (223, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:15:26', NULL);
-INSERT INTO `log` VALUES (224, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:19:41', NULL);
-INSERT INTO `log` VALUES (225, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:21:00', NULL);
-INSERT INTO `log` VALUES (226, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:35:52', NULL);
-INSERT INTO `log` VALUES (227, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:37:30', NULL);
-INSERT INTO `log` VALUES (228, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:39:30', NULL);
-INSERT INTO `log` VALUES (229, '0:0:0:0:0:0:0:1', 'alert', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thất bại', '2024-07-04 14:41:58', NULL);
-INSERT INTO `log` VALUES (230, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:42:03', NULL);
-INSERT INTO `log` VALUES (231, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-04 14:45:28', NULL);
-INSERT INTO `log` VALUES (232, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:39:28', NULL);
-INSERT INTO `log` VALUES (233, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:41:53', NULL);
-INSERT INTO `log` VALUES (234, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:43:11', NULL);
-INSERT INTO `log` VALUES (235, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:44:56', NULL);
-INSERT INTO `log` VALUES (236, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:47:49', NULL);
-INSERT INTO `log` VALUES (237, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:48:45', NULL);
-INSERT INTO `log` VALUES (238, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'User{id=0, email=\'21130035@st.hcmuaf.edu.vn\', password=\'000\', verify=0, fullName=\'null\', address=\'null\', phone=\'null\', sex=\'0\', dob=null, avatar=\'null\', keyPass=0, role=0}\nStatus: Thành công', '2024-07-14 09:55:02', NULL);
-INSERT INTO `log` VALUES (239, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thành công', '2024-07-14 21:00:44', NULL);
-INSERT INTO `log` VALUES (240, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thành công', '2024-07-14 21:09:58', NULL);
-INSERT INTO `log` VALUES (241, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thành công', '2024-07-14 21:10:38', NULL);
+INSERT INTO `log` VALUES (374, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thành công', '2024-07-16 12:56:38', NULL);
+INSERT INTO `log` VALUES (375, '0:0:0:0:0:0:0:1', 'info', 'add product', NULL, 'name=Sản phẩm 1, salePercent=0.2', '2024-07-16 13:07:37', NULL);
+INSERT INTO `log` VALUES (376, '0:0:0:0:0:0:0:1', 'info', 'add productDetail', NULL, 'productName=Sản phẩm 1,Size=Size{id=1, name=\'\', isDeleted=0}, color=Color{id=2, name=\'\', isDeleted=0}, quantity=1, price=200000', '2024-07-16 13:07:37', NULL);
+INSERT INTO `log` VALUES (377, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thành công', '2024-07-16 14:24:48', NULL);
+INSERT INTO `log` VALUES (378, '0:0:0:0:0:0:0:1', 'info', 'user mua hang', NULL, 'name=DH28D2024-07-16T14:25:02.109209900, date=2024-07-16T14:25:02.109209900, status=0\nuserName=Nguyễn Ngọc Khánh Duy, userEmail=21130035@st.hcmuaf.edu.vn, userPhone=0839151003', '2024-07-16 14:25:02', NULL);
+INSERT INTO `log` VALUES (379, '0:0:0:0:0:0:0:1', 'info', 'user mua hang', NULL, 'name=DH28D2024-07-16T14:26:26.557484300, date=2024-07-16T14:26:26.557484300, status=0\nuserName=Nguyễn Ngọc Khánh Duy, userEmail=21130035@st.hcmuaf.edu.vn, userPhone=0839151003', '2024-07-16 14:26:26', NULL);
+INSERT INTO `log` VALUES (380, '0:0:0:0:0:0:0:1', 'alert', '21130035@st.hcmuaf.edu.vn: change status bill', 'name=DH28D2024-07-16T14:25:02.109209900, date=2024-07-16T14:25:02, status=0\nuserName=Nguyễn Ngọc Khánh Duy, userEmail=21130035@st.hcmuaf.edu.vn, userPhone=0839151003', 'name=DH28D2024-07-16T14:25:02.109209900, date=2024-07-16T14:25:02, status=2\nuserName=Nguyễn Ngọc Khánh Duy, userEmail=21130035@st.hcmuaf.edu.vn, userPhone=0839151003', NULL, '2024-07-16 14:27:49');
+INSERT INTO `log` VALUES (381, '0:0:0:0:0:0:0:1', 'info', 'login google', NULL, 'email=lomninkon@gmail.com, fullName=Lom Nin, phone=null\nStatus: Thành công', '2024-07-16 14:28:57', NULL);
+INSERT INTO `log` VALUES (382, '0:0:0:0:0:0:0:1', 'alert', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thất bại', '2024-07-16 14:29:27', NULL);
+INSERT INTO `log` VALUES (383, '0:0:0:0:0:0:0:1', 'info', 'login', NULL, 'email=21130035@st.hcmuaf.edu.vn, fullName=null, phone=null\nStatus: Thành công', '2024-07-16 14:29:41', NULL);
 
 -- ----------------------------
 -- Table structure for product
@@ -729,7 +566,7 @@ CREATE TABLE `product`  (
   `information` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `isDeleted` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 108 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 111 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product
@@ -812,6 +649,7 @@ INSERT INTO `product` VALUES (75, 'Giày patin Flying Eagle F5 Street Slider ', 
 INSERT INTO `product` VALUES (76, 'Giày patin Flying Eagle F3', 0, 0, 'Thương hiệu:FLYING EAGLE%Màu sắc:Đen%Đối tượng:Người lớn, Trẻ em%Độ bám:Bánh xe cao su độ đàn hồi và bám đường tốt%Khả năng điều chỉnh:Size kép (2 kích cỡ)%Khung càng - Frames:Nhôm nguyên khối CNC%Thân giày:Khuôn vỏ nhựa chịu lực tốt, khả năng chống va đậ', 0);
 INSERT INTO `product` VALUES (77, 'Giày patin Flying Eagle F2 ', 0, 0.2, 'Thương hiệu:FLYING EAGLE%Màu sắc:Đen, Vàng%Độ bám:Bánh xe cao su độ đàn hồi và bám đường tốt%Đối tượng:Người lớn, Trẻ em%Khả năng điều chỉnh:Size kép (2 kích cỡ)%Khả năng trượt:Bánh xe 70mm-72mm, Bánh xe 72mm-76mm, Bánh xe 76mm-80mm, Vòng bi ABEC7%Khung c', 0);
 INSERT INTO `product` VALUES (78, 'Giày Patin Flying Eagle F1 Mantra ', 0, 0.2, 'Thương hiệu:FLYING EAGLE%Màu sắc:Vàng, Xanh dương%Đối tượng:Người lớn, Trẻ em%Khả năng điều chỉnh:Size kép (2 kích cỡ)%Khóa giày:Khóa cổ giày: khóa đóng nhựa dẻo, Khóa thân giày: khóa cài nhựa dẻo%Khả năng trượt:Bánh xe 70mm-72mm, Bánh xe 72mm-76mm, Bánh ', 0);
+INSERT INTO `product` VALUES (110, 'Sản phẩm 1', 0, 0.2, '', 0);
 
 -- ----------------------------
 -- Table structure for product_detail
@@ -835,10 +673,10 @@ CREATE TABLE `product_detail`  (
 -- ----------------------------
 -- Records of product_detail
 -- ----------------------------
-INSERT INTO `product_detail` VALUES (1, 1, 3, 0, 800000, 0);
+INSERT INTO `product_detail` VALUES (1, 1, 3, 3, 800000, 0);
 INSERT INTO `product_detail` VALUES (1, 3, 3, 10, 850000, 0);
 INSERT INTO `product_detail` VALUES (1, 5, 4, 10, 850000, 0);
-INSERT INTO `product_detail` VALUES (1, 14, 6, 19, 500000, 0);
+INSERT INTO `product_detail` VALUES (1, 14, 6, 20, 500000, 0);
 INSERT INTO `product_detail` VALUES (2, 1, 1, 30, 1200000, 0);
 INSERT INTO `product_detail` VALUES (2, 5, 1, 20, 1270000, 0);
 INSERT INTO `product_detail` VALUES (3, 2, 3, 10, 2300000, 0);
@@ -846,7 +684,7 @@ INSERT INTO `product_detail` VALUES (3, 3, 3, 15, 2300000, 0);
 INSERT INTO `product_detail` VALUES (3, 6, 3, 6, 2350000, 0);
 INSERT INTO `product_detail` VALUES (3, 6, 4, 4, 2350000, 0);
 INSERT INTO `product_detail` VALUES (3, 8, 4, 15, 2380000, 0);
-INSERT INTO `product_detail` VALUES (4, 1, 4, 29, 700000, 0);
+INSERT INTO `product_detail` VALUES (4, 1, 4, 26, 700000, 0);
 INSERT INTO `product_detail` VALUES (4, 2, 3, 10, 700000, 0);
 INSERT INTO `product_detail` VALUES (4, 3, 4, 8, 700000, 0);
 INSERT INTO `product_detail` VALUES (5, 1, 3, 13, 895000, 0);
@@ -908,20 +746,20 @@ INSERT INTO `product_detail` VALUES (23, 1, 4, 12, 2200000, 0);
 INSERT INTO `product_detail` VALUES (23, 3, 4, 10, 2200000, 0);
 INSERT INTO `product_detail` VALUES (23, 6, 3, 10, 2210000, 0);
 INSERT INTO `product_detail` VALUES (24, 3, 3, 9, 2300000, 0);
-INSERT INTO `product_detail` VALUES (25, 2, 4, 3, 2000000, 0);
+INSERT INTO `product_detail` VALUES (25, 2, 4, 2, 2000000, 0);
 INSERT INTO `product_detail` VALUES (25, 3, 2, 6, 2000000, 0);
 INSERT INTO `product_detail` VALUES (25, 3, 3, 2, 2000000, 0);
-INSERT INTO `product_detail` VALUES (26, 2, 2, 1, 2100000, 0);
-INSERT INTO `product_detail` VALUES (26, 2, 4, 5, 2100000, 0);
+INSERT INTO `product_detail` VALUES (26, 2, 2, 0, 2100000, 0);
+INSERT INTO `product_detail` VALUES (26, 2, 4, 4, 2100000, 0);
 INSERT INTO `product_detail` VALUES (26, 6, 3, 3, 2200000, 0);
 INSERT INTO `product_detail` VALUES (27, 7, 3, 5, 1950000, 0);
 INSERT INTO `product_detail` VALUES (27, 7, 8, 5, 1950000, 0);
 INSERT INTO `product_detail` VALUES (28, 3, 2, 3, 1600000, 0);
 INSERT INTO `product_detail` VALUES (28, 3, 3, 15, 1600000, 0);
 INSERT INTO `product_detail` VALUES (28, 3, 4, 15, 1600000, 0);
-INSERT INTO `product_detail` VALUES (29, 4, 2, 3, 1500000, 0);
+INSERT INTO `product_detail` VALUES (29, 4, 2, 2, 1500000, 0);
 INSERT INTO `product_detail` VALUES (29, 4, 3, 10, 1500000, 0);
-INSERT INTO `product_detail` VALUES (29, 5, 4, 10, 1550000, 0);
+INSERT INTO `product_detail` VALUES (29, 5, 4, 1, 1550000, 0);
 INSERT INTO `product_detail` VALUES (30, 2, 2, 13, 1580000, 0);
 INSERT INTO `product_detail` VALUES (30, 3, 3, 2, 1580000, 0);
 INSERT INTO `product_detail` VALUES (30, 6, 4, 8, 1620000, 0);
@@ -1073,6 +911,7 @@ INSERT INTO `product_detail` VALUES (78, 8, 4, 3, 4200000, 0);
 INSERT INTO `product_detail` VALUES (78, 12, 3, 2, 4350000, 0);
 INSERT INTO `product_detail` VALUES (78, 12, 4, 7, 4350000, 0);
 INSERT INTO `product_detail` VALUES (78, 14, 4, 3, 4480000, 0);
+INSERT INTO `product_detail` VALUES (110, 1, 2, 1, 200000, 0);
 
 -- ----------------------------
 -- Table structure for rating
@@ -1090,11 +929,12 @@ CREATE TABLE `rating`  (
   INDEX `rate_u`(`user_id` ASC) USING BTREE,
   CONSTRAINT `rate_p` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `rate_u` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rating
 -- ----------------------------
+INSERT INTO `rating` VALUES (39, 5, 'giao hang dung hen, chat luong nhu hinh se mua ung ho', '2024-07-16 13:01:44', 28, 25);
 
 -- ----------------------------
 -- Table structure for rating_detail_like
@@ -1159,26 +999,257 @@ CREATE TABLE `store`  (
   `quantity` int NULL DEFAULT NULL,
   `date` datetime NULL DEFAULT NULL,
   `price` int NULL DEFAULT NULL,
-  `priceSell` int NULL DEFAULT NULL,
   `salePercent` double NULL DEFAULT NULL,
-  PRIMARY KEY (`id`, `productID`, `colorID`, `sizeID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`, `productID`, `colorID`, `sizeID`) USING BTREE,
+  INDEX `f_store_p`(`productID` ASC) USING BTREE,
+  INDEX `f_store_c`(`colorID` ASC) USING BTREE,
+  INDEX `f_store_s`(`sizeID` ASC) USING BTREE,
+  CONSTRAINT `f_store_c` FOREIGN KEY (`colorID`) REFERENCES `color` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `f_store_p` FOREIGN KEY (`productID`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `f_store_s` FOREIGN KEY (`sizeID`) REFERENCES `size` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 537 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of store
 -- ----------------------------
-INSERT INTO `store` VALUES (1, 1, 1, 3, 'Nguyen Van A', 10, '2024-03-05 00:00:00', 600000, 800000, 0.2);
-INSERT INTO `store` VALUES (2, 1, 3, 3, 'Nguyen Van A', 60, '2024-03-05 00:00:00', 800000, 850000, 0.1);
-INSERT INTO `store` VALUES (51, 1, 14, 6, 'Nguyen Van A', 30, '2024-03-05 00:00:00', 400000, 500000, 0.3);
-INSERT INTO `store` VALUES (52, 2, 1, 1, 'Nguyen Van A', 20, '2024-03-05 00:00:00', 400000, 500000, 0.2);
-INSERT INTO `store` VALUES (53, 2, 5, 1, 'Nguyen Van A', 90, '2024-03-05 00:00:00', 1250000, 1270000, 0.2);
-INSERT INTO `store` VALUES (54, 3, 2, 3, 'Nguyen Van A', 40, '2024-03-05 00:00:00', 2200000, 2300000, 0.4);
-INSERT INTO `store` VALUES (55, 20, 1, 2, 'Tran Van B', 11, '2024-03-22 00:00:00', 2400000, 2600000, 0.5);
-INSERT INTO `store` VALUES (56, 1, 1, 3, 'Tran Van B ', 20, '2024-03-22 00:00:00', 550000, 800000, 0.6);
-INSERT INTO `store` VALUES (57, 1, 5, 4, 'Tran Van B ', 10, '2024-03-22 00:00:00', 800000, 850000, 0.6);
-INSERT INTO `store` VALUES (58, 2, 1, 1, 'Tran Van B ', 30, '2024-03-22 00:00:00', 400000, 500000, 0.1);
-INSERT INTO `store` VALUES (59, 1, 1, 3, 'Cao C', 20, '2024-03-25 00:00:00', 600000, 800000, 0.2);
-INSERT INTO `store` VALUES (60, 1, 3, 3, 'Cao C', 11, '2024-03-25 00:00:00', 800000, 850000, 0.3);
+INSERT INTO `store` VALUES (299, 1, 1, 3, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 800000, 0.2);
+INSERT INTO `store` VALUES (300, 1, 3, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 850000, 0.2);
+INSERT INTO `store` VALUES (301, 1, 5, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 850000, 0.2);
+INSERT INTO `store` VALUES (302, 2, 1, 1, 'Nguyễn Ngọc Khánh Duy', 30, '2024-07-15 20:57:40', 1200000, 0.2);
+INSERT INTO `store` VALUES (303, 2, 5, 1, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 1270000, 0.2);
+INSERT INTO `store` VALUES (304, 3, 2, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (305, 3, 3, 3, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (306, 3, 6, 3, 'Nguyễn Ngọc Khánh Duy', 6, '2024-07-15 20:57:40', 2350000, 0.2);
+INSERT INTO `store` VALUES (307, 3, 6, 4, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 2350000, 0.2);
+INSERT INTO `store` VALUES (308, 3, 8, 4, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 2380000, 0.2);
+INSERT INTO `store` VALUES (309, 4, 1, 4, 'Nguyễn Ngọc Khánh Duy', 30, '2024-07-15 20:57:40', 700000, 0.2);
+INSERT INTO `store` VALUES (310, 4, 2, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 700000, 0.2);
+INSERT INTO `store` VALUES (311, 4, 3, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 700000, 0.2);
+INSERT INTO `store` VALUES (312, 5, 1, 3, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 895000, 0.2);
+INSERT INTO `store` VALUES (313, 5, 1, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 895000, 0.2);
+INSERT INTO `store` VALUES (314, 6, 1, 3, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 895000, 0.2);
+INSERT INTO `store` VALUES (315, 6, 3, 3, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 895000, 0.2);
+INSERT INTO `store` VALUES (316, 6, 6, 3, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 920000, 0.2);
+INSERT INTO `store` VALUES (317, 6, 6, 4, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 920000, 0.2);
+INSERT INTO `store` VALUES (318, 7, 1, 4, 'Nguyễn Ngọc Khánh Duy', 8, '2024-07-15 20:57:40', 8900000, 0.2);
+INSERT INTO `store` VALUES (319, 7, 2, 6, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 8900000, 0.2);
+INSERT INTO `store` VALUES (320, 7, 3, 8, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 8900000, 0.2);
+INSERT INTO `store` VALUES (321, 8, 1, 3, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 3790000, 0.2);
+INSERT INTO `store` VALUES (322, 8, 1, 4, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 3790000, 0.2);
+INSERT INTO `store` VALUES (323, 8, 2, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3790000, 0.2);
+INSERT INTO `store` VALUES (324, 8, 2, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3790000, 0.2);
+INSERT INTO `store` VALUES (325, 9, 1, 3, 'Nguyễn Ngọc Khánh Duy', 40, '2024-07-15 20:57:40', 3650000, 0.2);
+INSERT INTO `store` VALUES (326, 9, 3, 4, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 3650000, 0.2);
+INSERT INTO `store` VALUES (327, 9, 6, 4, 'Nguyễn Ngọc Khánh Duy', 9, '2024-07-15 20:57:40', 3700000, 0.2);
+INSERT INTO `store` VALUES (328, 10, 1, 2, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 3650000, 0.2);
+INSERT INTO `store` VALUES (329, 10, 2, 1, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 3650000, 0.2);
+INSERT INTO `store` VALUES (330, 10, 3, 6, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3650000, 0.2);
+INSERT INTO `store` VALUES (331, 11, 1, 2, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 3500000, 0.2);
+INSERT INTO `store` VALUES (332, 11, 2, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3520000, 0.2);
+INSERT INTO `store` VALUES (333, 11, 3, 5, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 3520000, 0.2);
+INSERT INTO `store` VALUES (334, 12, 1, 3, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 3195000, 0.2);
+INSERT INTO `store` VALUES (335, 12, 1, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3195000, 0.2);
+INSERT INTO `store` VALUES (336, 12, 2, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3195000, 0.2);
+INSERT INTO `store` VALUES (337, 12, 3, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 3200000, 0.2);
+INSERT INTO `store` VALUES (338, 13, 3, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2980000, 0.2);
+INSERT INTO `store` VALUES (339, 14, 3, 3, 'Nguyễn Ngọc Khánh Duy', 25, '2024-07-15 20:57:40', 2950000, 0.2);
+INSERT INTO `store` VALUES (340, 14, 3, 4, 'Nguyễn Ngọc Khánh Duy', 25, '2024-07-15 20:57:40', 2950000, 0.2);
+INSERT INTO `store` VALUES (341, 15, 1, 3, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 2930000, 0.2);
+INSERT INTO `store` VALUES (342, 15, 2, 3, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 2930000, 0.2);
+INSERT INTO `store` VALUES (343, 15, 2, 4, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 2930000, 0.2);
+INSERT INTO `store` VALUES (344, 16, 1, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2750000, 0.2);
+INSERT INTO `store` VALUES (345, 16, 2, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2780000, 0.2);
+INSERT INTO `store` VALUES (346, 16, 2, 3, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2780000, 0.2);
+INSERT INTO `store` VALUES (347, 17, 3, 8, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (348, 17, 6, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 3050000, 0.2);
+INSERT INTO `store` VALUES (349, 18, 1, 2, 'Nguyễn Ngọc Khánh Duy', 6, '2024-07-15 20:57:40', 2750000, 0.2);
+INSERT INTO `store` VALUES (350, 18, 3, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2780000, 0.2);
+INSERT INTO `store` VALUES (351, 18, 6, 8, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2800000, 0.2);
+INSERT INTO `store` VALUES (352, 19, 2, 3, 'Nguyễn Ngọc Khánh Duy', 23, '2024-07-15 20:57:40', 2650000, 0.2);
+INSERT INTO `store` VALUES (353, 19, 2, 6, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2650000, 0.2);
+INSERT INTO `store` VALUES (354, 19, 3, 4, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 2650000, 0.2);
+INSERT INTO `store` VALUES (355, 20, 1, 2, 'Nguyễn Ngọc Khánh Duy', 7, '2024-07-15 20:57:40', 2540000, 0.2);
+INSERT INTO `store` VALUES (356, 20, 1, 3, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2540000, 0.2);
+INSERT INTO `store` VALUES (357, 20, 1, 4, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2540000, 0.2);
+INSERT INTO `store` VALUES (358, 20, 2, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 2600000, 0.2);
+INSERT INTO `store` VALUES (359, 20, 3, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 2600000, 0.2);
+INSERT INTO `store` VALUES (360, 21, 1, 3, 'Nguyễn Ngọc Khánh Duy', 25, '2024-07-15 20:57:40', 2500000, 0.2);
+INSERT INTO `store` VALUES (361, 21, 1, 4, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 2500000, 0.2);
+INSERT INTO `store` VALUES (362, 21, 2, 2, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 2500000, 0.2);
+INSERT INTO `store` VALUES (363, 22, 1, 8, 'Nguyễn Ngọc Khánh Duy', 7, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (364, 22, 1, 3, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (365, 22, 2, 4, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (366, 22, 3, 4, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 3050000, 0.2);
+INSERT INTO `store` VALUES (367, 23, 1, 4, 'Nguyễn Ngọc Khánh Duy', 12, '2024-07-15 20:57:40', 2200000, 0.2);
+INSERT INTO `store` VALUES (368, 23, 3, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2200000, 0.2);
+INSERT INTO `store` VALUES (369, 23, 6, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2210000, 0.2);
+INSERT INTO `store` VALUES (370, 26, 2, 4, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 2100000, 0.2);
+INSERT INTO `store` VALUES (371, 24, 3, 3, 'Nguyễn Ngọc Khánh Duy', 9, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (372, 26, 6, 3, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2200000, 0.2);
+INSERT INTO `store` VALUES (373, 25, 2, 4, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 2000000, 0.2);
+INSERT INTO `store` VALUES (374, 25, 3, 2, 'Nguyễn Ngọc Khánh Duy', 6, '2024-07-15 20:57:40', 2000000, 0.2);
+INSERT INTO `store` VALUES (375, 25, 3, 3, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2000000, 0.2);
+INSERT INTO `store` VALUES (376, 26, 2, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2100000, 0.2);
+INSERT INTO `store` VALUES (377, 27, 7, 8, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1950000, 0.2);
+INSERT INTO `store` VALUES (378, 27, 7, 3, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1950000, 0.2);
+INSERT INTO `store` VALUES (379, 28, 3, 4, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 1600000, 0.2);
+INSERT INTO `store` VALUES (380, 28, 3, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1600000, 0.2);
+INSERT INTO `store` VALUES (381, 28, 3, 3, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 1600000, 0.2);
+INSERT INTO `store` VALUES (382, 29, 4, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (383, 29, 4, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (384, 29, 5, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 1550000, 0.2);
+INSERT INTO `store` VALUES (385, 30, 2, 2, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 1580000, 0.2);
+INSERT INTO `store` VALUES (386, 30, 3, 3, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1580000, 0.2);
+INSERT INTO `store` VALUES (387, 30, 6, 4, 'Nguyễn Ngọc Khánh Duy', 8, '2024-07-15 20:57:40', 1620000, 0.2);
+INSERT INTO `store` VALUES (388, 31, 2, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 1990000, 0.2);
+INSERT INTO `store` VALUES (389, 31, 7, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2000000, 0.2);
+INSERT INTO `store` VALUES (390, 31, 7, 4, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2000000, 0.2);
+INSERT INTO `store` VALUES (391, 32, 4, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1490000, 0.2);
+INSERT INTO `store` VALUES (392, 32, 5, 3, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (393, 32, 5, 4, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (394, 33, 4, 3, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 1790000, 0.2);
+INSERT INTO `store` VALUES (395, 33, 5, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1800000, 0.2);
+INSERT INTO `store` VALUES (396, 34, 2, 4, 'Nguyễn Ngọc Khánh Duy', 12, '2024-07-15 20:57:40', 1380000, 0.2);
+INSERT INTO `store` VALUES (397, 34, 3, 3, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 1380000, 0.2);
+INSERT INTO `store` VALUES (398, 34, 3, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 1380000, 0.2);
+INSERT INTO `store` VALUES (399, 35, 4, 3, 'Nguyễn Ngọc Khánh Duy', 11, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (400, 35, 4, 4, 'Nguyễn Ngọc Khánh Duy', 11, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (401, 35, 5, 4, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (402, 36, 4, 3, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1165000, 0.2);
+INSERT INTO `store` VALUES (403, 36, 4, 4, 'Nguyễn Ngọc Khánh Duy', 18, '2024-07-15 20:57:40', 1165000, 0.2);
+INSERT INTO `store` VALUES (404, 38, 8, 8, 'Nguyễn Ngọc Khánh Duy', 8, '2024-07-15 20:57:40', 1200000, 0.2);
+INSERT INTO `store` VALUES (405, 37, 3, 4, 'Nguyễn Ngọc Khánh Duy', 6, '2024-07-15 20:57:40', 2200000, 0.2);
+INSERT INTO `store` VALUES (406, 37, 6, 4, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 2250000, 0.2);
+INSERT INTO `store` VALUES (407, 37, 6, 3, 'Nguyễn Ngọc Khánh Duy', 14, '2024-07-15 20:57:40', 2250000, 0.2);
+INSERT INTO `store` VALUES (408, 38, 8, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1200000, 0.2);
+INSERT INTO `store` VALUES (409, 38, 8, 3, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 1200000, 0.2);
+INSERT INTO `store` VALUES (410, 39, 7, 8, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1340000, 0.2);
+INSERT INTO `store` VALUES (411, 39, 7, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1340000, 0.2);
+INSERT INTO `store` VALUES (412, 40, 7, 3, 'Nguyễn Ngọc Khánh Duy', 30, '2024-07-15 20:57:40', 1065000, 0.2);
+INSERT INTO `store` VALUES (413, 40, 8, 2, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 1100000, 0.2);
+INSERT INTO `store` VALUES (414, 41, 2, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 1650000, 0.2);
+INSERT INTO `store` VALUES (415, 41, 3, 2, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 1650000, 0.2);
+INSERT INTO `store` VALUES (416, 41, 6, 3, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 1700000, 0.2);
+INSERT INTO `store` VALUES (417, 41, 6, 4, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1700000, 0.2);
+INSERT INTO `store` VALUES (418, 42, 11, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 10750000, 0.2);
+INSERT INTO `store` VALUES (419, 42, 12, 2, 'Nguyễn Ngọc Khánh Duy', 30, '2024-07-15 20:57:40', 10800000, 0.2);
+INSERT INTO `store` VALUES (420, 42, 13, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 11000000, 0.2);
+INSERT INTO `store` VALUES (421, 43, 10, 1, 'Nguyễn Ngọc Khánh Duy', 25, '2024-07-15 20:57:40', 9000000, 0.2);
+INSERT INTO `store` VALUES (422, 43, 10, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 9000000, 0.2);
+INSERT INTO `store` VALUES (423, 43, 11, 2, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 9050000, 0.2);
+INSERT INTO `store` VALUES (424, 44, 12, 1, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 9300000, 0.2);
+INSERT INTO `store` VALUES (425, 44, 13, 1, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 9350000, 0.2);
+INSERT INTO `store` VALUES (426, 44, 17, 1, 'Nguyễn Ngọc Khánh Duy', 35, '2024-07-15 20:57:40', 9470000, 0.2);
+INSERT INTO `store` VALUES (427, 45, 8, 1, 'Nguyễn Ngọc Khánh Duy', 25, '2024-07-15 20:57:40', 8000000, 0.2);
+INSERT INTO `store` VALUES (428, 45, 9, 1, 'Nguyễn Ngọc Khánh Duy', 25, '2024-07-15 20:57:40', 8030000, 0.2);
+INSERT INTO `store` VALUES (429, 46, 13, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 8500000, 0.2);
+INSERT INTO `store` VALUES (430, 46, 14, 2, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 8503000, 0.2);
+INSERT INTO `store` VALUES (431, 46, 15, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 8508000, 0.2);
+INSERT INTO `store` VALUES (432, 46, 16, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 8600000, 0.2);
+INSERT INTO `store` VALUES (433, 47, 14, 1, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 5200000, 0.2);
+INSERT INTO `store` VALUES (434, 47, 14, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 5200000, 0.2);
+INSERT INTO `store` VALUES (435, 47, 15, 1, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 5250000, 0.2);
+INSERT INTO `store` VALUES (436, 47, 15, 2, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 5250000, 0.2);
+INSERT INTO `store` VALUES (437, 48, 13, 2, 'Nguyễn Ngọc Khánh Duy', 14, '2024-07-15 20:57:40', 4500000, 0.2);
+INSERT INTO `store` VALUES (438, 48, 14, 2, 'Nguyễn Ngọc Khánh Duy', 20, '2024-07-15 20:57:40', 4520000, 0.2);
+INSERT INTO `store` VALUES (439, 48, 15, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 4570000, 0.2);
+INSERT INTO `store` VALUES (440, 48, 16, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 4600000, 0.2);
+INSERT INTO `store` VALUES (441, 49, 11, 2, 'Nguyễn Ngọc Khánh Duy', 11, '2024-07-15 20:57:40', 4500000, 0.2);
+INSERT INTO `store` VALUES (442, 49, 12, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 4500000, 0.2);
+INSERT INTO `store` VALUES (443, 49, 13, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 4550000, 0.2);
+INSERT INTO `store` VALUES (444, 49, 14, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 4580000, 0.2);
+INSERT INTO `store` VALUES (445, 50, 12, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 6000000, 0.2);
+INSERT INTO `store` VALUES (446, 50, 13, 2, 'Nguyễn Ngọc Khánh Duy', 9, '2024-07-15 20:57:40', 6030000, 0.2);
+INSERT INTO `store` VALUES (447, 50, 14, 2, 'Nguyễn Ngọc Khánh Duy', 9, '2024-07-15 20:57:40', 6080000, 0.2);
+INSERT INTO `store` VALUES (448, 50, 15, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 6100000, 0.2);
+INSERT INTO `store` VALUES (449, 50, 16, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 6150000, 0.2);
+INSERT INTO `store` VALUES (450, 51, 16, 2, 'Nguyễn Ngọc Khánh Duy', 11, '2024-07-15 20:57:40', 8000000, 0.2);
+INSERT INTO `store` VALUES (451, 52, 13, 1, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2900000, 0.2);
+INSERT INTO `store` VALUES (452, 52, 17, 3, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (453, 53, 13, 1, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1100000, 0.2);
+INSERT INTO `store` VALUES (454, 54, 11, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 990000, 0.2);
+INSERT INTO `store` VALUES (455, 54, 12, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 990000, 0.2);
+INSERT INTO `store` VALUES (456, 54, 13, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1000000, 0.2);
+INSERT INTO `store` VALUES (457, 54, 14, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 1000000, 0.2);
+INSERT INTO `store` VALUES (458, 54, 15, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 1150000, 0.2);
+INSERT INTO `store` VALUES (459, 55, 11, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 980000, 0.2);
+INSERT INTO `store` VALUES (460, 55, 12, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1000000, 0.2);
+INSERT INTO `store` VALUES (461, 55, 13, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 1050000, 0.2);
+INSERT INTO `store` VALUES (462, 55, 14, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1080000, 0.2);
+INSERT INTO `store` VALUES (463, 56, 9, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 965000, 0.2);
+INSERT INTO `store` VALUES (464, 56, 10, 1, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 970000, 0.2);
+INSERT INTO `store` VALUES (465, 56, 11, 4, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 980000, 0.2);
+INSERT INTO `store` VALUES (466, 56, 13, 8, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 1000000, 0.2);
+INSERT INTO `store` VALUES (467, 56, 13, 4, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1000000, 0.2);
+INSERT INTO `store` VALUES (468, 57, 13, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 690000, 0.2);
+INSERT INTO `store` VALUES (469, 58, 11, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 1100000, 0.2);
+INSERT INTO `store` VALUES (470, 58, 13, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 1150000, 0.2);
+INSERT INTO `store` VALUES (471, 58, 14, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1180000, 0.2);
+INSERT INTO `store` VALUES (472, 58, 17, 2, 'Nguyễn Ngọc Khánh Duy', 12, '2024-07-15 20:57:40', 1200000, 0.2);
+INSERT INTO `store` VALUES (473, 59, 16, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (474, 60, 12, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 4000000, 0.2);
+INSERT INTO `store` VALUES (475, 60, 13, 8, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 4030000, 0.2);
+INSERT INTO `store` VALUES (476, 60, 14, 4, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 4050000, 0.2);
+INSERT INTO `store` VALUES (477, 60, 15, 7, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 4080000, 0.2);
+INSERT INTO `store` VALUES (478, 60, 16, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 4100000, 0.2);
+INSERT INTO `store` VALUES (479, 60, 16, 4, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 4100000, 0.2);
+INSERT INTO `store` VALUES (480, 61, 12, 8, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (481, 61, 13, 5, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2350000, 0.2);
+INSERT INTO `store` VALUES (482, 61, 14, 8, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2380000, 0.2);
+INSERT INTO `store` VALUES (483, 62, 12, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 5600000, 0.2);
+INSERT INTO `store` VALUES (484, 62, 13, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 5650000, 0.2);
+INSERT INTO `store` VALUES (485, 62, 14, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 5680000, 0.2);
+INSERT INTO `store` VALUES (486, 62, 15, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 5700000, 0.2);
+INSERT INTO `store` VALUES (487, 63, 14, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2890000, 0.2);
+INSERT INTO `store` VALUES (488, 64, 12, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (489, 64, 13, 2, 'Nguyễn Ngọc Khánh Duy', 15, '2024-07-15 20:57:40', 3050000, 0.2);
+INSERT INTO `store` VALUES (490, 64, 14, 2, 'Nguyễn Ngọc Khánh Duy', 12, '2024-07-15 20:57:40', 3080000, 0.2);
+INSERT INTO `store` VALUES (491, 64, 15, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 3100000, 0.2);
+INSERT INTO `store` VALUES (492, 65, 12, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (493, 65, 12, 8, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (494, 65, 13, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2350000, 0.2);
+INSERT INTO `store` VALUES (495, 65, 16, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2308000, 0.2);
+INSERT INTO `store` VALUES (496, 65, 16, 8, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2308000, 0.2);
+INSERT INTO `store` VALUES (497, 65, 17, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2400000, 0.2);
+INSERT INTO `store` VALUES (498, 66, 12, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1800000, 0.2);
+INSERT INTO `store` VALUES (499, 66, 12, 3, 'Nguyễn Ngọc Khánh Duy', 12, '2024-07-15 20:57:40', 1800000, 0.2);
+INSERT INTO `store` VALUES (500, 66, 13, 3, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 1850000, 0.2);
+INSERT INTO `store` VALUES (501, 67, 13, 3, 'Nguyễn Ngọc Khánh Duy', 40, '2024-07-15 20:57:40', 1850000, 0.2);
+INSERT INTO `store` VALUES (502, 67, 14, 3, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 1880000, 0.2);
+INSERT INTO `store` VALUES (503, 68, 11, 2, 'Nguyễn Ngọc Khánh Duy', 23, '2024-07-15 20:57:40', 300000, 0.2);
+INSERT INTO `store` VALUES (504, 68, 12, 2, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 320000, 0.2);
+INSERT INTO `store` VALUES (505, 68, 13, 2, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 350000, 0.2);
+INSERT INTO `store` VALUES (506, 68, 14, 2, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 380000, 0.2);
+INSERT INTO `store` VALUES (507, 68, 15, 3, 'Nguyễn Ngọc Khánh Duy', 5, '2024-07-15 20:57:40', 400000, 0.2);
+INSERT INTO `store` VALUES (508, 69, 13, 2, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 500000, 0.2);
+INSERT INTO `store` VALUES (509, 69, 14, 2, 'Nguyễn Ngọc Khánh Duy', 7, '2024-07-15 20:57:40', 550000, 0.2);
+INSERT INTO `store` VALUES (510, 69, 15, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 600000, 0.2);
+INSERT INTO `store` VALUES (511, 70, 8, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2200000, 0.2);
+INSERT INTO `store` VALUES (512, 70, 13, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2300000, 0.2);
+INSERT INTO `store` VALUES (513, 70, 14, 2, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2350000, 0.2);
+INSERT INTO `store` VALUES (514, 71, 12, 1, 'Nguyễn Ngọc Khánh Duy', 6, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (515, 71, 12, 4, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (516, 71, 13, 1, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1580000, 0.2);
+INSERT INTO `store` VALUES (517, 72, 13, 2, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (518, 72, 13, 4, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 1500000, 0.2);
+INSERT INTO `store` VALUES (519, 73, 14, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2600000, 0.2);
+INSERT INTO `store` VALUES (520, 73, 15, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2650000, 0.2);
+INSERT INTO `store` VALUES (521, 73, 17, 2, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 2700000, 0.2);
+INSERT INTO `store` VALUES (522, 73, 17, 3, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 2700000, 0.2);
+INSERT INTO `store` VALUES (523, 74, 8, 5, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 5000000, 0.2);
+INSERT INTO `store` VALUES (524, 74, 9, 8, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 5050000, 0.2);
+INSERT INTO `store` VALUES (525, 74, 10, 5, 'Nguyễn Ngọc Khánh Duy', 4, '2024-07-15 20:57:40', 5100000, 0.2);
+INSERT INTO `store` VALUES (526, 74, 10, 8, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 5100000, 0.2);
+INSERT INTO `store` VALUES (527, 75, 10, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 3000000, 0.2);
+INSERT INTO `store` VALUES (528, 75, 11, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-15 20:57:40', 3030000, 0.2);
+INSERT INTO `store` VALUES (529, 76, 13, 2, 'Nguyễn Ngọc Khánh Duy', 31, '2024-07-15 20:57:40', 1800000, 0.2);
+INSERT INTO `store` VALUES (530, 77, 16, 2, 'Nguyễn Ngọc Khánh Duy', 13, '2024-07-15 20:57:40', 2400000, 0.2);
+INSERT INTO `store` VALUES (531, 77, 17, 4, 'Nguyễn Ngọc Khánh Duy', 10, '2024-07-15 20:57:40', 2480000, 0.2);
+INSERT INTO `store` VALUES (532, 78, 8, 4, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 4200000, 0.2);
+INSERT INTO `store` VALUES (533, 78, 12, 3, 'Nguyễn Ngọc Khánh Duy', 2, '2024-07-15 20:57:40', 4350000, 0.2);
+INSERT INTO `store` VALUES (534, 78, 12, 4, 'Nguyễn Ngọc Khánh Duy', 7, '2024-07-15 20:57:40', 4350000, 0.2);
+INSERT INTO `store` VALUES (535, 78, 14, 4, 'Nguyễn Ngọc Khánh Duy', 3, '2024-07-15 20:57:40', 4480000, 0.2);
+INSERT INTO `store` VALUES (536, 110, 1, 2, 'Nguyễn Ngọc Khánh Duy', 1, '2024-07-16 13:07:37', 200000, 20);
 
 -- ----------------------------
 -- Table structure for user
@@ -1199,12 +1270,13 @@ CREATE TABLE `user`  (
   `role` int NULL DEFAULT NULL,
   `isDeleted` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (28, '21130035@st.hcmuaf.edu.vn', '2ac9a6746aca543af8dff39894cfe8173afba21eb01c6fae33d52947222855ef', 1, 'Nguyễn Ngọc Khánh Duy', '0839151003', '863/10', 0, '2003-10-15', NULL, NULL, 2, 0);
+INSERT INTO `user` VALUES (51, 'lomninkon@gmail.com', NULL, 1, 'Lom Nin', NULL, NULL, NULL, NULL, 'https://lh3.googleusercontent.com/a/ACg8ocIQ0aMDCuW5F9PMSGdBc5EDtABjp_V6Yv6MAvO9wC7AXV_nLA=s96-c', NULL, 0, 0);
 
 -- ----------------------------
 -- Table structure for wish_list

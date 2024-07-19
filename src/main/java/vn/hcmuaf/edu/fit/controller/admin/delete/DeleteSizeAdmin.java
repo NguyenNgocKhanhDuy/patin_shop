@@ -29,7 +29,7 @@ public class DeleteSizeAdmin extends HttpServlet {
             if(ip == null){
                 ip = request.getRemoteAddr();
             }
-            Size size = new Size();
+            Size size = SizeDao.getInstance().getSizeById(id);
             size.setId(id);
 
             if (SizeDao.getInstance().deleteSize(size, ip)){

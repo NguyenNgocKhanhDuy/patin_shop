@@ -6,6 +6,7 @@ import vn.hcmuaf.edu.fit.bean.ProductDetail;
 import vn.hcmuaf.edu.fit.bean.ProductMain;
 import vn.hcmuaf.edu.fit.db.JDBIConnector;
 import vn.hcmuaf.edu.fit.model.AbsModel;
+import vn.hcmuaf.edu.fit.services.MailService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -635,6 +636,8 @@ public class ProductDao extends AbsDao<Product>{
             super.delete(product, ip, level, address);
             return true;
         }
+        System.out.println("SEND");
+        MailService.getInstance().sendMailToAdmin("Cảnh báo danger: delete product "+"\n"+ LocalDateTime.now());
         return false;
     }
 

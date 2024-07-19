@@ -1,7 +1,11 @@
 package vn.hcmuaf.edu.fit.controller.admin.update;
 
 import vn.hcmuaf.edu.fit.bean.Bill;
+import vn.hcmuaf.edu.fit.bean.BillDetail;
 import vn.hcmuaf.edu.fit.bean.User;
+import vn.hcmuaf.edu.fit.dao.BillDao;
+import vn.hcmuaf.edu.fit.dao.BillDetailDao;
+import vn.hcmuaf.edu.fit.dao.ProductDetailDao;
 import vn.hcmuaf.edu.fit.model.AbsModel;
 import vn.hcmuaf.edu.fit.services.BillService;
 
@@ -9,6 +13,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
+import java.util.List;
 
 
 @WebServlet(name = "UpdateBillAdmin", value = "/updateBillAdmin")
@@ -43,11 +48,21 @@ public class UpdateBillAdmin extends HttpServlet {
                 request.setAttribute("information", "Đơn hàng đã bị huỷ");
                 request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);
             }else  {
-                Bill bill = new Bill();
-                bill.setId(id);
+                Bill bill = BillDao.getInstance().getBill(id);
+//                bill.setId(id);
                 bill.setBeforeData(bill.logString());
                 String u = ((User) request.getSession().getAttribute("auth")).getEmail();
                 if (BillService.getInstance().updateStatusBill(bill, ipAddress, "alert", u+": change status bill", status)){
+                    if (status == 5) {
+                        List<BillDetail> billDetail = BillDetailDao.getInstance().getAllBillDetail(id);
+                        for (int i = 0; i < billDetail.size(); i++) {
+                            int idP = billDetail.get(i).getProduct().getProductDetail().getProduct().getId();
+                            int size = billDetail.get(i).getSize().getId();
+                            int color = billDetail.get(i).getColor().getId();
+                            int quantity = billDetail.get(i).getQuantity();
+                            ProductDetailDao.getInstance().updateQuantity(idP, size, color, quantity);
+                        }
+                    }
                     request.setAttribute("type", "success");
                     request.setAttribute("information", "Thay đổi trạng thái thành công");
                     request.getRequestDispatcher("showBillDetailAdmin?id="+id).forward(request, response);

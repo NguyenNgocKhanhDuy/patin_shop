@@ -38,7 +38,7 @@ $(document).ready(function () {
                 data: null, // Mức độ log
                 className: `text-center align-middle`,
                 render: function (data) {
-                    return `<span class="d-block w-100 h-100 text-white bg-${data.level}">${data.level}</span>`
+                    return `<span class="d-block w-100 h-100 text-white bg-${data.level == "alert" ? "primary" : data.level}">${data.level}</span>`
                 }
             },
             {

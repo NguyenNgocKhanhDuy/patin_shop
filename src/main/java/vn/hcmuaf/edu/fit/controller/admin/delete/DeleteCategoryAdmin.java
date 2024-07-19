@@ -26,7 +26,7 @@ public class DeleteCategoryAdmin extends HttpServlet {
         try {
             id = Integer.parseInt(request.getParameter("id"));
 
-            Category category = new Category();
+            Category category = CategoryDao.getInstance().getCategory(id);
             category.setId(id);
             String ip = request.getHeader("X-FORWARDED_FOR");
             if(ip == null){
